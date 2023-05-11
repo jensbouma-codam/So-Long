@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/11 23:55:59 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/12 01:09:02 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-# include "../lib/LibFT/include/libft.h"
-# include "../lib/MLX42/mlx.h"
+# include "../lib/libFT/include/libft.h"
+# include "../lib/libmlx42/include/MLX42/MLX42.h"
 
 #endif

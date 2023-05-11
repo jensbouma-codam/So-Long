@@ -6,17 +6,18 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/12 00:40:58 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/12 01:43:57 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 # Program Name(s)
-NAME		=	push_swap
+NAME		=	so_long
 
 # Compiler Settings
 CC 			:= gcc
-CFLAGS 		:= -Wall -Wextra -Werror
+# CFLAGS 		:= -framework Cocoa -framework OpenGL -framework IOKit
 CFLAGS		+= -O3
+CFLAGS		+= -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
 # Headers
 INC 		= -I include
 
@@ -36,6 +37,8 @@ LIBDIR		=	lib
 
 LIBS		=	libFT			\
 				libmlx42		\
+
+BREW		=	glfw			\
 
 HEADERS		=	$(LIBS:%=-I $(LIBDIR)/%/include)
 
@@ -76,19 +79,18 @@ $(BUILDDIR)%.o:%.c
 	@norminette -R CheckForbiddenSourceHeader $< > /dev/null && printf "Build \t\t${GREEN}$(notdir $<) \033[0K\r\n" ||  printf "Build \t\t${RED}$(notdir $<) \033[0K\r\n"
 	@printf "${RESET}"
 
-$(LIBS):
+$(LIBS): $(BREW)
 	@mkdir -p $(BUILDDIR)
 	@printf "Submodule \t$@ \033[0K\r\n"
 	@git submodule update --init
 	@norminette -R CheckForbiddenSourceHeader $(LIBDIR)/$@/include $(LIBDIR)/$@/src > /dev/null && $(P_OK) || { $(P_KO); }
-	@[ -f ./$(LIBDIR)/$@/CMakeLists.txt ] && cmake $(LIBDIR)/$@ -B build/$@ && make -C build/$@ || echo "NO CMAKEFILE FOUND"
-	@[ -f ./$(LIBDIR)/$@/Makefile ] && make -C $(LIBDIR)/$@ || echo "NO MAKEFILE FOUND"
-# [ -f ./$(LIBDIR)/$@/Makefile ] && make -C $(LIBDIR)/$@ || echo "NO MAKEFILE FOUND"
-	
-# test -f $(LIBDIR)/$@/CMakeList.txt && cmake $(LIBDIR)/$@ -B build
-# test -f $(LIBDIR)/$@/Makefile && make -C $(LIBDIR)/$@
-# test -f $(LIBDIR)/$@/$@.a && cp -p $(LIBDIR)/$@/$@.a $(BUILDDIR)
-# test -f $(LIBDIR)/$@/build/*.a && cp -p $(LIBDIR)/$@/build/*.a $(BUILDDIR)
+	@[ -f ./$(LIBDIR)/$@/CMakeLists.txt ] && cmake $(LIBDIR)/$@ -B $(BUILDDIR)$@ > /dev/null && make -C $(BUILDDIR)$@ > /dev/null || echo
+	@[ -f ./$(LIBDIR)/$@/Makefile ] && make -C $(LIBDIR)/$@ || echo
+	@[ -f $(BUILDDIR)$@/$@.a ] && cp -p $(BUILDDIR)$@/$@.a $(BUILDDIR) || echo
+	@[ -f $(LIBDIR)/$@/$@.a ] && cp -p $(LIBDIR)/$@/$@.a $(BUILDDIR) || echo
+
+$(BREW):
+	@brew install $@ 2> /dev/null && printf "BREW \t\t${GREEN}$@$(RESET) \033[0K\r\n" || printf "BREW\t\t${RED}$@$(RESET) \033[0K\r\n"
 
 $(NAME): $(LIBS) $(OBJECTS)
 	@make norm 2> /dev/null && $(P_OK) || { $(P_KO);}
@@ -103,7 +105,7 @@ debug: re
 	@printf "$(RED)Compiled in debug / fsanitize=adress mode!!!$(RESET)"
 
 clean:
-	@rm -rf build
+	@rm -rf $(BUILDDIR)
 	@rm -rf $(LIBDIR)/*/*.a
 
 fclean: clean
