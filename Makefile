@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/12 01:43:57 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/12 17:57:44 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,10 +16,13 @@ NAME		=	so_long
 # Compiler Settings
 CC 			:= gcc
 # CFLAGS 		:= -framework Cocoa -framework OpenGL -framework IOKit
-CFLAGS		+= -O3
-CFLAGS		+= -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
+# CFLAGS		+= -O3
+# CFLAGS		+= -Werror
+# CFLAGS		+= -Wall -Wextra 
+# -Wunreachable-code 
+# CFLAGS		+= -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
 # Headers
-INC 		= -I include
+INC 		= -I include -I /opt/homebrew/Cellar/glfw/3.3.8/include
 
 # Set build directories
 BUILDDIR	= ./build/
@@ -28,8 +31,13 @@ TARGET		= bin/$<
 # Sources
 SRCDIR		= 	src
 FILES		= 	main.c		\
-				
-
+				files.c		\
+				defaults.c	\
+				hooks.c		\
+				player_move.c	\
+				array_helpers.c	\
+				error_handler.c	\
+	
 SOURCES		=	${addprefix $(SRCDIR)/, $(FILES)}
 
 # Libraries
@@ -40,7 +48,8 @@ LIBS		=	libFT			\
 
 BREW		=	glfw			\
 
-HEADERS		=	$(LIBS:%=-I $(LIBDIR)/%/include)
+HEADERS		=	$(LIBS:%=-I $(LIBDIR)/%/include)	\
+				-lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"	\
 
 LIBARIES		=	${addprefix $(LIBDIR)/, $(LIBS)}
 LIBARIES_AFILES	=	${addprefix $(BUILDDIR)/, ${addsuffix .a, $(LIBS)}}

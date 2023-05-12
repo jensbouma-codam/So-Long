@@ -16,6 +16,15 @@
 		"vector": "c",
 		"stdbool.h": "c",
 		"libft.h": "c",
-		"stdlib.h": "c"
+		"stdlib.h": "c",
+		"__assert": "c",
+		"__availability": "c",
+		"__config": "c",
+		"__errc": "c",
+		"__hash_table": "c",
+		"__locale": "c",
+		"__tuple": "c",
+		"ios": "c",
+		"locale": "c"
 	}
 }

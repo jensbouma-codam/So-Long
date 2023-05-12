@@ -8,8 +8,8 @@
 			"type": "lldb",
 			"request": "launch",
 			"name": "Debug",
-			"program": "${workspaceFolder}/bin/push_swap",
-			"args": ["0", "-1", "1" ,"2", "3", "4", "5", "6", "10000"],
+			"program": "${workspaceFolder}/bin/so_long",
+			// "args": ["0", "-1", "1" ,"2", "3", "4", "5", "6", "10000"],
 			"cwd": "${workspaceFolder}"
 		}
 	]
