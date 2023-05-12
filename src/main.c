@@ -6,12 +6,11 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:47 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/12 18:18:51 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/12 22:46:30 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-// #include "/opt/homebrew/Cellar/glfw/3.3.8/include/GLFW/glfw3.h"
 
 #include <stdio.h>
 #include <fcntl.h>
@@ -20,6 +19,33 @@
 #include <sys/stat.h>
 
 mlx_t	*g_mlx;
+t_map	*g_maps;
+
+void	map2console(void)
+{
+	t_element	*e;
+
+	e = g_maps->element;
+	while (e)
+	{
+		if (e->y == 0 && e->x == 0)
+		{
+			debug("Map name = %s\n", g_maps->name);
+			debug("\nMap size = %i x %i\n", g_maps->width, g_maps->height);
+		}
+		debug("%c", e->type);
+		if (e->next && e->next->y > e->y)
+			debug("\n");
+		e = e->next;
+	}
+}
+
+void	initialize(void)
+{
+	g_mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
+	g_maps = (t_map *)safe_calloc(1, sizeof(*g_maps));
+	g_maps->last_map = g_maps;
+}
 
 /**
  * @brief 
@@ -34,26 +60,18 @@ mlx_t	*g_mlx;
  */
 int	main(int argc, char **argv)
 {
-	if (argc > 1)
-	{
-		read_files(argv + 1, load_map_files);
-		load_defaults(ONLY_TEXTURES);
-	}
-	else if (argc == 1)
-	{
-		ft_printf("No arguments given, loading defaults!\n");
-		load_defaults(MAPS);
-	}
-	ft_printf("Done loading files!\n");
-	g_mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
+	initialize();
+	load_files(argc, argv);
+	map2console();
 	if (!g_mlx)
 		error("Initializing mlx failed");
 	mlx_key_hook(g_mlx, &keyhooks, NULL);
 	mlx_loop(g_mlx);
 	mlx_terminate(g_mlx);
-	ft_printf("Thanks for playing! Check https:/jensbouma.com \
+	console("Thanks for playing! Check https:/jensbouma.com \
 	for my other projects! :)\n");
 	return (EXIT_SUCCESS);
+}
 
 	// load_textures();
 	// 	load_maps();
@@ -74,4 +92,3 @@ int	main(int argc, char **argv)
 	// 	initialize_microphone();
 	// initialize_game();
 	// start_game();
-}

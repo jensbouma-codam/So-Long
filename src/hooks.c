@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 13:53:08 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/12 17:49:48 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/12 18:55:33 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	keyhooks(mlx_key_data_t keydata, void *param)
 
 	if (keydata.key == MLX_KEY_ESCAPE)
 		mlx_close_window(g_mlx);
-	move = arr_position(moves, keydata.key);
+	move = arr_position((int *)moves, keydata.key);
 	if (move != -1)
 		move_f[move / 2]();
 }

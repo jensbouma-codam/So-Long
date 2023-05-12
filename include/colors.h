@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   defaults.c                                         :+:    :+:            */
+/*   colors.h                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/12 13:55:45 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/12 18:10:19 by jensbouma     ########   odam.nl         */
+/*   Created: 2023/04/24 18:35:13 by jensbouma     #+#    #+#                 */
+/*   Updated: 2023/04/24 18:35:40 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#ifndef COLORS_H
+# define COLORS_H
 
-void	load_defaults(t_filetype type)
-{
-	const char	*maps[] = {\
-		"./maps/test1",
-		"./maps/test2",
-		NULL};
-	const char	*textures[] = {\
-		"./textures/test2.txt",
-		NULL};
+# define NORMAL  "\x1B[0m"
+# define RED  "\x1B[31m"
+# define GREEN  "\x1B[32m"
+# define YELLOW  "\x1B[33m"
+# define BLUE  "\x1B[34m"
+# define MAGNENTA  "\x1B[35m"
+# define CYAAN  "\x1B[36m"
+# define WHITE  "\x1B[37m"
 
-	if (type != ONLY_TEXTURES)
-		read_files((char **)maps, load_map_files);
-	read_files((char **)textures, load_texture_files);
-}
+#endif
