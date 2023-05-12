@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/12 20:33:54 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/12 22:59:34 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,7 +93,7 @@ $(LIBS): $(BREW)
 	@printf "Submodule \t$@ \033[0K\r\n"
 	@git submodule update --init
 	@norminette -R CheckForbiddenSourceHeader $(LIBDIR)/$@/include $(LIBDIR)/$@/src > /dev/null && $(P_OK) || { $(P_KO); }
-	@[ -f ./$(LIBDIR)/$@/CMakeLists.txt ] && cmake $(LIBDIR)/$@ -B $(BUILDDIR)$@ > /dev/null && make -C $(BUILDDIR)$@ > /dev/null || echo
+	@[ -f ./$(LIBDIR)/$@/CMakeLists.txt ] && cmake -D DEBUG=1 $(LIBDIR)/$@ -B $(BUILDDIR)$@ > /dev/null && make -C $(BUILDDIR)$@ > /dev/null || echo
 	@[ -f ./$(LIBDIR)/$@/Makefile ] && make -C $(LIBDIR)/$@ || echo
 	@[ -f $(BUILDDIR)$@/$@.a ] && cp -p $(BUILDDIR)$@/$@.a $(BUILDDIR) || echo
 	@[ -f $(LIBDIR)/$@/$@.a ] && cp -p $(LIBDIR)/$@/$@.a $(BUILDDIR) || echo

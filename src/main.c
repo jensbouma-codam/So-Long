@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:47 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/12 22:46:30 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/12 22:51:15 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,6 @@ void	initialize(void)
 
 /**
  * @brief 
-• open, close, read, write, malloc, free, perror, strerror, exit
-• All functions of the math library (-lm compiler option, man man 3 math)
-• All functions of the MiniLibX
-• ft_printf and any equivalent YOU coded
  * 
  * @param argc 
  * @param argv 
@@ -84,7 +80,6 @@ int	main(int argc, char **argv)
 	// 	initialize_math();
 	// 	initialize_speaker();
 	// 	initalize_gui();
-	// 	initialize_window();
 	// initalize_input();
 	// 	initialize_camera();
 	// 	initialize_keys();
