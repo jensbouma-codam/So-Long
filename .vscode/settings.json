@@ -25,6 +25,8 @@
 		"__locale": "c",
 		"__tuple": "c",
 		"ios": "c",
-		"locale": "c"
+		"locale": "c",
+		"string": "c",
+		"__string": "c"
 	}
 }

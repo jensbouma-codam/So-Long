@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/13 03:12:46 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/13 12:43:47 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,47 @@ typedef enum e_filetype
 	ALL
 }	t_filetype;
 
+typedef struct s_player
+{
+	int			x;
+	int			y;
+	int			direction;
+	int			health;
+	int			wallet;
+	int			jump_height;
+	int			jump_state;
+	int			state;
+	mlx_image_t	*stand;
+	mlx_image_t	*duck;
+	mlx_image_t	*jump;
+	mlx_image_t *hurt;
+	mlx_image_t	*walk;
+}	t_player;
+
+t_player	*g_player;
+
 // main.c
 mlx_t		*g_mlx;
 
-enum e_jump
+typedef enum e_direction
 {
-	NO_JUMP,
+	LEFT,
+	UP,
+	RIGHT,
+	DOWN,
+	HOLD
+} t_direction;
+
+typedef enum e_player_state
+{
+	STAND,
+	DUCK,
 	JUMP,
-	FALL
-};
+	FALL,
+	HURT,
+	WALK,
+	JUMP_TRUE
+} t_player_state;
 
 // error_handler.c
 void		error(char *msg);
@@ -100,15 +132,14 @@ void		load_map_files(int fd, char *ptr);
 
 // keys.c
 void		keyhooks(mlx_key_data_t keydata, void *param);
+void		player_hook(void *param);
 void		loop(void *param);
-void		jump_hook(void *param);
 
 // player_moves.c
 const bool	player_ml(void);
 const bool	player_mu(void);
 const bool	player_mr(void);
 const bool	player_md(void);
-int			g_jump;
 
 // array_helpers.c
 int			arr_position(int arr[], int key);
