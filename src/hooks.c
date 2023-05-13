@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 13:53:08 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/13 13:24:21 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/13 13:55:35 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ static void	jump_hook()
 	}
 }
 
-static update_player(void)
+static void update_player(void)
 {
 	g_img->img->instances[0].x = g_player->x;
 	g_img->img->instances[0].y = g_player->y;

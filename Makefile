@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/13 13:51:15 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/13 14:06:23 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ LIBS		=	libFT			\
 
 BREW		=	glfw			\
 
-TEXTURES	=	./assets/Platformer_Art_Complete_Pack.zip	\
+# TEXTURES	=	./assets/Platformer_Art_Complete_Pack.zip	\
 
 HEADERS		=	$(LIBS:%=-I $(LIBDIR)/%/include)	\
 				-lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"	\
@@ -81,6 +81,7 @@ all: $(NAME)
 	@mkdir -p ./bin
 	@$(CC) $(CFLAGS) $(HEADERS) $(INC) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET)
 	@printf "Executable \t$< \033[0K\n"
+	@[ -f ./textures/license.txt ] && printf "\n$(GREEN)Textures already installed $(RESET)\t\033[0K\n" || (unzip assets/Platformer_Art_Complete_Pack.zip -d ./textures > /dev/null && printf "\n$(GREEN)Textures Installed $(RESET)\t\033[0K\n") 
 	@printf "\n$(YELLOW)Compiled with flags: $(CFLAGS)\n"
 	@printf "\n🙏 $(GREEN)Complete $(RESET)\t\033[0K\n"
 
@@ -103,8 +104,10 @@ $(LIBS): $(BREW) $(TEXTURES)
 $(BREW):
 	@brew install $@ 2> /dev/null && printf "BREW \t\t${GREEN}$@$(RESET) \033[0K\r\n" || printf "BREW\t\t${RED}$@$(RESET) \033[0K\r\n"
 
-$(TEXTURES):
-	unzip $@ -d ./textures
+# $(TEXTURES):
+# 	@echo "JOE";
+# 	unzip assets/Platformer_Art_Complete_Pack.zip -d ./textures
+# 	unzip $@ -d ./textures
 
 $(NAME): $(LIBS) $(OBJECTS)
 	@make norm 2> /dev/null && $(P_OK) || { $(P_KO);}
@@ -124,6 +127,7 @@ clean:
 
 fclean: clean
 	@rm -rf $(LIBDIR)/*/build
+	@rm -rf ./textures
 	@rm -rf bin
 
 re: fclean all
