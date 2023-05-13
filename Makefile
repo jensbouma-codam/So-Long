@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/12 22:59:34 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/13 13:51:15 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,8 @@ LIBS		=	libFT			\
 
 BREW		=	glfw			\
 
+TEXTURES	=	./assets/Platformer_Art_Complete_Pack.zip	\
+
 HEADERS		=	$(LIBS:%=-I $(LIBDIR)/%/include)	\
 				-lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"	\
 
@@ -88,7 +90,7 @@ $(BUILDDIR)%.o:%.c
 	@norminette -R CheckForbiddenSourceHeader $< > /dev/null && printf "Build \t\t${GREEN}$(notdir $<) \033[0K\r\n" ||  printf "Build \t\t${RED}$(notdir $<) \033[0K\r\n"
 	@printf "${RESET}"
 
-$(LIBS): $(BREW)
+$(LIBS): $(BREW) $(TEXTURES)
 	@mkdir -p $(BUILDDIR)
 	@printf "Submodule \t$@ \033[0K\r\n"
 	@git submodule update --init
@@ -100,6 +102,9 @@ $(LIBS): $(BREW)
 
 $(BREW):
 	@brew install $@ 2> /dev/null && printf "BREW \t\t${GREEN}$@$(RESET) \033[0K\r\n" || printf "BREW\t\t${RED}$@$(RESET) \033[0K\r\n"
+
+$(TEXTURES):
+	unzip $@ -d ./textures
 
 $(NAME): $(LIBS) $(OBJECTS)
 	@make norm 2> /dev/null && $(P_OK) || { $(P_KO);}
