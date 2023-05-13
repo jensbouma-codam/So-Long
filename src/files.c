@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 13:53:38 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/12 22:41:05 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/13 02:59:53 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void	load_files(int argc, char **argv)
 		"./maps/valid.ber",
 		NULL};
 	const char	*textures[] = {\
-		"./textures/test2.txt",
+		"textures/Base pack/Tiles/grass.png",
+		"textures/Base pack/Tiles/stoneCenter_rounded.png",
+		"textures/Base pack/Player/p1_stand.png",
+		"textures/Base pack/Player/p1_jump.png",
 		NULL};
 
 	if (argc > 1)
@@ -53,17 +56,24 @@ void	read_files(char **ptr, void (*func)(int, char *))
 
 void	load_texture_files(int fd, char *ptr)
 {
-	char	*line;
+	mlx_image_t		*image;
+	t_images		*node;
 
+	image = NULL;
 	debug("Loading texture: %s\n", ptr);
-	line = get_next_line(fd);
-	if (!line)
-		error(ft_strjoin("Failed to read texture: ", ptr));
-	while (line)
+	node = (t_images *)safe_calloc(1, sizeof(*g_img));
+	image = mlx_texture_to_image(g_mlx, mlx_load_png(ptr));
+	if (!image)
+		error(ft_strjoin("Failed to load texture: ", ptr));
+	if (g_img)
 	{
-		free(line);
-		line = get_next_line(fd);
+		g_img->prev = node;
+		node->next = g_img;
 	}
+	node->name = get_filename(ptr);
+	node->img = image;
+	node->prev = NULL;
+	g_img = node;
 }
 
 char	*get_filename(char *ptr)

@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:47 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/12 22:51:15 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/13 03:25:45 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,21 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-mlx_t	*g_mlx;
-t_map	*g_maps;
+mlx_t		*g_mlx;
+t_map		*g_map;
+t_images	*g_img;
 
 void	map2console(void)
 {
 	t_element	*e;
 
-	e = g_maps->element;
+	e = g_map->element;
 	while (e)
 	{
 		if (e->y == 0 && e->x == 0)
 		{
-			debug("Map name = %s\n", g_maps->name);
-			debug("\nMap size = %i x %i\n", g_maps->width, g_maps->height);
+			debug("Map name = %s\n", g_map->name);
+			debug("\nMap size = %i x %i\n", g_map->width, g_map->height);
 		}
 		debug("%c", e->type);
 		if (e->next && e->next->y > e->y)
@@ -43,8 +44,8 @@ void	map2console(void)
 void	initialize(void)
 {
 	g_mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
-	g_maps = (t_map *)safe_calloc(1, sizeof(*g_maps));
-	g_maps->last_map = g_maps;
+	g_map = (t_map *)safe_calloc(1, sizeof(*g_map));
+	g_map->last_map = g_map;
 }
 
 /**
@@ -56,13 +57,21 @@ void	initialize(void)
  */
 int	main(int argc, char **argv)
 {
+	
+
 	initialize();
 	load_files(argc, argv);
 	map2console();
 	if (!g_mlx)
 		error("Initializing mlx failed");
-	mlx_key_hook(g_mlx, &keyhooks, NULL);
+	mlx_image_to_window(g_mlx, g_img->img, 0, 0);
+	mlx_image_to_window(g_mlx, g_img->next->img, 0, 0);
+	g_img->next->img->instances->enabled = false;
+	// mlx_key_hook(g_mlx, &keyhooks, NULL);
+	mlx_loop_hook(g_mlx, &loop, g_mlx);
+	mlx_loop_hook(g_mlx, &jump_hook, g_mlx);
 	mlx_loop(g_mlx);
+
 	mlx_terminate(g_mlx);
 	console("Thanks for playing! Check https:/jensbouma.com \
 	for my other projects! :)\n");

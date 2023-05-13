@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 20:16:27 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/12 22:41:11 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/13 01:31:26 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,19 @@ static void	process_map(char *line, int y)
 		element->type = line[x];
 		element->x = x;
 		element->y = y;
-		if (!g_maps->element)
-			g_maps->element = element;
+		if (!g_map->element)
+			g_map->element = element;
 		else
 		{
-			element->prev = g_maps->element;
-			g_maps->last_element->next = element;
-			g_maps->last_element->next = element;
+			element->prev = g_map->element;
+			g_map->last_element->next = element;
+			g_map->last_element->next = element;
 		}
-		g_maps->last_element = element;
+		g_map->last_element = element;
 		x++;
 	}
-	g_maps->width = x - 1;
-	g_maps->height = y;
+	g_map->width = x - 1;
+	g_map->height = y;
 }
 
 // Check if map is rectangular
@@ -69,7 +69,7 @@ void	load_map_files(int fd, char *ptr)
 		free(line);
 		line = get_next_line(fd);
 	}
-	g_maps->last_map->name = get_filename(ptr);
+	g_map->last_map->name = get_filename(ptr);
 	check_maps();
 	y = 0;
 }
