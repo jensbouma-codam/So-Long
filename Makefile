@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/15 23:44:32 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/15 23:55:14 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,62 +76,62 @@ ifneq (,$(findstring xterm,${TERM}))
 	RETURN		:= "\033[0K\n"
 endif
 
+PRT 		:= printf "%-25.25s%s\n"
+
 P_OK			= printf "%-25.25s%s%s\n" "$@${GREEN}" "Norm OK" "${RESET}"
 P_KO			= printf "%-25.25s%s%s\n" "$@${RED}" "Norm KO" "${RESET}"
 
 # Rules
 all: $(NAME)
 	@[ -f ./textures/license.txt ]														\
-		&& printf "%-25.25s%s\n" "Textures$(GREEN)" "Already installed $(RESET)"		\
+		&& $(PRT) "Textures$(GREEN)" "Already installed $(RESET)"						\
 		|| (unzip assets/Platformer_Art_Complete_Pack.zip -d ./textures > /dev/null		\
-		&& printf "%-25.25s%s\n" "Textures$(GREEN)" "Installed $(RESET)")
+		&& $(PRT) "Textures$(GREEN)" "Installed $(RESET)")
 	@mkdir -p ./bin
 	@$(CC) $(CFLAGS) $(GLFW) $(HEADERS) $(INC) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET)
-	@printf "%-25.25s%s\n" "Executable $(GREEN)" "$< Created $(RESET)"
-	@printf "%-25.25s%s\n" "Flags $(YELLOW)" "$(CFLAGS) $(RESET)"
+	@$(PRT) "Executable $(GREEN)" "$< Created $(RESET)"
+	@$(PRT) "Flags $(YELLOW)" "$(CFLAGS) $(RESET)"
 	@printf "\n🙏 $(GREEN)Complete $(RESET)\n"
 
 $(BUILDDIR)%.o:%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@ 
 	@norminette -R CheckForbiddenSourceHeader $< > /dev/null 				\
-		&& printf "%-25.25s%s\n" "Build${GREEN}" "$(notdir $<)" 			\
-		||  printf "%-25.25s%s\n" "Build${RED}" "$(notdir $<)"
-	@printf "${RESET}"
-
+		&& $(PRT) "Build${GREEN}" "$(notdir $<)${RESET}" 					\
+		||  $(PRT) "Build${RED}" "$(notdir $<)${RESET}"
 $(LIBS):
 	@mkdir -p $(BUILDDIR)
 	@git submodule update --init lib/$@ > /dev/null							\
-		&& printf "%-25.25s%s\n" "Submodule${GREEN}" "$@$(RESET)"			\
-		|| printf "%-25.25s%s\n" "Submodule${RED}" "$@$(RESET)"
+		&& $(PRT) "Submodule${GREEN}" "$@$(RESET)"							\
+		|| $(PRT) "Submodule${RED}" "$@$(RESET)"
 # @norminette -R CheckForbiddenSourceHeader $(LIBDIR)/$@/include $(LIBDIR)/$@/src > /dev/null && $(P_OK) || { $(P_KO); }
 	@if [[ "$@" == "libmlx42" ]]; then										\
 		[ -f ./$(LIBDIR)/$@/CMakeLists.txt ]								\
 		&& (cmake $(LIBDIR)/$@  $(EXTRA) -B $(BUILDDIR)$@ 2>&1 > /dev/null	\
 			&& make -C $(BUILDDIR)$@ > /dev/null							\
-			&& printf "%-25.25s%s\n" "$@$(GREEN)" "Compiled$(RESET)"		\
-			|| printf "%-25.25s%s\n" "$@$(RED)" "Error$(RESET)")			\
-		|| printf "";														\
+			&& $(PRT) "$@$(GREEN)" "Compiled$(RESET)"						\
+			|| $(PRT) "$@$(RED)" "Error$(RESET)")							\
+		|| break;														\
 	else [ -f ./$(LIBDIR)/$@/CMakeLists.txt ]								\
 		&& (cmake $(LIBDIR)/$@ -B $(BUILDDIR)$@ 2>&1 > /dev/null			\
 			&& make -C $(BUILDDIR)$@ > /dev/null							\
-			&& printf "%-25.25s%s\n" "$@$(GREEN)" "Compiled$(RESET)"		\
-			|| printf "%-25.25s%s\n" "$@$(RED)" "Error$(RESET)")			\
-		|| printf ""; fi
+			&& $(PRT) "$@$(GREEN)" "Compiled$(RESET)"						\
+			|| $(PRT) "$@$(RED)" "Error$(RESET)")							\
+		|| break; fi
 	@[ -f ./$(LIBDIR)/$@/Makefile ]											\
 		&& (make -C $(LIBDIR)/$@ > /dev/null								\
-			&& printf "%-25.25s%s\n" "$@$(GREEN)" "OK$(RESET)"				\
-			|| printf "%-25.25s%s\n" "$@$(RED)" "Error$(RESET)")			\
-		|| printf ""
+			&& $(PRT) "$@$(GREEN)" "OK$(RESET)"								\
+			|| $(PRT) "$@$(RED)" "Error$(RESET)")							\
+		|| break
 	@[ -f $(BUILDDIR)$@/$@.a ]												\
 		&& cp -p $(BUILDDIR)$@/$@.a $(BUILDDIR)								\
-		|| printf ""
+		|| break
 	@[ -f $(BUILDDIR)$@/src/$@.a ]											\
 		&& cp -p $(BUILDDIR)$@/src/$@.a $(BUILDDIR)							\
-		|| printf ""
+		|| break
 	@[ -f $(LIBDIR)/$@/$@.a ]												\
 		&& cp -p $(LIBDIR)/$@/$@.a $(BUILDDIR)								\
-		|| printf ""
+		|| break
 
 
 $(NAME): $(LIBS) $(OBJECTS)
