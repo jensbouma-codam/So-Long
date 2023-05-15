@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/15 23:55:14 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/15 23:58:05 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,52 +76,51 @@ ifneq (,$(findstring xterm,${TERM}))
 	RETURN		:= "\033[0K\n"
 endif
 
-PRT 		:= printf "%-25.25s%s\n"
-
-P_OK			= printf "%-25.25s%s%s\n" "$@${GREEN}" "Norm OK" "${RESET}"
-P_KO			= printf "%-25.25s%s%s\n" "$@${RED}" "Norm KO" "${RESET}"
+P				:= printf "%-25.25s%s\n"
+P_OK			= $(P) "$@${GREEN}" "Norm OK" "${RESET}"
+P_KO			= $(P) "$@${RED}" "Norm KO" "${RESET}"
 
 # Rules
 all: $(NAME)
 	@[ -f ./textures/license.txt ]														\
-		&& $(PRT) "Textures$(GREEN)" "Already installed $(RESET)"						\
+		&& $(P) "Textures$(GREEN)" "Already installed $(RESET)"							\
 		|| (unzip assets/Platformer_Art_Complete_Pack.zip -d ./textures > /dev/null		\
-		&& $(PRT) "Textures$(GREEN)" "Installed $(RESET)")
+		&& $(P) "Textures$(GREEN)" "Installed $(RESET)")
 	@mkdir -p ./bin
 	@$(CC) $(CFLAGS) $(GLFW) $(HEADERS) $(INC) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET)
-	@$(PRT) "Executable $(GREEN)" "$< Created $(RESET)"
-	@$(PRT) "Flags $(YELLOW)" "$(CFLAGS) $(RESET)"
+	@$(P) "Executable $(GREEN)" "$< Created $(RESET)"
+	@$(P) "Flags $(YELLOW)" "$(CFLAGS) $(RESET)"
 	@printf "\n🙏 $(GREEN)Complete $(RESET)\n"
 
 $(BUILDDIR)%.o:%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@ 
 	@norminette -R CheckForbiddenSourceHeader $< > /dev/null 				\
-		&& $(PRT) "Build${GREEN}" "$(notdir $<)${RESET}" 					\
-		||  $(PRT) "Build${RED}" "$(notdir $<)${RESET}"
+		&& $(P) "Build${GREEN}" "$(notdir $<)${RESET}" 						\
+		|| $(P) "Build${RED}" "$(notdir $<)${RESET}"
 $(LIBS):
 	@mkdir -p $(BUILDDIR)
 	@git submodule update --init lib/$@ > /dev/null							\
-		&& $(PRT) "Submodule${GREEN}" "$@$(RESET)"							\
-		|| $(PRT) "Submodule${RED}" "$@$(RESET)"
+		&& $(P) "Submodule${GREEN}" "$@$(RESET)"							\
+		|| $(P) "Submodule${RED}" "$@$(RESET)"
 # @norminette -R CheckForbiddenSourceHeader $(LIBDIR)/$@/include $(LIBDIR)/$@/src > /dev/null && $(P_OK) || { $(P_KO); }
 	@if [[ "$@" == "libmlx42" ]]; then										\
 		[ -f ./$(LIBDIR)/$@/CMakeLists.txt ]								\
 		&& (cmake $(LIBDIR)/$@  $(EXTRA) -B $(BUILDDIR)$@ 2>&1 > /dev/null	\
 			&& make -C $(BUILDDIR)$@ > /dev/null							\
-			&& $(PRT) "$@$(GREEN)" "Compiled$(RESET)"						\
-			|| $(PRT) "$@$(RED)" "Error$(RESET)")							\
-		|| break;														\
+			&& $(P) "$@$(GREEN)" "Compiled$(RESET)"							\
+			|| $(P) "$@$(RED)" "Error$(RESET)")								\
+		|| break;															\
 	else [ -f ./$(LIBDIR)/$@/CMakeLists.txt ]								\
 		&& (cmake $(LIBDIR)/$@ -B $(BUILDDIR)$@ 2>&1 > /dev/null			\
 			&& make -C $(BUILDDIR)$@ > /dev/null							\
-			&& $(PRT) "$@$(GREEN)" "Compiled$(RESET)"						\
-			|| $(PRT) "$@$(RED)" "Error$(RESET)")							\
+			&& $(P) "$@$(GREEN)" "Compiled$(RESET)"							\
+			|| $(P) "$@$(RED)" "Error$(RESET)")								\
 		|| break; fi
 	@[ -f ./$(LIBDIR)/$@/Makefile ]											\
 		&& (make -C $(LIBDIR)/$@ > /dev/null								\
-			&& $(PRT) "$@$(GREEN)" "OK$(RESET)"								\
-			|| $(PRT) "$@$(RED)" "Error$(RESET)")							\
+			&& $(P) "$@$(GREEN)" "OK$(RESET)"								\
+			|| $(P) "$@$(RED)" "Error$(RESET)")								\
 		|| break
 	@[ -f $(BUILDDIR)$@/$@.a ]												\
 		&& cp -p $(BUILDDIR)$@/$@.a $(BUILDDIR)								\
