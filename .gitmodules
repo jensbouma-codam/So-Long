@@ -4,3 +4,9 @@
 [submodule "lib/libFT"]
 	path = lib/libFT
 	url = https://github.com/jensbouma/Codam-LibFT.git
+[submodule "lib/libglfw"]
+	path = lib/libglfw
+	url = https://github.com/glfw/glfw.git
+[submodule "lib/libglfw3"]
+	path = lib/libglfw3
+	url = https://github.com/glfw/glfw.git
