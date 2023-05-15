@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/15 20:29:41 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/15 21:29:24 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME		=	so_long
 
 # Compiler Settings
 CC 			:= gcc
-# CFLAGS 		:= -framework Cocoa -framework OpenGL -framework IOKit
+GLFW		:= -framework Cocoa -framework OpenGL -framework IOKit
 # CFLAGS		+= -O3
 # CFLAGS		+= -Werror
 # CFLAGS		+= -Wall -Wextra 
@@ -73,43 +73,41 @@ ifneq (,$(findstring xterm,${TERM}))
 	BLUE		:= $(shell tput -Txterm setaf 6)
 	WHITE		:= $(shell tput -Txterm setaf 7)
 	RESET		:= $(shell tput -Txterm sgr0)
+	RETURN		:= "\033[0K\n"
 endif
 
-P_OK			= printf "$@ \t\t%s\033[0K\n" "${GREEN}Norm OK${RESET}"
-P_KO			= printf "$@ \t\t%s\033[0K\n" "${RED}Norm KO${RESET}"
-P_NL			= printf " \n"
+P_OK			= printf "%-25.25s%s%s\n" "$@${GREEN}" "Norm OK" "${RESET}"
+P_KO			= printf "%-25.25s%s%s\n" "$@${RED}" "Norm KO" "${RESET}"
 
 # Rules
 all: $(NAME)
+	@[ -f ./textures/license.txt ] && printf "%-25.25s%s\n" "Textures$(GREEN)" "Already installed $(RESET)" 	\
+	|| (unzip assets/Platformer_Art_Complete_Pack.zip -d ./textures > /dev/null && printf "%-25.25s%s\n" "Textures$(GREEN)" "Installed $(RESET)") 
 	@mkdir -p ./bin
 	@[ -f /opt/homebrew/Cellar/glfw/3.3.8/lib/libglfw.3.3.dylib ] 																		\
 		&& $(CC) $(CFLAGS) $(HEADERS) -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/" -lglfw $(INC) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET) \
-		|| (printf "\n$(RED)GLFW not installed with homebrew, trying to compile with lglfw3 $(RESET)\t\033[0K\n"										\
-		&& $(CC) $(CFLAGS) -lglfw3 $(HEADERS) $(INC) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET))
-# @$(CC) $(CFLAGS) -framework Cocoa -framework OpenGL -framework IOKit $(HEADERS) -lglfw3 $(INC) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET)
-	
-	@printf "Executable \t$< \033[0K\n"
-	@[ -f ./textures/license.txt ] && printf "\n$(GREEN)Textures already installed $(RESET)\t\033[0K\n" || (unzip assets/Platformer_Art_Complete_Pack.zip -d ./textures > /dev/null && printf "\n$(GREEN)Textures Installed $(RESET)\t\033[0K\n") 
-	@printf "\n$(YELLOW)Compiled with flags: $(CFLAGS)\n"
-	@printf "\n🙏 $(GREEN)Complete $(RESET)\t\033[0K\n"
+		|| (printf "%s\n" "$(RED)GLFW not installed with homebrew, trying to compile with lglfw3 $(RESET)"								\
+		&& $(CC) $(CFLAGS) $(GLFW) -lglfw3 $(HEADERS) $(INC) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET))
+	@printf "%-25.25s%s\n" "Executable $(GREEN)" "$< Created $(RESET)"
+	@printf "%-25.25s%s\n" "Flags $(YELLOW)" "$(CFLAGS) $(RESET)"
+	@printf "\n🙏 $(GREEN)Complete $(RESET)\n"
 
 $(BUILDDIR)%.o:%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@ 
-	@norminette -R CheckForbiddenSourceHeader $< > /dev/null && printf "Build \t\t${GREEN}$(notdir $<) \033[0K\r\n" ||  printf "Build \t\t${RED}$(notdir $<) \033[0K\r\n"
+	@norminette -R CheckForbiddenSourceHeader $< > /dev/null && printf "%-25.25s%s\n" "Build${GREEN}" "$(notdir $<)" ||  printf "%-25.25s%s\n" "Build${RED}" "$(notdir $<)"
 	@printf "${RESET}"
 
-$(LIBS): $(BREW) $(TEXTURES)
+$(LIBS): $(BREW) 
 	@mkdir -p $(BUILDDIR)
-	@printf "Submodule \t$@ \033[0K\r\n"
-	@git submodule update --init
+# @printf "%-25.25s%s\n" "Submodule${YELLOW}" "$@$(RESET)"
+	@git submodule update --init lib/$@ > /dev/null && printf "%-25.25s%s\n" "Submodule${GREEN}" "$@$(RESET)" || printf "%-25.25s%s\n" "Submodule${RED}" "$@$(RESET)"
 	@norminette -R CheckForbiddenSourceHeader $(LIBDIR)/$@/include $(LIBDIR)/$@/src > /dev/null && $(P_OK) || { $(P_KO); }
-	@[ -f ./$(LIBDIR)/$@/CMakeLists.txt ] && cmake -D DEBUG=1 $(LIBDIR)/$@ -B $(BUILDDIR)$@ > /dev/null && make -C $(BUILDDIR)$@ > /dev/null || echo
-	@[ -f ./$(LIBDIR)/$@/Makefile ] && make -C $(LIBDIR)/$@ || echo
-	@[ -f $(BUILDDIR)$@/$@.a ] && cp -p $(BUILDDIR)$@/$@.a $(BUILDDIR) || echo
-	@[ -f $(LIBDIR)/$@/$@.a ] && cp -p $(LIBDIR)/$@/$@.a $(BUILDDIR) || echo
+	@[ -f ./$(LIBDIR)/$@/CMakeLists.txt ] && (cmake -D DEBUG=1 $(LIBDIR)/$@ -B $(BUILDDIR)$@ > /dev/null && make -C $(BUILDDIR)$@ > /dev/null && printf "%-25.25s%s\n" "$@$(GREEN)" "OK$(RESET)" || printf "%-25.25s%s\n" "$@$(RED)" "Error$(RESET)")  || printf ""|| printf ""
+	@[ -f ./$(LIBDIR)/$@/Makefile ] && (make -C $(LIBDIR)/$@ > /dev/null && printf "%-25.25s%s\n" "$@$(GREEN)" "OK$(RESET)" || printf "%-25.25s%s\n" "$@$(RED)" "Error$(RESET)")  || printf ""
+	@[ -f $(BUILDDIR)$@/$@.a ] && cp -p $(BUILDDIR)$@/$@.a $(BUILDDIR) || printf ""
+	@[ -f $(LIBDIR)/$@/$@.a ] && cp -p $(LIBDIR)/$@/$@.a $(BUILDDIR) || printf ""
 
-# $(TEXTURES):
 # 	@echo "JOE";
 # 	unzip assets/Platformer_Art_Complete_Pack.zip -d ./textures
 # 	unzip $@ -d ./textures
@@ -119,16 +117,17 @@ $(NAME): $(LIBS) $(OBJECTS)
 	
 $(BREW):
 	@[ -f /opt/homebrew/Cellar/glfw/3.3.8/lib/libglfw.3.3.dylib ]										\
-		&& printf "\nBrew $(BREW)\t$(GREEN)Already installed $(RESET)\t\033[0K\n"								\
-		|| (printf "Brew $(BREW)\t\033[0K" && brew install $(BREW) > /dev/null && printf "$(GREEN)GLFW Installed $(RESET)\t\033[0K\n")
+		&& printf "%-25.25s%s\n" "Brew $(BREW)$(GREEN)" "Already installed $(RESET)"								\
+		|| (brew install $(BREW) >/dev/null && printf "%-25.25s%s\n" "Brew$(GREEN)" "$(BREW) Installed$(RESET)" || printf "%-25.25s%s\n"  "Brew$(RED)" "GLFW Failed$(RESET)")
 
 leaks: CFLAGS += -g -D DEBUG=3
 leaks: re
 	@printf "$(RED)Compiled in debug / leaks mode!!!$(RESET)"
 
 debug: CFLAGS += -g -fsanitize=address -D DEBUG=1
-debug: re
-	@printf "$(RED)Compiled in debug / fsanitize=adress mode!!!$(RESET)"
+debug: all
+	@printf "$(RED)Compiled in debug / fsanitize=adress mode!!!$(RESET)\n\n"
+	@./bin/$(NAME)
 
 clean:
 	@rm -rf $(BUILDDIR)
