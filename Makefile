@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/15 22:19:39 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/15 22:22:14 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME		=	so_long
 
 # Compiler Settings
 CC 			:= gcc
-# GLFW		:= -framework Cocoa -framework OpenGL -framework IOKit
+GLFW		:= -framework Cocoa -framework OpenGL -framework IOKit
 # CFLAGS		+= -O3
 # CFLAGS		+= -Werror
 # CFLAGS		+= -Wall -Wextra 
@@ -89,7 +89,7 @@ all: $(NAME)
 # 	&& $(CC) $(CFLAGS) $(HEADERS) -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/" $(INC) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET) \
 # 	|| (printf "%s\n" "$(RED)GLFW not installed with homebrew, trying to compile with lglfw3 $(RESET)"								\
 # 	&& 
-	$(CC) $(CFLAGS) $(GLFW) $(HEADERS) $(INC) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET)
+	@$(CC) $(CFLAGS) $(GLFW) $(HEADERS) $(INC) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET)
 	@printf "%-25.25s%s\n" "Executable $(GREEN)" "$< Created $(RESET)"
 	@printf "%-25.25s%s\n" "Flags $(YELLOW)" "$(CFLAGS) $(RESET)"
 	@printf "\n🙏 $(GREEN)Complete $(RESET)\n"
@@ -108,7 +108,7 @@ $(LIBS):
 	@[ -f ./$(LIBDIR)/$@/CMakeLists.txt ] && (cmake $(LIBDIR)/$@ -B $(BUILDDIR)$@ > /dev/null && make -C $(BUILDDIR)$@ > /dev/null && printf "%-25.25s%s\n" "$@$(GREEN)" "OK$(RESET)" || printf "%-25.25s%s\n" "$@$(RED)" "Error$(RESET)")  || printf ""|| printf ""
 	@[ -f ./$(LIBDIR)/$@/Makefile ] && (make -C $(LIBDIR)/$@ > /dev/null && printf "%-25.25s%s\n" "$@$(GREEN)" "OK$(RESET)" || printf "%-25.25s%s\n" "$@$(RED)" "Error$(RESET)")  || printf ""
 	@[ -f $(BUILDDIR)$@/$@.a ] && cp -p $(BUILDDIR)$@/$@.a $(BUILDDIR) || printf ""
-	[ -f $(BUILDDIR)$@/src/$@.a ] && cp -p $(BUILDDIR)$@/src/$@.a $(BUILDDIR) || printf ""
+	@[ -f $(BUILDDIR)$@/src/$@.a ] && cp -p $(BUILDDIR)$@/src/$@.a $(BUILDDIR) || printf ""
 	@[ -f $(LIBDIR)/$@/$@.a ] && cp -p $(LIBDIR)/$@/$@.a $(BUILDDIR) || printf ""
 
 
