@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/15 22:22:14 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/15 23:22:10 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,10 @@ BREW		=	glfw			\
 HEADERS		=	$(LIBS:%=-I $(LIBDIR)/%/include)
 # -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"	\
 # -lglfw
+GLFW3_LIBRARY 	= 	$(LIBDIR)/libglfw3/src/lglfw3.a
+GLFW3_INCLUDE 	= 	$(LIBDIR)/libglfw3/include
 
+EXTRA 			=	-D GLFW3_INCLUDE_PATH=$(GLFW3_INCLUDE) -D GLFW3_LIBRARY=$(GLFW3_LIBRARY)
 LIBARIES		=	${addprefix $(LIBDIR)/, $(LIBS)} 
 LIBARIES_AFILES	=	${addprefix $(BUILDDIR), ${addsuffix .a, $(LIBS)}}
 
@@ -105,7 +108,11 @@ $(LIBS):
 # @printf "%-25.25s%s\n" "Submodule${YELLOW}" "$@$(RESET)"
 	@git submodule update --init lib/$@ > /dev/null && printf "%-25.25s%s\n" "Submodule${GREEN}" "$@$(RESET)" || printf "%-25.25s%s\n" "Submodule${RED}" "$@$(RESET)"
 # @norminette -R CheckForbiddenSourceHeader $(LIBDIR)/$@/include $(LIBDIR)/$@/src > /dev/null && $(P_OK) || { $(P_KO); }
-	@[ -f ./$(LIBDIR)/$@/CMakeLists.txt ] && (cmake $(LIBDIR)/$@ -B $(BUILDDIR)$@ > /dev/null && make -C $(BUILDDIR)$@ > /dev/null && printf "%-25.25s%s\n" "$@$(GREEN)" "OK$(RESET)" || printf "%-25.25s%s\n" "$@$(RED)" "Error$(RESET)")  || printf ""|| printf ""
+	@if [[ "$@" == "libmlx42" ]]; then \
+		[ -f ./$(LIBDIR)/$@/CMakeLists.txt ] && (cmake $(LIBDIR)/$@  $(EXTRA) -B $(BUILDDIR)$@ 2>&1 > /dev/null && make -C $(BUILDDIR)$@ > /dev/null && printf "%-25.25s%s\n" "$@$(GREEN)" "OK$(RESET)" || printf "%-25.25s%s\n" "$@$(RED)" "Error$(RESET)")  || printf ""|| printf ""; \
+	else	\
+		[ -f ./$(LIBDIR)/$@/CMakeLists.txt ] && (cmake $(LIBDIR)/$@ -B $(BUILDDIR)$@ 2>&1 > /dev/null && make -C $(BUILDDIR)$@ > /dev/null && printf "%-25.25s%s\n" "$@$(GREEN)" "OK$(RESET)" || printf "%-25.25s%s\n" "$@$(RED)" "Error$(RESET)")  || printf ""|| printf ""; \
+	fi
 	@[ -f ./$(LIBDIR)/$@/Makefile ] && (make -C $(LIBDIR)/$@ > /dev/null && printf "%-25.25s%s\n" "$@$(GREEN)" "OK$(RESET)" || printf "%-25.25s%s\n" "$@$(RED)" "Error$(RESET)")  || printf ""
 	@[ -f $(BUILDDIR)$@/$@.a ] && cp -p $(BUILDDIR)$@/$@.a $(BUILDDIR) || printf ""
 	@[ -f $(BUILDDIR)$@/src/$@.a ] && cp -p $(BUILDDIR)$@/src/$@.a $(BUILDDIR) || printf ""
