@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/15 13:21:40 by jbouma        ########   odam.nl          #
+#    Updated: 2023/05/15 20:29:41 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME		=	so_long
 
 # Compiler Settings
 CC 			:= gcc
-CFLAGS 		:= -framework Cocoa -framework OpenGL -framework IOKit
+# CFLAGS 		:= -framework Cocoa -framework OpenGL -framework IOKit
 # CFLAGS		+= -O3
 # CFLAGS		+= -Werror
 # CFLAGS		+= -Wall -Wextra 
@@ -48,15 +48,15 @@ LIBDIR		=	lib
 LIBS		=	libFT			\
 				libmlx42		\
 
-BREW		=	glfw			\
+BREW		=	glfw3			\
 
 # TEXTURES	=	./assets/Platformer_Art_Complete_Pack.zip	\
 
-HEADERS		=	$(LIBS:%=-I $(LIBDIR)/%/include) \
-				-lglfw3
-#  -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"	\
+HEADERS		=	$(LIBS:%=-I $(LIBDIR)/%/include) 			\
+# -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"	\
+# -lglfw
 
-LIBARIES		=	${addprefix $(LIBDIR)/, $(LIBS)}
+LIBARIES		=	${addprefix $(LIBDIR)/, $(LIBS)} 
 LIBARIES_AFILES	=	${addprefix $(BUILDDIR)/, ${addsuffix .a, $(LIBS)}}
 
 # Objects
@@ -82,7 +82,12 @@ P_NL			= printf " \n"
 # Rules
 all: $(NAME)
 	@mkdir -p ./bin
-	@$(CC) $(CFLAGS) $(HEADERS) $(INC) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET)
+	@[ -f /opt/homebrew/Cellar/glfw/3.3.8/lib/libglfw.3.3.dylib ] 																		\
+		&& $(CC) $(CFLAGS) $(HEADERS) -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/" -lglfw $(INC) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET) \
+		|| (printf "\n$(RED)GLFW not installed with homebrew, trying to compile with lglfw3 $(RESET)\t\033[0K\n"										\
+		&& $(CC) $(CFLAGS) -lglfw3 $(HEADERS) $(INC) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET))
+# @$(CC) $(CFLAGS) -framework Cocoa -framework OpenGL -framework IOKit $(HEADERS) -lglfw3 $(INC) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET)
+	
 	@printf "Executable \t$< \033[0K\n"
 	@[ -f ./textures/license.txt ] && printf "\n$(GREEN)Textures already installed $(RESET)\t\033[0K\n" || (unzip assets/Platformer_Art_Complete_Pack.zip -d ./textures > /dev/null && printf "\n$(GREEN)Textures Installed $(RESET)\t\033[0K\n") 
 	@printf "\n$(YELLOW)Compiled with flags: $(CFLAGS)\n"
@@ -104,9 +109,6 @@ $(LIBS): $(BREW) $(TEXTURES)
 	@[ -f $(BUILDDIR)$@/$@.a ] && cp -p $(BUILDDIR)$@/$@.a $(BUILDDIR) || echo
 	@[ -f $(LIBDIR)/$@/$@.a ] && cp -p $(LIBDIR)/$@/$@.a $(BUILDDIR) || echo
 
-$(BREW):
-	@brew install $@ 2> /dev/null && printf "BREW \t\t${GREEN}$@$(RESET) \033[0K\r\n" || printf "BREW\t\t${RED}$@$(RESET) \033[0K\r\n"
-
 # $(TEXTURES):
 # 	@echo "JOE";
 # 	unzip assets/Platformer_Art_Complete_Pack.zip -d ./textures
@@ -115,6 +117,10 @@ $(BREW):
 $(NAME): $(LIBS) $(OBJECTS)
 	@make norm 2> /dev/null && $(P_OK) || { $(P_KO);}
 	
+$(BREW):
+	@[ -f /opt/homebrew/Cellar/glfw/3.3.8/lib/libglfw.3.3.dylib ]										\
+		&& printf "\nBrew $(BREW)\t$(GREEN)Already installed $(RESET)\t\033[0K\n"								\
+		|| (printf "Brew $(BREW)\t\033[0K" && brew install $(BREW) > /dev/null && printf "$(GREEN)GLFW Installed $(RESET)\t\033[0K\n")
 
 leaks: CFLAGS += -g -D DEBUG=3
 leaks: re
