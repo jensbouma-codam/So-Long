@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/15 11:12:48 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/15 13:21:40 by jbouma        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,14 +15,15 @@ NAME		=	so_long
 
 # Compiler Settings
 CC 			:= gcc
-# CFLAGS 		:= -framework Cocoa -framework OpenGL -framework IOKit
+CFLAGS 		:= -framework Cocoa -framework OpenGL -framework IOKit
 # CFLAGS		+= -O3
 # CFLAGS		+= -Werror
 # CFLAGS		+= -Wall -Wextra 
 # -Wunreachable-code 
-# CFLAGS		+= -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
+# CFLAGS		+= -lglfw
 # Headers
-INC 		= -I include -I /opt/homebrew/Cellar/glfw/3.3.8/include
+INC 		= -I include 
+# -I /opt/homebrew/Cellar/glfw/3.3.8/include
 
 # Set build directories
 BUILDDIR	= ./build/
@@ -51,8 +52,9 @@ BREW		=	glfw			\
 
 # TEXTURES	=	./assets/Platformer_Art_Complete_Pack.zip	\
 
-HEADERS		=	$(LIBS:%=-I $(LIBDIR)/%/include)	\
-				-lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"	\
+HEADERS		=	$(LIBS:%=-I $(LIBDIR)/%/include) \
+				-lglfw3
+#  -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"	\
 
 LIBARIES		=	${addprefix $(LIBDIR)/, $(LIBS)}
 LIBARIES_AFILES	=	${addprefix $(BUILDDIR)/, ${addsuffix .a, $(LIBS)}}
