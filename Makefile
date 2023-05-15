@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/15 21:38:13 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/15 22:19:39 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME		=	so_long
 
 # Compiler Settings
 CC 			:= gcc
-GLFW		:= -framework Cocoa -framework OpenGL -framework IOKit
+# GLFW		:= -framework Cocoa -framework OpenGL -framework IOKit
 # CFLAGS		+= -O3
 # CFLAGS		+= -Werror
 # CFLAGS		+= -Wall -Wextra 
@@ -46,18 +46,19 @@ SOURCES		=	${addprefix $(SRCDIR)/, $(FILES)}
 LIBDIR		=	lib
 
 LIBS		=	libFT			\
-				libmlx42		\
+				libglfw3		\
+				libmlx42
 
-BREW		=	glfw3			\
+BREW		=	glfw			\
 
 # TEXTURES	=	./assets/Platformer_Art_Complete_Pack.zip	\
 
-HEADERS		=	$(LIBS:%=-I $(LIBDIR)/%/include) 			\
+HEADERS		=	$(LIBS:%=-I $(LIBDIR)/%/include)
 # -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"	\
 # -lglfw
 
 LIBARIES		=	${addprefix $(LIBDIR)/, $(LIBS)} 
-LIBARIES_AFILES	=	${addprefix $(BUILDDIR)/, ${addsuffix .a, $(LIBS)}}
+LIBARIES_AFILES	=	${addprefix $(BUILDDIR), ${addsuffix .a, $(LIBS)}}
 
 # Objects
 OBJECTS		= $(SOURCES:%.c=$(BUILDDIR)%.o)
@@ -84,10 +85,11 @@ all: $(NAME)
 	@[ -f ./textures/license.txt ] && printf "%-25.25s%s\n" "Textures$(GREEN)" "Already installed $(RESET)" 	\
 	|| (unzip assets/Platformer_Art_Complete_Pack.zip -d ./textures > /dev/null && printf "%-25.25s%s\n" "Textures$(GREEN)" "Installed $(RESET)") 
 	@mkdir -p ./bin
-	@[ -f /opt/homebrew/Cellar/glfw/3.3.8/lib/libglfw.3.3.dylib ] 																		\
-		&& $(CC) $(CFLAGS) $(HEADERS) -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/" -lglfw $(INC) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET) \
-		|| (printf "%s\n" "$(RED)GLFW not installed with homebrew, trying to compile with lglfw3 $(RESET)"								\
-		&& $(CC) $(CFLAGS) $(GLFW) -lglfw3 $(HEADERS) $(INC) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET))
+# @[ -f /opt/homebrew/Cellar/glfw/3.3.8/lib/libglfw.3.3.dylib ] 																		\
+# 	&& $(CC) $(CFLAGS) $(HEADERS) -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/" $(INC) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET) \
+# 	|| (printf "%s\n" "$(RED)GLFW not installed with homebrew, trying to compile with lglfw3 $(RESET)"								\
+# 	&& 
+	$(CC) $(CFLAGS) $(GLFW) $(HEADERS) $(INC) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET)
 	@printf "%-25.25s%s\n" "Executable $(GREEN)" "$< Created $(RESET)"
 	@printf "%-25.25s%s\n" "Flags $(YELLOW)" "$(CFLAGS) $(RESET)"
 	@printf "\n🙏 $(GREEN)Complete $(RESET)\n"
@@ -98,14 +100,15 @@ $(BUILDDIR)%.o:%.c
 	@norminette -R CheckForbiddenSourceHeader $< > /dev/null && printf "%-25.25s%s\n" "Build${GREEN}" "$(notdir $<)" ||  printf "%-25.25s%s\n" "Build${RED}" "$(notdir $<)"
 	@printf "${RESET}"
 
-$(LIBS): $(BREW) 
+$(LIBS):
 	@mkdir -p $(BUILDDIR)
 # @printf "%-25.25s%s\n" "Submodule${YELLOW}" "$@$(RESET)"
 	@git submodule update --init lib/$@ > /dev/null && printf "%-25.25s%s\n" "Submodule${GREEN}" "$@$(RESET)" || printf "%-25.25s%s\n" "Submodule${RED}" "$@$(RESET)"
-	@norminette -R CheckForbiddenSourceHeader $(LIBDIR)/$@/include $(LIBDIR)/$@/src > /dev/null && $(P_OK) || { $(P_KO); }
+# @norminette -R CheckForbiddenSourceHeader $(LIBDIR)/$@/include $(LIBDIR)/$@/src > /dev/null && $(P_OK) || { $(P_KO); }
 	@[ -f ./$(LIBDIR)/$@/CMakeLists.txt ] && (cmake $(LIBDIR)/$@ -B $(BUILDDIR)$@ > /dev/null && make -C $(BUILDDIR)$@ > /dev/null && printf "%-25.25s%s\n" "$@$(GREEN)" "OK$(RESET)" || printf "%-25.25s%s\n" "$@$(RED)" "Error$(RESET)")  || printf ""|| printf ""
 	@[ -f ./$(LIBDIR)/$@/Makefile ] && (make -C $(LIBDIR)/$@ > /dev/null && printf "%-25.25s%s\n" "$@$(GREEN)" "OK$(RESET)" || printf "%-25.25s%s\n" "$@$(RED)" "Error$(RESET)")  || printf ""
 	@[ -f $(BUILDDIR)$@/$@.a ] && cp -p $(BUILDDIR)$@/$@.a $(BUILDDIR) || printf ""
+	[ -f $(BUILDDIR)$@/src/$@.a ] && cp -p $(BUILDDIR)$@/src/$@.a $(BUILDDIR) || printf ""
 	@[ -f $(LIBDIR)/$@/$@.a ] && cp -p $(LIBDIR)/$@/$@.a $(BUILDDIR) || printf ""
 
 
