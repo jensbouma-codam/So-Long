@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/15 13:32:32 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/16 00:09:55 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ typedef enum e_filetype
 
 typedef struct s_player
 {
-	int			x;
-	int			y;
+	int32_t		x;
+	int32_t		y;
 	int			direction;
 	int			health;
 	int			wallet;
@@ -126,7 +126,7 @@ void		*safe_calloc(size_t count, size_t size);
 
 // files.c
 void		load_files(int argc, char **argv);
-void		load_texture_files(int fd, char *ptr);
+void		load_texture_files(char *ptr);
 void		read_files(char **ptr, void (*func)(int, char *));
 char		*get_filename(char *ptr);
 

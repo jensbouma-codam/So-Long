@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 17:23:15 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/15 12:12:58 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/16 00:12:35 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ void	player_jump(void)
 void	player_fall(void)
 {
 	if (g_player->jump_state == FALL
-		&& g_player->y < g_mlx->height - g_img->img->height)
+		&& g_player->y < g_mlx->height - (int32_t)g_img->img->height)
 	{
-		if (g_player->y + g_img->img->height + 5 < g_mlx->height)
+		if (g_player->y + (int32_t)g_img->img->height + 5 < g_mlx->height)
 			g_player->y += 5;
 		else
 		{
-			g_player->y = g_mlx->height - g_img->img->height;
+			g_player->y = g_mlx->height - (int32_t)g_img->img->height;
 			g_player->jump_state = STAND;
 		}
 	}

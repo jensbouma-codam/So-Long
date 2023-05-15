@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 13:53:08 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/15 12:13:33 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/16 00:08:44 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	key_hook(mlx_key_data_t keydata, void *param)
 {	
 	if (keydata.key == MLX_KEY_ESCAPE)
-		mlx_close_window(g_mlx);
+		mlx_close_window(param);
 }
 
 void	action_hook(void *param)
@@ -65,7 +65,7 @@ void	player_hook(void *param)
 	else if (g_player->direction == RIGHT)
 	{
 		g_player->action = WALK;
-		if (g_player->x + g_img->img->width + 4 < g_mlx->width)
+		if (g_player->x + g_img->img->width + 4 < (unsigned int)g_mlx->width)
 			g_player->x += 5;
 	}
 	update_player();

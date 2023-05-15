@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/15 23:58:05 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/15 23:58:33 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,8 @@ NAME		=	so_long
 CC 			:= gcc
 GLFW		:= -framework Cocoa -framework OpenGL -framework IOKit
 # CFLAGS		+= -O3
-# CFLAGS		+= -Werror
-# CFLAGS		+= -Wall -Wextra
+CFLAGS		+= -Werror
+CFLAGS		+= -Wall -Wextra
 # CFLAGS		+= -Wunreachable-code 
 
 # Headers
