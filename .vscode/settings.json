@@ -27,6 +27,7 @@
 		"ios": "c",
 		"locale": "c",
 		"string": "c",
-		"__string": "c"
+		"__string": "c",
+		"so_long.h": "c"
 	}
 }

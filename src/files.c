@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 13:53:38 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/13 10:25:28 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/15 12:12:27 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	load_files(int argc, char **argv)
 		"textures/Base pack/Tiles/grass.png",
 		"textures/Base pack/Tiles/stoneCenter_rounded.png",
 		NULL};
-	const char *player_idle[] = {\
+	const char	*player_idle[] = {\
 		"textures/Base pack/Player/p1_front.png",
 		"textures/Base pack/Player/p1_stand.png",
 		"textures/Base pack/Player/p1_jump.png",

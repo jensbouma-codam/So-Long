@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/13 14:06:23 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/15 11:12:48 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ TARGET		= bin/$<
 # Sources
 SRCDIR		= 	src
 FILES		= 	main.c		\
+				globals.c	\
 				files.c		\
 				maps.c		\
 				hooks.c		\

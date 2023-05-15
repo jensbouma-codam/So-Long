@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/13 12:43:47 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/15 12:14:08 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ typedef struct s_images
 	struct s_images	*next;
 }	t_images;
 
-t_images	*g_img;
 typedef struct s_element
 {
 	char				type;
@@ -66,7 +65,7 @@ typedef struct s_map
 	struct s_map	*last_map;
 }	t_map;
 
-t_map		*g_map;
+
 typedef enum e_filetype
 {
 	ONLY_TEXTURES,
@@ -82,7 +81,7 @@ typedef struct s_player
 	int			wallet;
 	int			jump_height;
 	int			jump_state;
-	int			state;
+	int			action;
 	mlx_image_t	*stand;
 	mlx_image_t	*duck;
 	mlx_image_t	*jump;
@@ -90,10 +89,6 @@ typedef struct s_player
 	mlx_image_t	*walk;
 }	t_player;
 
-t_player	*g_player;
-
-// main.c
-mlx_t		*g_mlx;
 
 typedef enum e_direction
 {
@@ -102,7 +97,7 @@ typedef enum e_direction
 	RIGHT,
 	DOWN,
 	HOLD
-} t_direction;
+}	t_direction;
 
 typedef enum e_player_state
 {
@@ -112,8 +107,16 @@ typedef enum e_player_state
 	FALL,
 	HURT,
 	WALK,
-	JUMP_TRUE
-} t_player_state;
+	JUMP_ACTIVE
+}	t_player_state;
+
+
+// globals.c
+t_images	*g_img;
+t_map		*g_map;
+t_player	*g_player;
+mlx_t		*g_mlx;
+void		init_globals(void);
 
 // error_handler.c
 void		error(char *msg);
@@ -131,15 +134,14 @@ char		*get_filename(char *ptr);
 void		load_map_files(int fd, char *ptr);
 
 // keys.c
-void		keyhooks(mlx_key_data_t keydata, void *param);
+void		key_hook(mlx_key_data_t keydata, void *param);
 void		player_hook(void *param);
-void		loop(void *param);
+void		action_hook(void *param);
 
 // player_moves.c
-const bool	player_ml(void);
-const bool	player_mu(void);
-const bool	player_mr(void);
-const bool	player_md(void);
+void		update_player(void);
+void		player_jump(void);
+void		player_fall(void);
 
 // array_helpers.c
 int			arr_position(int arr[], int key);

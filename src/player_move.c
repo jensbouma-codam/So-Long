@@ -6,52 +6,50 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 17:23:15 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/13 11:16:03 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/15 12:12:58 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-const bool	player_ml(void)
+void	update_player(void)
 {
-	ft_printf("Player moved left!\n");
-	g_player->direction = LEFT;
-	g_player->state = WALK;
-	// if (g_img->img->instances[0].x > 0)
-	// 	g_img->img->instances[0].x -= 5;
-	return (true);
+	g_img->img->instances[0].x = g_player->x;
+	g_img->img->instances[0].y = g_player->y;
 }
 
-const bool	player_mu(void)
+void	player_jump(void)
 {
-	ft_printf("Player moved up!\n");
-	g_player->direction = UP;
-	g_player->state = JUMP;
-	// if (g_img->img->instances[0].y > 0)
-	// {
-	// 	if (g_jump == NO_JUMP)
-	// 		g_jump = JUMP;
-	// }
-
-	return (true);
+	if (g_player->action == JUMP && g_player->jump_state == STAND)
+	{
+		g_player->jump_state = JUMP;
+		g_player->action = JUMP_ACTIVE;
+		g_player->jump_height = 5;
+	}
+	if (g_player->jump_state == JUMP
+		&& g_player->y - 25 > 0 && g_player->jump_height < 250)
+	{
+		g_player->y -= 25;
+		g_player->jump_height += 25;
+	}
+	else if (g_player->jump_state == JUMP)
+	{
+		g_player->jump_state = FALL;
+		g_player->jump_height = 0;
+	}
 }
 
-const bool	player_mr(void)
+void	player_fall(void)
 {
-	ft_printf("Player moved right!\n");
-	g_player->direction = RIGHT;
-	g_player->state = WALK;
-	// if (g_img->img->instances[0].x + g_img->img->width + 4 < g_mlx->width)
-	// 		g_img->img->instances[0].x += 5;
-	return (true);
-}
-
-const bool	player_md(void)
-{
-	ft_printf("Player moved down!\n");
-	g_player->direction = DOWN;
-	g_player->state = DUCK;
-	// if (g_img->img->instances[0].y + g_img->img->height + 4 < g_mlx->height)
-	// 	g_img->img->instances[0].y += 5;
-	return (true);
+	if (g_player->jump_state == FALL
+		&& g_player->y < g_mlx->height - g_img->img->height)
+	{
+		if (g_player->y + g_img->img->height + 5 < g_mlx->height)
+			g_player->y += 5;
+		else
+		{
+			g_player->y = g_mlx->height - g_img->img->height;
+			g_player->jump_state = STAND;
+		}
+	}
 }
