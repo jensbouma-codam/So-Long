@@ -7,3 +7,6 @@
 [submodule "lib/libft"]
 	path = lib/libft
 	url = https://github.com/jensbouma/Codam-LibFT.git
+[submodule "libft"]
+	path = lib/libft
+	url = https://github.com/jensbouma/Codam-LibFT.git
