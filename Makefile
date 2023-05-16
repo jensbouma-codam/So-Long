@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 21:43:13 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/16 21:45:16 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -116,12 +116,12 @@ $(LIBS):
 		|| $(P) "Submodule${RED}" "$@$(RESET)"
 # @norminette -R CheckForbiddenSourceHeader $(LIBDIR)/$@/include $(LIBDIR)/$@/src > /dev/null && $(P_OK) || { $(P_KO); }
 	@[ -f $(LIBDIR)/$@/include/MLX42/MLX42.h ]								\
-		&& (cmake $(LIBDIR)/$@  $(EXTRA) -B $(BUILDDIR)$@ 2>&1 > /dev/null	\
+		&& (cmake $(LIBDIR)/$@  $(EXTRA) -B $(BUILDDIR)$@ 	\
 			&& make -C $(BUILDDIR)$@ > /dev/null							\
 			&& $(P) "$@$(GREEN)" "Compiled$(RESET)"							\
 			|| $(P) "$@$(RED)" "Error$(RESET)")								\
 		|| ([ -f $(LIBDIR)/$@/CMakeLists.txt ]								\
-			&& (cmake $(LIBDIR)/$@ -B $(BUILDDIR)$@ 2>&1 > /dev/null		\
+			&& (cmake $(LIBDIR)/$@ -B $(BUILDDIR)$@ 		\
 				&& make -C $(BUILDDIR)$@ > /dev/null						\
 				&& $(P) "$@$(GREEN)" "Compiled$(RESET)"						\
 				|| $(P) "$@$(RED)" "Error$(RESET)")							\
