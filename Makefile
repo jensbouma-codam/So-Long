@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 22:16:00 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/16 22:25:55 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,8 +56,6 @@ LIBS		=	libft			\
 				libglfw3		\
 				libmlx42
 
-BREW		=	glfw			\
-
 HEADERS		=	$(LIBS:%=-I $(LIBDIR)/%/include)
 
 GLFW3_LIBRARY 	= 	$(BUILDDIR)/lglfw3.a
@@ -95,7 +93,7 @@ all: $(NAME)
 		|| (unzip assets/Platformer_Art_Complete_Pack.zip -d textures > /dev/null		\
 		&& $(P) "Textures$(GREEN)" "Installed $(RESET)")
 	@mkdir -p bin
-	@$(CC) $(CFLAGS) $(INC) $(HEADERS) $(OBJECTS) $(LIBARIES_AFILES) $(GLFW) -o $(TARGET)	\
+	$(CC) $(CFLAGS) $(INC) $(HEADERS) $(LIBARIES_AFILES) $(OBJECTS) $(GLFW) -o $(TARGET)	\
 		&& $(P) "Executable $(GREEN)" "$< Created $(RESET)"									\
 		|| $(P) "Executable $(RED)" "$< Compile error $(RESET)"
 	@$(P) "Flags $(YELLOW)" "$(CFLAGS) $(RESET)"
