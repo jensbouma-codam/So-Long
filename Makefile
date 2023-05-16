@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 23:06:03 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/16 23:08:28 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -113,7 +113,7 @@ endif
 
 $(LIBS):
 	@mkdir -p $(BUILDDIR)
-	@git submodule update --init lib/$@ 2>&1 > /dev/null					\
+	@git submodule update --init 2>&1 > /dev/null							\
 		&& $(P) "Submodule${GREEN}" "$@$(RESET)"							\
 		|| $(P) "Submodule${RED}" "$@$(RESET)"
 # @norminette -R CheckForbiddenSourceHeader $(LIBDIR)/$@/include $(LIBDIR)/$@/src > /dev/null && $(P_OK) || { $(P_KO); }
