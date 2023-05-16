@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 15:10:37 by jbouma        ########   odam.nl          #
+#    Updated: 2023/05/16 15:14:36 by jbouma        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,10 +102,13 @@ all: $(NAME)
 
 $(BUILDDIR)%.o:%.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) $(INC) -c $< -o $@ 
+	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
+ifneq ($(UNAME_S),Linux)
 	@norminette -R CheckForbiddenSourceHeader $< > /dev/null 				\
 		&& $(P) "Build${GREEN}" "$(notdir $<)${RESET}" 						\
 		|| $(P) "Build${RED}" "$(notdir $<)${RESET}"
+endif
+
 $(LIBS):
 	@mkdir -p $(BUILDDIR)
 	@git submodule update --init lib/$@ 2>&1 > /dev/null					\
@@ -163,6 +166,8 @@ fclean: clean
 re: fclean all
 
 norm: $(SOURCES)
+ifneq ($(UNAME_S),Linux)
 	@norminette -R CheckForbiddenSourceHeader $^ include 2>&1 > /dev/null && exit 0 || exit 1
+endif
 
 .PHONY: CFLAGS all clean fclean re
