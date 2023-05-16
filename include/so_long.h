@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/16 21:04:18 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/16 21:58:28 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 
 # include "../lib/libft/include/libft.h"
 # include "../lib/libmlx42/include/MLX42/MLX42.h"
-// # include "../lib/libglfw3/include/GLFW/glfw3.h"
+# include "../lib/libglfw3/include/GLFW/glfw3.h"
 
 typedef struct s_file
 {
