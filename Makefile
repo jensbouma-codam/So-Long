@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 22:57:10 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/16 22:59:11 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,10 +23,10 @@ CC 			:= gcc
 
 UNAME_S 	:= $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-CFLAGS		+= -ldl -pthread -lm
+GLFW		+= -ldl -pthread -lm
 endif
 ifeq ($(UNAME_S),Darwin)
-CFLAGS		+= -framework Cocoa -framework OpenGL -framework IOKit
+GLFW		+= -framework Cocoa -framework OpenGL -framework IOKit
 endif
 
 # CFLAGS		+= -O3
@@ -64,7 +64,7 @@ GLFW3_LIBRARY 	= 	$(BUILDDIR)/lglfw3.a
 GLFW3_INCLUDE 	= 	$(LIBDIR)/libglfw3/include
 EXTRA 			=	-D GLFW3_INCLUDE_PATH=$(GLFW3_INCLUDE) -D GLFW3_LIBRARY=$(GLFW3_LIBRARY)
 
-GLFW		:= -lglfw3 -L $(BUILDDIR)
+GLFW		+= -lglfw3 -L $(BUILDDIR)
 
 LIBARIES		=	${addprefix $(LIBDIR)/, $(LIBS)} 
 LIBARIES_AFILES	=	${addprefix $(BUILDDIR)/, ${addsuffix .a, $(LIBS)}}
