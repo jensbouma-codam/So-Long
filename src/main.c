@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:47 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/16 15:27:51 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/16 23:16:29 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	main(int argc, char **argv)
 	mlx_loop_hook(g_mlx, &action_hook, g_mlx);
 	mlx_loop(g_mlx);
 	mlx_terminate(g_mlx);
-	console("Thanks for playing! Check https:/jensbouma.com \
+	console("Thanks for playing! Check https:/jensbouma.com if you like \
 	for my other projects! :)\n");
 	return (EXIT_SUCCESS);
 }
