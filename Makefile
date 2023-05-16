@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 22:28:27 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/16 22:31:12 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CC 			:= gcc
 
 UNAME_S 	:= $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-GLFW		:= -ldl -pthread -lm
+GLFW		:= -ldl -pthread -lm -lglfw3 -L $(BUILDDIR)/libglfw3/src
 endif
 ifeq ($(UNAME_S),Darwin)
 	GLFW		:= -framework Cocoa -framework OpenGL -framework IOKit
