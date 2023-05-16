@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:47 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/16 14:03:57 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/16 15:27:24 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+
+t_images	*g_img;
+t_map		*g_map;
+t_player	*g_player;
+mlx_t		*g_mlx;
 
 void	map2console(void)
 {
