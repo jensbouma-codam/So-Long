@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 21:45:16 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/16 21:51:18 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,7 +95,7 @@ all: $(NAME)
 		|| (unzip assets/Platformer_Art_Complete_Pack.zip -d textures > /dev/null		\
 		&& $(P) "Textures$(GREEN)" "Installed $(RESET)")
 	@mkdir -p bin
-	$(CC) $(CFLAGS) $(GLFW) $(INC) $(HEADERS) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET)
+	$(CC) -v $(CFLAGS) $(GLFW) $(INC) $(HEADERS) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET)
 	@$(P) "Executable $(GREEN)" "$< Created $(RESET)"
 	@$(P) "Flags $(YELLOW)" "$(CFLAGS) $(RESET)"
 	@make norm 2> /dev/null && ($(P) "Norminette$(GREEN)" "OK$(RESET)" && printf "\n🙏 $(GREEN)Complete $(RESET)\n") || $(P) "Norminette$(RED)" "KO$(RESET)"
@@ -117,12 +117,12 @@ $(LIBS):
 # @norminette -R CheckForbiddenSourceHeader $(LIBDIR)/$@/include $(LIBDIR)/$@/src > /dev/null && $(P_OK) || { $(P_KO); }
 	@[ -f $(LIBDIR)/$@/include/MLX42/MLX42.h ]								\
 		&& (cmake $(LIBDIR)/$@  $(EXTRA) -B $(BUILDDIR)$@ 	\
-			&& make -C $(BUILDDIR)$@ > /dev/null							\
+			&& make -C $(BUILDDIR)$@ 							\
 			&& $(P) "$@$(GREEN)" "Compiled$(RESET)"							\
 			|| $(P) "$@$(RED)" "Error$(RESET)")								\
 		|| ([ -f $(LIBDIR)/$@/CMakeLists.txt ]								\
 			&& (cmake $(LIBDIR)/$@ -B $(BUILDDIR)$@ 		\
-				&& make -C $(BUILDDIR)$@ > /dev/null						\
+				&& make -C $(BUILDDIR)$@ 						\
 				&& $(P) "$@$(GREEN)" "Compiled$(RESET)"						\
 				|| $(P) "$@$(RED)" "Error$(RESET)")							\
 			|| break)
