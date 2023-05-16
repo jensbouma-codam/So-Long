@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/16 15:23:48 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/16 15:29:25 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,11 @@ typedef enum e_player_state
 	WALK,
 	JUMP_ACTIVE
 }	t_player_state;
+
+extern t_images	*g_img;
+extern t_map	*g_map;
+extern t_player	*g_player;
+extern mlx_t	*g_mlx;
 
 // globals.c
 void		init_globals(void);
