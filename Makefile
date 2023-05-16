@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 15:32:21 by jbouma        ########   odam.nl          #
+#    Updated: 2023/05/16 15:38:14 by jbouma        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ CFLAGS		+= -Wall -Wextra
 INC 		= -I include 
 
 # Set build directories
-BUILDDIR	= ./build/
+BUILDDIR	= build/
 TARGET		= bin/$<
 
 # Sources
@@ -62,7 +62,7 @@ HEADERS		=	$(LIBS:%=-I $(LIBDIR)/%/include)
 
 GLFW3_LIBRARY 	= 	$(LIBDIR)/libglfw3/src/lglfw3.a
 GLFW3_INCLUDE 	= 	$(LIBDIR)/libglfw3/include
-EXTRA 			=	$([ -f ./$(LIBDIR)/$@/CMakeLists.txt ] -D GLFW3_INCLUDE_PATH=$(GLFW3_INCLUDE) -D GLFW3_LIBRARY=$(GLFW3_LIBRARY) || )
+EXTRA 			=	-D GLFW3_INCLUDE_PATH=$(GLFW3_INCLUDE) -D GLFW3_LIBRARY=$(GLFW3_LIBRARY)
 
 LIBARIES		=	${addprefix $(LIBDIR)/, $(LIBS)} 
 LIBARIES_AFILES	=	${addprefix $(BUILDDIR), ${addsuffix .a, $(LIBS)}}
@@ -90,11 +90,11 @@ P_KO			= $(P) "$@${RED}" "Norm KO" "${RESET}"
 
 # Rules
 all: $(NAME)
-	@[ -f ./textures/license.txt ]														\
+	@[ -f textures/license.txt ]														\
 		&& $(P) "Textures$(GREEN)" "Already installed $(RESET)"							\
-		|| (unzip assets/Platformer_Art_Complete_Pack.zip -d ./textures > /dev/null		\
+		|| (unzip assets/Platformer_Art_Complete_Pack.zip -d textures > /dev/null		\
 		&& $(P) "Textures$(GREEN)" "Installed $(RESET)")
-	@mkdir -p ./bin
+	@mkdir -p bin
 	@$(CC) $(CFLAGS) $(GLFW) $(HEADERS) $(INC) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET)
 	@$(P) "Executable $(GREEN)" "$< Created $(RESET)"
 	@$(P) "Flags $(YELLOW)" "$(CFLAGS) $(RESET)"
@@ -115,18 +115,18 @@ $(LIBS):
 		&& $(P) "Submodule${GREEN}" "$@$(RESET)"							\
 		|| $(P) "Submodule${RED}" "$@$(RESET)"
 # @norminette -R CheckForbiddenSourceHeader $(LIBDIR)/$@/include $(LIBDIR)/$@/src > /dev/null && $(P_OK) || { $(P_KO); }
-	@[ -f ./$(LIBDIR)/$@/include/GLFW/glfw3.h ]								\
+	@[ -f $(LIBDIR)/$@/include/MLX42/MLX42.h ]								\
 		&& (cmake $(LIBDIR)/$@  $(EXTRA) -B $(BUILDDIR)$@ 2>&1 > /dev/null	\
 			&& make -C $(BUILDDIR)$@ > /dev/null							\
 			&& $(P) "$@$(GREEN)" "Compiled$(RESET)"							\
 			|| $(P) "$@$(RED)" "Error$(RESET)")								\
-		|| [ -f ./$(LIBDIR)/$@/CMakeLists.txt ]								\
+		|| [ -f $(LIBDIR)/$@/CMakeLists.txt ]								\
 			&& (cmake $(LIBDIR)/$@ -B $(BUILDDIR)$@ 2>&1 > /dev/null		\
 				&& make -C $(BUILDDIR)$@ > /dev/null						\
 				&& $(P) "$@$(GREEN)" "Compiled$(RESET)"						\
 				|| $(P) "$@$(RED)" "Error$(RESET)")							\
 			|| break
-	@[ -f ./$(LIBDIR)/$@/Makefile ]											\
+	@[ -f $(LIBDIR)/$@/Makefile ]											\
 		&& (make -C $(LIBDIR)/$@ > /dev/null								\
 			&& $(P) "$@$(GREEN)" "OK$(RESET)"								\
 			|| $(P) "$@$(RED)" "Error$(RESET)")								\
@@ -152,7 +152,7 @@ leaks: all
 debug: CFLAGS += -g -fsanitize=address -D DEBUG=1
 debug: all
 	@printf "$(RED)Compiled in debug / fsanitize=adress mode!!!$(RESET)\n\n"
-	@./bin/$(NAME)
+	@bin/$(NAME)
 
 clean:
 	@rm -rf $(BUILDDIR)
@@ -160,7 +160,7 @@ clean:
 
 fclean: clean
 	@rm -rf $(LIBDIR)/*/build
-	@rm -rf ./textures
+	@rm -rf textures
 	@rm -rf bin
 
 re: fclean all
