@@ -6,22 +6,27 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 22:31:12 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/16 22:36:05 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 # Program Name(s)
 NAME		=	so_long
 
+
+# Set build directories
+BUILDDIR	= build/
+TARGET		= bin/$<
+
 # Compiler Settings
 CC 			:= gcc
 
 UNAME_S 	:= $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-GLFW		:= -ldl -pthread -lm -lglfw3 -L $(BUILDDIR)/libglfw3/src
+GLFW		:= -ldl -pthread -lm -lglfw3 -L $(BUILDDIR)
 endif
 ifeq ($(UNAME_S),Darwin)
-	GLFW		:= -framework Cocoa -framework OpenGL -framework IOKit
+	GLFW		:= -framework Cocoa -framework OpenGL -framework IOKit -lglfw3 -L $(BUILDDIR)
 endif
 
 # CFLAGS		+= -O3
@@ -32,9 +37,6 @@ CFLAGS		+= -Wall -Wextra
 # Headers
 INC 		= -I include 
 
-# Set build directories
-BUILDDIR	= build/
-TARGET		= bin/$<
 
 # Sources
 SRCDIR		= 	src
