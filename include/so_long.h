@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/16 14:02:31 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/16 15:23:48 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,6 @@ typedef enum e_player_state
 }	t_player_state;
 
 // globals.c
-t_images	*g_img;
-t_map		*g_map;
-t_player	*g_player;
-mlx_t		*g_mlx;
 void		init_globals(void);
 
 // error_handler.c

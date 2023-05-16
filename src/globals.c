@@ -6,11 +6,16 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/15 11:10:15 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/16 15:17:04 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/16 15:23:58 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+t_images	*g_img;
+t_map		*g_map;
+t_player	*g_player;
+mlx_t		*g_mlx;
 
 void	init_globals(void)
 {
