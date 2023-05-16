@@ -29,6 +29,7 @@
 		"string": "c",
 		"__string": "c",
 		"so_long.h": "c",
-		"glfw3.h": "c"
+		"glfw3.h": "c",
+		"mlx42.h": "c"
 	}
 }

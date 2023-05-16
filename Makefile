@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 20:53:56 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/16 21:08:57 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -120,12 +120,12 @@ $(LIBS):
 			&& make -C $(BUILDDIR)$@ > /dev/null							\
 			&& $(P) "$@$(GREEN)" "Compiled$(RESET)"							\
 			|| $(P) "$@$(RED)" "Error$(RESET)")								\
-		|| [ -f $(LIBDIR)/$@/CMakeLists.txt ]								\
+		|| ([ -f $(LIBDIR)/$@/CMakeLists.txt ]								\
 			&& (cmake $(LIBDIR)/$@ -B $(BUILDDIR)$@ 2>&1 > /dev/null		\
 				&& make -C $(BUILDDIR)$@ > /dev/null						\
 				&& $(P) "$@$(GREEN)" "Compiled$(RESET)"						\
 				|| $(P) "$@$(RED)" "Error$(RESET)")							\
-			|| break
+			|| break)
 	@[ -f $(LIBDIR)/$@/Makefile ]											\
 		&& (make -C $(LIBDIR)/$@ > /dev/null								\
 			&& $(P) "$@$(GREEN)" "OK$(RESET)"								\
