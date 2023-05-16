@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 23:08:28 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/16 23:09:49 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,6 @@ CFLAGS		+= -Wall -Wextra
 
 # Headers
 INC 		= -I include 
-
 
 # Sources
 SRCDIR		= 	src
