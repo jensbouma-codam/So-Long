@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 21:15:13 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/16 21:31:12 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,6 +94,7 @@ all: $(NAME)
 		&& $(P) "Textures$(GREEN)" "Already installed $(RESET)"							\
 		|| (unzip assets/Platformer_Art_Complete_Pack.zip -d textures > /dev/null		\
 		&& $(P) "Textures$(GREEN)" "Installed $(RESET)")
+	@ls -R
 	@mkdir -p bin
 	@$(CC) $(CFLAGS) $(GLFW) $(INC) $(HEADERS) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET)
 	@$(P) "Executable $(GREEN)" "$< Created $(RESET)"
