@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 21:12:52 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/16 21:15:13 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,7 @@ BREW		=	glfw			\
 
 HEADERS		=	$(LIBS:%=-I $(LIBDIR)/%/include)
 
-GLFW3_LIBRARY 	= 	$(LIBDIR)/libglfw3/src/lglfw3.a
+GLFW3_LIBRARY 	= 	$(BUILDDIR)/libglfw3/src/lglfw3.a
 GLFW3_INCLUDE 	= 	$(LIBDIR)/libglfw3/include
 EXTRA 			=	-D GLFW3_INCLUDE_PATH=$(GLFW3_INCLUDE) -D GLFW3_LIBRARY=$(GLFW3_LIBRARY)
 
