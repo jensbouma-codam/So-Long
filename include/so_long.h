@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/16 15:44:58 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/16 21:01:26 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <stdlib.h>
 # include <stdarg.h>
 
-# include "../lib/libFT/include/libft.h"
+# include "../lib/libft/include/libft.h"
 # include "../lib/libmlx42/include/MLX42/MLX42.h"
 # include "../lib/libglfw3/include/GLFW/glfw3.h"
 
