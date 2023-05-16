@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 22:46:03 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/16 22:52:38 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME		=	so_long
 
 
 # Set build directories
-BUILDDIR	= build/
+BUILDDIR	= build
 TARGET		= bin/$<
 
 # Compiler Settings
@@ -68,7 +68,7 @@ LIBARIES		=	${addprefix $(LIBDIR)/, $(LIBS)}
 LIBARIES_AFILES	=	${addprefix $(BUILDDIR)/, ${addsuffix .a, $(LIBS)}}
 
 # Objects
-OBJECTS		= $(SOURCES:%.c=$(BUILDDIR)%.o)
+OBJECTS		= $(SOURCES:%.c=$(BUILDDIR)/%.o)
 
 # Colors
 
@@ -95,13 +95,13 @@ all: $(NAME)
 		|| (unzip assets/Platformer_Art_Complete_Pack.zip -d textures > /dev/null		\
 		&& $(P) "Textures$(GREEN)" "Installed $(RESET)")
 	@mkdir -p bin
-	@$(CC) $(CFLAGS) $(INC) $(HEADERS) $(OBJECTS) $(LIBARIES_AFILES) $(GLFW) -o $(TARGET)	\
+	@$(CC) $(CFLAGS) $(GLFW) $(INC) $(HEADERS) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET)	\
 		&& ($(P) "Executable $(GREEN)" "$< Created $(RESET)" && exit 0)						\
 		|| ($(P) "Executable $(RED)" "$< Compile error $(RESET)" && exit 1)
 	@$(P) "Flags $(YELLOW)" "$(CFLAGS) $(RESET)"
 	@make norm 2> /dev/null && ($(P) "Norminette$(GREEN)" "OK$(RESET)" && printf "\n🙏 $(GREEN)Complete $(RESET)\n") || $(P) "Norminette$(RED)" "KO$(RESET)"
 
-$(BUILDDIR)%.o:%.c
+$(BUILDDIR)/%.o:%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
 ifneq ($(UNAME_S),Linux)
@@ -135,7 +135,7 @@ $(LIBS):
 	@[ -f $(BUILDDIR)/$@/$@.a ]												\
 		&& cp -p $(BUILDDIR)/$@/$@.a $(BUILDDIR)								\
 		|| break
-	@[ -f $(BUILDDIR)$@/src/$@.a ]											\
+	@[ -f $(BUILDDIR)/$@/src/$@.a ]											\
 		&& cp -p $(BUILDDIR)/$@/src/$@.a $(BUILDDIR)							\
 		|| break
 	@[ -f $(LIBDIR)/$@/$@.a ]												\
