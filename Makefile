@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 22:40:49 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/16 22:46:03 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,7 +65,7 @@ GLFW3_INCLUDE 	= 	$(LIBDIR)/libglfw3/include
 EXTRA 			=	-D GLFW3_INCLUDE_PATH=$(GLFW3_INCLUDE) -D GLFW3_LIBRARY=$(GLFW3_LIBRARY)
 
 LIBARIES		=	${addprefix $(LIBDIR)/, $(LIBS)} 
-LIBARIES_AFILES	=	${addprefix $(BUILDDIR), ${addsuffix .a, $(LIBS)}}
+LIBARIES_AFILES	=	${addprefix $(BUILDDIR)/, ${addsuffix .a, $(LIBS)}}
 
 # Objects
 OBJECTS		= $(SOURCES:%.c=$(BUILDDIR)%.o)
@@ -117,13 +117,13 @@ $(LIBS):
 		|| $(P) "Submodule${RED}" "$@$(RESET)"
 # @norminette -R CheckForbiddenSourceHeader $(LIBDIR)/$@/include $(LIBDIR)/$@/src > /dev/null && $(P_OK) || { $(P_KO); }
 	@[ -f $(LIBDIR)/$@/include/MLX42/MLX42.h ]								\
-		&& (cmake $(LIBDIR)/$@  $(EXTRA) -B $(BUILDDIR)$@ 2>&1 > /dev/null	\
-			&& make -C $(BUILDDIR)$@ > /dev/null							\
+		&& (cmake $(LIBDIR)/$@  $(EXTRA) -B $(BUILDDIR)/$@ 2>&1 > /dev/null	\
+			&& make -C $(BUILDDIR)/$@ > /dev/null							\
 			&& $(P) "$@$(GREEN)" "Compiled$(RESET)"							\
 			|| $(P) "$@$(RED)" "Error$(RESET)")								\
 		|| ([ -f $(LIBDIR)/$@/CMakeLists.txt ]								\
-			&& (cmake $(LIBDIR)/$@ -B $(BUILDDIR)$@ 2>&1 > /dev/null		\
-				&& make -C $(BUILDDIR)$@ > /dev/null						\
+			&& (cmake $(LIBDIR)/$@ -B $(BUILDDIR)/$@ 2>&1 > /dev/null		\
+				&& make -C $(BUILDDIR)/$@ > /dev/null						\
 				&& $(P) "$@$(GREEN)" "Compiled$(RESET)"						\
 				|| $(P) "$@$(RED)" "Error$(RESET)")							\
 			|| break)
@@ -132,11 +132,11 @@ $(LIBS):
 			&& $(P) "$@$(GREEN)" "OK$(RESET)"								\
 			|| $(P) "$@$(RED)" "Error$(RESET)")								\
 		|| break
-	@[ -f $(BUILDDIR)$@/$@.a ]												\
-		&& cp -p $(BUILDDIR)$@/$@.a $(BUILDDIR)								\
+	@[ -f $(BUILDDIR)/$@/$@.a ]												\
+		&& cp -p $(BUILDDIR)/$@/$@.a $(BUILDDIR)								\
 		|| break
 	@[ -f $(BUILDDIR)$@/src/$@.a ]											\
-		&& cp -p $(BUILDDIR)$@/src/$@.a $(BUILDDIR)							\
+		&& cp -p $(BUILDDIR)/$@/src/$@.a $(BUILDDIR)							\
 		|| break
 	@[ -f $(LIBDIR)/$@/$@.a ]												\
 		&& cp -p $(LIBDIR)/$@/$@.a $(BUILDDIR)								\
