@@ -1,9 +1,6 @@
 [submodule "lib/libmlx42"]
 	path = lib/libmlx42
 	url = https://github.com/codam-coding-college/MLX42.git
-[submodule "lib/libFT"]
-	path = lib/libft
-	url = https://github.com/jensbouma/Codam-LibFT.git
 [submodule "lib/libglfw3"]
 	path = lib/libglfw3
 	url = https://github.com/glfw/glfw.git
