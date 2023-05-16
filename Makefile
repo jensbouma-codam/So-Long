@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 23:03:38 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/16 23:06:03 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,9 +55,9 @@ SOURCES		=	${addprefix $(SRCDIR)/, $(FILES)}
 # Libraries
 LIBDIR		=	lib
 
-LIBS		=	libft			\
+LIBS		=	libmlx42		\
 				libglfw3		\
-				libmlx42
+				libft
 
 HEADERS		=	$(LIBS:%=-I $(LIBDIR)/%/include)
 
