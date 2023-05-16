@@ -6,9 +6,12 @@ on:
   pull_request:
     branches: [ "master" ]
 
+permissions:
+  statuses: write
+  contents: read
+
 jobs:
   build:
-
     runs-on: ubuntu-latest
     steps:
     - name: 'Install system dependencies'
