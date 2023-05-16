@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 14:56:22 by jbouma        ########   odam.nl          #
+#    Updated: 2023/05/16 15:08:43 by jbouma        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,12 @@ NAME		=	so_long
 
 # Compiler Settings
 CC 			:= gcc
-GLFW		:= -framework Cocoa -framework OpenGL -framework IOKit
+
+UNAME_S 	:= $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+	GLFW		:= -framework Cocoa -framework OpenGL -framework IOKit
+endif
+
 # CFLAGS		+= -O3
 CFLAGS		+= -Werror
 CFLAGS		+= -Wall -Wextra
