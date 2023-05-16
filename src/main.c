@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:47 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/16 12:43:23 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/16 14:03:57 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ int	main(int argc, char **argv)
 	mlx_image_to_window(g_mlx, g_img->img, 0, 0);
 	mlx_image_to_window(g_mlx, g_img->next->img, 0, 0);
 	g_img->next->img->instances->enabled = false;
-	//glfwSetWindowIcon(g_mlx->window, 1, (GLFWimage *)glfwIm);
-	// mlx_set_icon(g_mlx, g_img->img);
 	mlx_loop_hook(g_mlx, &player_hook, g_mlx);
 	mlx_loop_hook(g_mlx, &action_hook, g_mlx);
 	mlx_loop(g_mlx);

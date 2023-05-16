@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/16 12:24:34 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/16 14:02:31 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ typedef struct s_map
 	struct s_map	*last_map;
 }	t_map;
 
-
 typedef enum e_filetype
 {
 	ONLY_TEXTURES,
@@ -86,10 +85,9 @@ typedef struct s_player
 	mlx_image_t	*stand;
 	mlx_image_t	*duck;
 	mlx_image_t	*jump;
-	mlx_image_t *hurt;
+	mlx_image_t	*hurt;
 	mlx_image_t	*walk;
 }	t_player;
-
 
 typedef enum e_direction
 {
@@ -110,7 +108,6 @@ typedef enum e_player_state
 	WALK,
 	JUMP_ACTIVE
 }	t_player_state;
-
 
 // globals.c
 t_images	*g_img;

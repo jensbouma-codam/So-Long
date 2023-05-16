@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 13:53:38 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/16 12:23:46 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/16 14:04:43 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,6 @@ void	load_files(int argc, char **argv)
 		"textures/Base pack/Tiles/grass.png",
 		"textures/Base pack/Tiles/stoneCenter_rounded.png",
 		NULL};
-	// const char	*player_idle[] = {\
-	// 	"textures/Base pack/Player/p1_front.png",
-	// 	"textures/Base pack/Player/p1_stand.png",
-	// 	"textures/Base pack/Player/p1_jump.png",
-	// 	NULL};
-	// const char	*player_walk[] = {\
-	// 	"textures/Base pack/Player/p1_walk/PNG/p1_walk01.png",
-	// 	"textures/Base pack/Player/p1_walk/PNG/p1_walk02.png",
-	// 	"textures/Base pack/Player/p1_walk/PNG/p1_walk03.png",
-	// 	"textures/Base pack/Player/p1_walk/PNG/p1_walk04.png",
-	// 	"textures/Base pack/Player/p1_walk/PNG/p1_walk05.png",
-	// 	"textures/Base pack/Player/p1_walk/PNG/p1_walk06.png",
-	// 	"textures/Base pack/Player/p1_walk/PNG/p1_walk07.png",
-	// 	"textures/Base pack/Player/p1_walk/PNG/p1_walk08.png",
-	// 	"textures/Base pack/Player/p1_walk/PNG/p1_walk09.png",
-	// 	"textures/Base pack/Player/p1_walk/PNG/p1_walk10.png",
-	// 	"textures/Base pack/Player/p1_walk/PNG/p1_walk11.png",
-	// 	NULL};
 
 	if (argc > 1)
 		read_files((char **)argv + 1, load_map_files);
@@ -52,7 +34,6 @@ void	load_files(int argc, char **argv)
 		read_files((char **)maps, load_map_files);
 	}
 	read_files((char **)textures, load_texture_files);
-	// load_texture_files((char *)textures);
 	debug("Done loading files!\n");
 }
 
@@ -78,8 +59,7 @@ void	load_texture_files(int fd, char *ptr)
 
 	image = NULL;
 	(void)fd;
-	ft_printf("Loading texture: %s\n", ptr);
-	// debug("Loading texture: %s\n", ptr);
+	debug("Loading texture: %s\n", ptr);
 	node = (t_images *)safe_calloc(1, sizeof(*g_img));
 	image = mlx_texture_to_image(g_mlx, mlx_load_png(ptr));
 	if (!image)

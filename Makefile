@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/15 23:58:33 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/16 14:06:29 by jbouma        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,7 +90,7 @@ all: $(NAME)
 	@$(CC) $(CFLAGS) $(GLFW) $(HEADERS) $(INC) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET)
 	@$(P) "Executable $(GREEN)" "$< Created $(RESET)"
 	@$(P) "Flags $(YELLOW)" "$(CFLAGS) $(RESET)"
-	@printf "\n🙏 $(GREEN)Complete $(RESET)\n"
+	@make norm 2> /dev/null && ($(P) "Norminette$(GREEN)" "OK$(RESET)" && printf "\n🙏 $(GREEN)Complete $(RESET)\n") || $(P) "Norminette$(RED)" "KO$(RESET)"
 
 $(BUILDDIR)%.o:%.c
 	@mkdir -p $(dir $@)
@@ -100,7 +100,7 @@ $(BUILDDIR)%.o:%.c
 		|| $(P) "Build${RED}" "$(notdir $<)${RESET}"
 $(LIBS):
 	@mkdir -p $(BUILDDIR)
-	@git submodule update --init lib/$@ > /dev/null							\
+	@git submodule update --init lib/$@ 2>&1 > /dev/null							\
 		&& $(P) "Submodule${GREEN}" "$@$(RESET)"							\
 		|| $(P) "Submodule${RED}" "$@$(RESET)"
 # @norminette -R CheckForbiddenSourceHeader $(LIBDIR)/$@/include $(LIBDIR)/$@/src > /dev/null && $(P_OK) || { $(P_KO); }
@@ -157,6 +157,6 @@ fclean: clean
 re: fclean all
 
 norm: $(SOURCES)
-	@norminette -R CheckForbiddenSourceHeader $^ include > /dev/null && exit 0 || exit 1
+	@norminette -R CheckForbiddenSourceHeader $^ include 2>&1 > /dev/null && exit 0 || exit 1
 
 .PHONY: CFLAGS all clean fclean re
