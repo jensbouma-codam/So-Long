@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 14:30:37 by jbouma        ########   odam.nl          #
+#    Updated: 2023/05/16 14:56:22 by jbouma        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ HEADERS		=	$(LIBS:%=-I $(LIBDIR)/%/include)
 
 GLFW3_LIBRARY 	= 	$(LIBDIR)/libglfw3/src/lglfw3.a
 GLFW3_INCLUDE 	= 	$(LIBDIR)/libglfw3/include
-EXTRA 			=	-D GLFW3_INCLUDE_PATH=$(GLFW3_INCLUDE) -D GLFW3_LIBRARY=$(GLFW3_LIBRARY)
+EXTRA 			=	$([ -f ./$(LIBDIR)/$@/CMakeLists.txt ] -D GLFW3_INCLUDE_PATH=$(GLFW3_INCLUDE) -D GLFW3_LIBRARY=$(GLFW3_LIBRARY) || )
 
 LIBARIES		=	${addprefix $(LIBDIR)/, $(LIBS)} 
 LIBARIES_AFILES	=	${addprefix $(BUILDDIR), ${addsuffix .a, $(LIBS)}}
@@ -100,23 +100,21 @@ $(BUILDDIR)%.o:%.c
 		|| $(P) "Build${RED}" "$(notdir $<)${RESET}"
 $(LIBS):
 	@mkdir -p $(BUILDDIR)
-	@git submodule update --init lib/$@ 2>&1 > /dev/null							\
+	@git submodule update --init lib/$@ 2>&1 > /dev/null					\
 		&& $(P) "Submodule${GREEN}" "$@$(RESET)"							\
 		|| $(P) "Submodule${RED}" "$@$(RESET)"
 # @norminette -R CheckForbiddenSourceHeader $(LIBDIR)/$@/include $(LIBDIR)/$@/src > /dev/null && $(P_OK) || { $(P_KO); }
-	@if [ "$@" == "libmlx42" ]; then										\
-		[ -f ./$(LIBDIR)/$@/CMakeLists.txt ]								\
+	@[ -f ./$(LIBDIR)/$@/include/GLFW/glfw3.h ]								\
 		&& (cmake $(LIBDIR)/$@  $(EXTRA) -B $(BUILDDIR)$@ 2>&1 > /dev/null	\
 			&& make -C $(BUILDDIR)$@ > /dev/null							\
 			&& $(P) "$@$(GREEN)" "Compiled$(RESET)"							\
 			|| $(P) "$@$(RED)" "Error$(RESET)")								\
-		|| break;															\
-	else [ -f ./$(LIBDIR)/$@/CMakeLists.txt ]								\
-		&& (cmake $(LIBDIR)/$@ -B $(BUILDDIR)$@ 2>&1 > /dev/null			\
-			&& make -C $(BUILDDIR)$@ > /dev/null							\
-			&& $(P) "$@$(GREEN)" "Compiled$(RESET)"							\
-			|| $(P) "$@$(RED)" "Error$(RESET)")								\
-		|| break; fi
+		|| [ -f ./$(LIBDIR)/$@/CMakeLists.txt ]								\
+			&& (cmake $(LIBDIR)/$@ -B $(BUILDDIR)$@ 2>&1 > /dev/null		\
+				&& make -C $(BUILDDIR)$@ > /dev/null						\
+				&& $(P) "$@$(GREEN)" "Compiled$(RESET)"						\
+				|| $(P) "$@$(RED)" "Error$(RESET)")							\
+			|| break
 	@[ -f ./$(LIBDIR)/$@/Makefile ]											\
 		&& (make -C $(LIBDIR)/$@ > /dev/null								\
 			&& $(P) "$@$(GREEN)" "OK$(RESET)"								\
