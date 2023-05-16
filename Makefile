@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 14:27:41 by jbouma        ########   odam.nl          #
+#    Updated: 2023/05/16 14:30:37 by jbouma        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,15 +65,15 @@ OBJECTS		= $(SOURCES:%.c=$(BUILDDIR)%.o)
 # Colors
 
 ifneq (,$(findstring xterm,${TERM}))
-# BLACK		:= $(shell tput -Txterm setaf 0)
-# RED			:= $(shell tput -Txterm setaf 1)
-# GREEN		:= $(shell tput -Txterm setaf 2)
-# YELLOW		:= $(shell tput -Txterm setaf 3)
-# LIGHTPURPLE	:= $(shell tput -Txterm setaf 4)
-# PURPLE		:= $(shell tput -Txterm setaf 5)
-# BLUE		:= $(shell tput -Txterm setaf 6)
-# WHITE		:= $(shell tput -Txterm setaf 7)
-# RESET		:= $(shell tput -Txterm sgr0)
+	BLACK		:= $(shell tput -Txterm setaf 0)
+	RED			:= $(shell tput -Txterm setaf 1)
+	GREEN		:= $(shell tput -Txterm setaf 2)
+	YELLOW		:= $(shell tput -Txterm setaf 3)
+	LIGHTPURPLE	:= $(shell tput -Txterm setaf 4)
+	PURPLE		:= $(shell tput -Txterm setaf 5)
+	BLUE		:= $(shell tput -Txterm setaf 6)
+	WHITE		:= $(shell tput -Txterm setaf 7)
+	RESET		:= $(shell tput -Txterm sgr0)
 endif
 	RETURN		:= "\033[0K\n"
 P				:= printf "%-25.25s%s\n"
@@ -104,7 +104,7 @@ $(LIBS):
 		&& $(P) "Submodule${GREEN}" "$@$(RESET)"							\
 		|| $(P) "Submodule${RED}" "$@$(RESET)"
 # @norminette -R CheckForbiddenSourceHeader $(LIBDIR)/$@/include $(LIBDIR)/$@/src > /dev/null && $(P_OK) || { $(P_KO); }
-	@if [[ "$@" == "libmlx42" ]]; then										\
+	@if [ "$@" == "libmlx42" ]; then										\
 		[ -f ./$(LIBDIR)/$@/CMakeLists.txt ]								\
 		&& (cmake $(LIBDIR)/$@  $(EXTRA) -B $(BUILDDIR)$@ 2>&1 > /dev/null	\
 			&& make -C $(BUILDDIR)$@ > /dev/null							\
