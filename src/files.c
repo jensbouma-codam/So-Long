@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 13:53:38 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/16 00:05:58 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/16 12:23:46 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	load_files(int argc, char **argv)
 		console("No arguments given. Loading default maps...\n");
 		read_files((char **)maps, load_map_files);
 	}
-	// read_files((char **)textures, load_texture_files);
-	load_texture_files((char *)textures);
+	read_files((char **)textures, load_texture_files);
+	// load_texture_files((char *)textures);
 	debug("Done loading files!\n");
 }
 
@@ -71,13 +71,15 @@ void	read_files(char **ptr, void (*func)(int, char *))
 	}
 }
 
-void	load_texture_files(char *ptr)
+void	load_texture_files(int fd, char *ptr)
 {
 	mlx_image_t		*image;
 	t_images		*node;
 
 	image = NULL;
-	debug("Loading texture: %s\n", ptr);
+	(void)fd;
+	ft_printf("Loading texture: %s\n", ptr);
+	// debug("Loading texture: %s\n", ptr);
 	node = (t_images *)safe_calloc(1, sizeof(*g_img));
 	image = mlx_texture_to_image(g_mlx, mlx_load_png(ptr));
 	if (!image)

@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/16 00:09:55 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/16 12:24:34 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 
 # include "../lib/libFT/include/libft.h"
 # include "../lib/libmlx42/include/MLX42/MLX42.h"
+# include "../lib/libglfw3/include/GLFW/glfw3.h"
 
 typedef struct s_file
 {
@@ -126,7 +127,7 @@ void		*safe_calloc(size_t count, size_t size);
 
 // files.c
 void		load_files(int argc, char **argv);
-void		load_texture_files(char *ptr);
+void		load_texture_files(int fd, char *ptr);
 void		read_files(char **ptr, void (*func)(int, char *));
 char		*get_filename(char *ptr);
 
