@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 16:10:19 by jbouma        ########   odam.nl          #
+#    Updated: 2023/05/16 20:53:56 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ SOURCES		=	${addprefix $(SRCDIR)/, $(FILES)}
 # Libraries
 LIBDIR		=	lib
 
-LIBS		=	libFT			\
+LIBS		=	libft			\
 				libglfw3		\
 				libmlx42
 
