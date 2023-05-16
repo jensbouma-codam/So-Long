@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 22:25:55 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/16 22:28:27 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,9 +93,9 @@ all: $(NAME)
 		|| (unzip assets/Platformer_Art_Complete_Pack.zip -d textures > /dev/null		\
 		&& $(P) "Textures$(GREEN)" "Installed $(RESET)")
 	@mkdir -p bin
-	$(CC) $(CFLAGS) $(INC) $(HEADERS) $(LIBARIES_AFILES) $(OBJECTS) $(GLFW) -o $(TARGET)	\
-		&& $(P) "Executable $(GREEN)" "$< Created $(RESET)"									\
-		|| $(P) "Executable $(RED)" "$< Compile error $(RESET)"
+	$(CC) $(CFLAGS) $(GLFW) $(INC) $(HEADERS) $(LIBARIES_AFILES) $(OBJECTS) -o $(TARGET)	\
+		&& ($(P) "Executable $(GREEN)" "$< Created $(RESET)" && exit 0)						\
+		|| ($(P) "Executable $(RED)" "$< Compile error $(RESET)" && exit 1)
 	@$(P) "Flags $(YELLOW)" "$(CFLAGS) $(RESET)"
 	@make norm 2> /dev/null && ($(P) "Norminette$(GREEN)" "OK$(RESET)" && printf "\n🙏 $(GREEN)Complete $(RESET)\n") || $(P) "Norminette$(RED)" "KO$(RESET)"
 
