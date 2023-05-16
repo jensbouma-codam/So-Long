@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 15:42:13 by jbouma        ########   odam.nl          #
+#    Updated: 2023/05/16 15:47:30 by jbouma        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,7 +95,7 @@ all: $(NAME)
 		|| (unzip assets/Platformer_Art_Complete_Pack.zip -d textures > /dev/null		\
 		&& $(P) "Textures$(GREEN)" "Installed $(RESET)")
 	@mkdir -p bin
-	@$(CC) $(CFLAGS) $(GLFW) $(HEADERS) $(INC) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET)
+	@$(CC) $(CFLAGS) $(GLFW) $(INC) $(HEADERS) $(OBJECTS) $(LIBARIES_AFILES) -o $(TARGET)
 	@$(P) "Executable $(GREEN)" "$< Created $(RESET)"
 	@$(P) "Flags $(YELLOW)" "$(CFLAGS) $(RESET)"
 	@make norm 2> /dev/null && ($(P) "Norminette$(GREEN)" "OK$(RESET)" && printf "\n🙏 $(GREEN)Complete $(RESET)\n") || $(P) "Norminette$(RED)" "KO$(RESET)"
