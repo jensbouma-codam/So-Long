@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/16 21:58:28 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/18 04:46:35 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,57 +37,60 @@ typedef struct s_file
 	char	*filename;
 }	t_file;
 
-typedef struct s_images
+typedef struct s_image
 {
+	struct s_image	*prev;
+	struct s_image	*next;
 	char			*name;
-	mlx_image_t		*img;
-	struct s_images	*prev;
-	struct s_images	*next;
-}	t_images;
+	struct s_file	*file;
+	mlx_image_t		*mlx_image;
+}	t_image;
 
 typedef struct s_element
 {
+	struct s_element	*prev;
+	struct s_element	*next;
 	char				type;
 	int					x;
 	int					y;
-	struct s_element	*prev;
-	struct s_element	*next;
 }	t_element;
 
 typedef struct s_map
 {
+	struct s_map	*prev;
+	struct s_map	*next;
 	char			*name;
+	struct s_file	*file;
 	t_element		*element;
 	t_element		*last_element;
 	int				width;
 	int				height;
-	struct s_map	*prev;
-	struct s_map	*next;
-	struct s_map	*last_map;
 }	t_map;
-
-typedef enum e_filetype
-{
-	ONLY_TEXTURES,
-	ALL
-}	t_filetype;
 
 typedef struct s_player
 {
-	int32_t		x;
-	int32_t		y;
-	int			direction;
-	int			health;
-	int			wallet;
-	int			jump_height;
-	int			jump_state;
-	int			action;
-	mlx_image_t	*stand;
-	mlx_image_t	*duck;
-	mlx_image_t	*jump;
-	mlx_image_t	*hurt;
-	mlx_image_t	*walk;
+	int32_t	x;
+	int32_t	y;
+	int		dir;
+	int		health;
+	int		wallet;
+	int		jump_height;
+	int		jump_state;
+	int		action;
+	t_image	*walk;
+	t_image	*stand;
+	t_image	*duck;
+	t_image	*jump;
+	t_image	*hurt;
 }	t_player;
+
+typedef struct g_game
+{
+	struct s_map	*map;
+	struct s_map	*map_last;
+	struct s_player	*player;
+	struct s_image	*image;
+}	t_game;
 
 typedef enum e_direction
 {
@@ -109,40 +112,43 @@ typedef enum e_player_state
 	JUMP_ACTIVE
 }	t_player_state;
 
-extern t_images	*g_img;
-extern t_map	*g_map;
-extern t_player	*g_player;
 extern mlx_t	*g_mlx;
 
-// globals.c
-void		init_globals(void);
+static void	console_print(const char *s, va_list list);
+void		console_error(char *msg);
+void		console_debug(const char *s, ...);
+void		console_log(const char *s, ...);
+void		console_print_map(t_map *map);
 
-// error_handler.c
-void		error(char *msg);
-void		debug(const char *s, ...);
-void		console(const char *s, ...);
-void		*safe_calloc(size_t count, size_t size);
+t_map		*default_maps(void);
+t_image		*default_textures(void);
+t_player	*default_player(void);
+t_game		*default_init(int argc, char **argv);
 
-// files.c
-void		load_files(int argc, char **argv);
-void		load_texture_files(int fd, char *ptr);
-void		read_files(char **ptr, void (*func)(int, char *));
-char		*get_filename(char *ptr);
+t_image		*default_player_walk(void);
+t_image		*default_player_stand(void);
+t_image		*default_player_duck(void);
+t_image		*default_player_jump(void);
+t_image		*default_player_hurt(void);
 
-// maps.c
-void		load_map_files(int fd, char *ptr);
+t_map		*files_read_map(int fd, char *ptr);
+t_map		*files_open_map(char **ptr);
+t_image		*files_texture_read(char **ptr);
+char		*files_get_filename(char *ptr);
 
-// keys.c
-void		key_hook(mlx_key_data_t keydata, void *param);
-void		player_hook(void *param);
-void		action_hook(void *param);
+void		hook_keys(mlx_key_data_t keydata, void *param);
+// void		hook_player(t_player *player);
 
-// player_moves.c
-void		update_player(void);
-void		player_jump(void);
-void		player_fall(void);
+void		hook_player(void *param);
+// void		hook_action(void **param);
+void		hook_action(void *param);
 
-// array_helpers.c
-int			arr_position(int arr[], int key);
+void		map_add(t_map *map, char *line, int y);
+
+void		*memmory_alloccate(size_t count, size_t size);
+
+void		player_update(t_player *p);
+void		player_jump(t_player *player);
+void		player_fall(t_player *player);
 
 #endif

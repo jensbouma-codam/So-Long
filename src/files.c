@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 13:53:38 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/16 14:04:43 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/18 04:22:24 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,66 +16,81 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-void	load_files(int argc, char **argv)
+t_map	*files_read_map(int fd, char *ptr)
 {
-	const char	*maps[] = {\
-		"./maps/valid.ber",
-		NULL};
-	const char	*textures[] = {\
-		"textures/Base pack/Tiles/grass.png",
-		"textures/Base pack/Tiles/stoneCenter_rounded.png",
-		NULL};
+	int			y;
+	char		*line;
+	t_map		*node;
 
-	if (argc > 1)
-		read_files((char **)argv + 1, load_map_files);
-	else
+	y = 0;
+	node = (t_map *)memmory_alloccate(1, sizeof(*node));
+	node->name = files_get_filename(ptr);
+	line = get_next_line(fd);
+	if (!line)
+		console_error(ft_strjoin("Failed to read map: ", ptr));
+	while (line)
 	{
-		console("No arguments given. Loading default maps...\n");
-		read_files((char **)maps, load_map_files);
+		map_add(node, line, y++);
+		free(line);
+		line = get_next_line(fd);
 	}
-	read_files((char **)textures, load_texture_files);
-	debug("Done loading files!\n");
+	return (node);
 }
 
-void	read_files(char **ptr, void (*func)(int, char *))
+t_map	*files_open_map(char **ptr)
 {
-	int			fd;
+	t_map	*node;
+	t_map	*list;
+	int		fd;
 
+	list = NULL;
 	while (*ptr)
 	{
+		node = (t_map *)memmory_alloccate(1, sizeof(*node));
+		console_debug("Loading map: %s\n", *ptr);
 		fd = open(*ptr, O_RDONLY);
 		if (fd != -1)
-			func(fd, *ptr);
+			node = files_read_map(fd, *ptr);
 		else
-			error(ft_strjoin("Failed to open file: ", *ptr));
+			console_error(ft_strjoin("Failed to open file: ", *ptr));
+		ptr++;
+		close(fd);
+		if (list)
+			node->next = list;
+		list = node;
+	}
+	return (list);
+}
+
+t_image	*files_texture_read(char **ptr)
+{
+	mlx_texture_t	*mlx_texture;
+	t_image			*list;
+	t_image			*node;
+
+	list = NULL;
+	while (*ptr)
+	{
+		node = (t_image *)memmory_alloccate(1, sizeof(*node));
+		console_debug("Loading texture: %s\n", *ptr);
+		mlx_texture = mlx_load_png(*ptr);
+		if (!mlx_texture)
+			console_error(ft_strjoin("Failed to load texture: ", *ptr));
+		node->mlx_image = mlx_texture_to_image(g_mlx, mlx_texture);
+		free(mlx_texture);
+		if (!node->mlx_image)
+			console_error(ft_strjoin("Failed to load texture: ", *ptr));
+		node->name = files_get_filename(*ptr);
+		if (list)
+			node->next = list;
+		list = node;
 		ptr++;
 	}
+	console_log("Loaded all textures\n");
+	return (list);
 }
 
-void	load_texture_files(int fd, char *ptr)
-{
-	mlx_image_t		*image;
-	t_images		*node;
-
-	image = NULL;
-	(void)fd;
-	debug("Loading texture: %s\n", ptr);
-	node = (t_images *)safe_calloc(1, sizeof(*g_img));
-	image = mlx_texture_to_image(g_mlx, mlx_load_png(ptr));
-	if (!image)
-		error(ft_strjoin("Failed to load texture: ", ptr));
-	if (g_img)
-	{
-		g_img->prev = node;
-		node->next = g_img;
-	}
-	node->name = get_filename(ptr);
-	node->img = image;
-	node->prev = NULL;
-	g_img = node;
-}
-
-char	*get_filename(char *ptr)
+char	*files_get_filename(char *ptr)
 {
 	char	*filename;
 	int		i;

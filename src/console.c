@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   error_handler.c                                    :+:    :+:            */
+/*   console.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 17:51:59 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/12 22:47:02 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/18 04:29:57 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	console_print(const char *s, va_list list)
 	}
 }
 
-void	error(char *msg)
+void	console_error(char *msg)
 {
 	if (g_mlx)
 	{
@@ -44,11 +44,12 @@ void	error(char *msg)
 		mlx_terminate(g_mlx);
 	}
 	write(STDERR_FILENO, "Error\n", 6);
-	perror(msg);
+	if (msg)
+		perror(msg);
 	exit (EXIT_FAILURE);
 }
 
-void	console(const char *s, ...)
+void	console_log(const char *s, ...)
 {
 	va_list	list;
 
@@ -57,11 +58,11 @@ void	console(const char *s, ...)
 	va_end(list);
 }
 
-void	debug(const char *s, ...)
+void	console_debug(const char *s, ...)
 {
 	va_list	list;
 
-	if (!DEBUG)
+	if (DEBUG == 0)
 		return ;
 	ft_printf("%s", YELLOW);
 	va_start(list, s);
@@ -70,22 +71,23 @@ void	debug(const char *s, ...)
 	va_end(list);
 }
 
-void	*safe_calloc(size_t count, size_t size)
+void	console_print_map(t_map *map)
 {
-	int		tries;
-	void	*ptr;
+	t_element	*e;
 
-	tries = 0;
-	while (true)
+	while (map)
 	{
-		ptr = malloc(size * count + 1);
-		if (ptr)
-			break ;
-		if (tries++ == 9)
+		console_log("Map name = %s\n", map->name);
+		console_log("\nMap size = %i x %i\n", map->width, map->height);
+		e = map->element;
+		while (e)
 		{
-			error("Memmory allocation failed");
+			console_log("%c", e->type);
+			if (e->next && e->next->y > e->y)
+				console_log("\n");
+			e = e->next;
 		}
+		console_log("\n");
+		map = map->next;
 	}
-	ft_bzero(ptr, size * count);
-	return (ptr);
 }

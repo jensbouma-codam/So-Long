@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   globals.c                                          :+:    :+:            */
+/*   memory.c                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/15 11:10:15 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/16 15:51:02 by jbouma        ########   odam.nl         */
+/*   Created: 2023/05/17 22:51:00 by jensbouma     #+#    #+#                 */
+/*   Updated: 2023/05/17 22:52:48 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-t_images	*g_img;
-t_map		*g_map;
-t_player	*g_player;
-mlx_t		*g_mlx;
-
-void	init_globals(void)
+void	*memmory_alloccate(size_t count, size_t size)
 {
-	g_mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
-	g_map = (t_map *)safe_calloc(1, sizeof(*g_map));
-	g_player = (t_player *)safe_calloc(1, sizeof(*g_player));
-	g_player->jump_state = FALL;
-	g_map->last_map = g_map;
+	int		tries;
+	void	*ptr;
+
+	tries = 0;
+	while (true)
+	{
+		ptr = malloc(size * count + 1);
+		if (ptr)
+			break ;
+		if (tries++ == 9)
+		{
+			console_error("Memmory allocation failed");
+		}
+	}
+	ft_bzero(ptr, size * count);
+	return (ptr);
 }

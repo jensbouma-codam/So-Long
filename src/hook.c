@@ -1,72 +1,72 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   hooks.c                                            :+:    :+:            */
+/*   hook.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 13:53:08 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/16 00:08:44 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/18 04:43:07 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	key_hook(mlx_key_data_t keydata, void *param)
+void	hook_keys(mlx_key_data_t keydata, void *param)
 {	
 	if (keydata.key == MLX_KEY_ESCAPE)
 		mlx_close_window(param);
 }
 
-void	action_hook(void *param)
+void	hook_action(void *param)
 {
+	t_player	*p;
 	int			move;
 	int			trigger;
 	const int	moves[] = {'W', MLX_KEY_UP, 'A', MLX_KEY_LEFT,
 		'D', MLX_KEY_RIGHT, 'S', MLX_KEY_DOWN, 0};
-	const int	direction[] = {
-		UP,
-		LEFT,
-		RIGHT,
-		DOWN,
-		HOLD
-	};
+	const int	direction[] = {UP, LEFT, RIGHT, DOWN, HOLD};
 
+	p = (t_player *)param;
 	trigger = HOLD;
 	move = 0;
 	while (moves[move])
 	{
-		if (mlx_is_key_down(param, moves[move]))
+		if (mlx_is_key_down(g_mlx, moves[move]))
 		{
 			trigger = direction[move / 2];
-			g_player->direction = trigger;
-			player_hook(param);
+			p->dir = trigger;
+			console_log("Player Direction = %d", p->dir);
+			hook_player(param);
 		}
 		move++;
 	}
-	g_player->direction = trigger;
+	p->dir = trigger;
 }
 
-void	player_hook(void *param)
+void	hook_player(void *param)
 {
-	(void)param;
-	if (g_player->jump_state == STAND && g_player->direction == UP)
-		g_player->action = JUMP;
-	else if (g_player->jump_height == 0 && g_player->direction == DOWN)
-		g_player->action = DUCK;
-	player_jump();
-	player_fall();
-	if (g_player->direction == LEFT)
+	t_player	*p;
+
+	p = (t_player *)param;
+	if (p->jump_state == STAND && p->dir == UP)
+		p->action = JUMP;
+	else if (p->jump_height == 0 && p->dir == DOWN)
+		p->action = DUCK;
+	player_jump(p);
+	player_fall(p);
+	if (p->dir == LEFT)
 	{
-		g_player->action = WALK;
-		if (g_player->x > 0)
-			g_player->x -= 5;
+		p->action = WALK;
+		if (p->x > 0)
+			p->x -= 5;
 	}
-	else if (g_player->direction == RIGHT)
+	else if (p->dir == RIGHT)
 	{
-		g_player->action = WALK;
-		if (g_player->x + g_img->img->width + 4 < (unsigned int)g_mlx->width)
-			g_player->x += 5;
+		p->action = WALK;
+		if (p->x + p->stand->mlx_image->width + 4 < (unsigned int)g_mlx->width)
+			p->x += 5;
 	}
-	update_player();
+	ft_printf("Player Direction = %d\n", p->dir);
+	player_update(param);
 }

@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/16 23:24:26 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/18 00:36:53 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ endif
 
 # CFLAGS		+= -O3
 CFLAGS		+= -Werror
-CFLAGS		+= -Wall -Wextra
+# CFLAGS		+= -Wall -Wextra
 # CFLAGS		+= -Wunreachable-code 
 
 # Headers
@@ -40,14 +40,15 @@ INC 		= -I include
 
 # Sources
 SRCDIR		= 	src
-FILES		= 	main.c		\
-				globals.c	\
+FILES		= 	console.c	\
+				default_player.c	\
+				default.c	\
 				files.c		\
+				hook.c		\
+				main.c		\
 				maps.c		\
-				hooks.c		\
-				player_move.c	\
-				array_helpers.c	\
-				error_handler.c	\
+				memory.c	\
+				player.c
 	
 SOURCES		=	${addprefix $(SRCDIR)/, $(FILES)}
 
@@ -151,7 +152,7 @@ leaks: all
 	@printf "$(RED)Compiled in debug / leaks mode!!!$(RESET)"
 
 debug: CFLAGS += -g -fsanitize=address -D DEBUG=1
-debug: all
+debug: clean all
 	@printf "$(RED)Compiled in debug / fsanitize=adress mode!!!$(RESET)\n\n"
 	@bin/$(NAME)
 

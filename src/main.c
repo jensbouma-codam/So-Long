@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:47 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/16 23:16:29 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/18 04:44:41 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,33 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-void	map2console(void)
-{
-	t_element	*e;
+// void	load_image(t_image *i)
+// {
 
-	e = g_map->element;
-	while (e)
-	{
-		if (e->y == 0 && e->x == 0)
-		{
-			debug("Map name = %s\n", g_map->name);
-			debug("\nMap size = %i x %i\n", g_map->width, g_map->height);
-		}
-		debug("%c", e->type);
-		if (e->next && e->next->y > e->y)
-			debug("\n");
-		e = e->next;
-	}
-}
+// 	// while (i->name)
+// 	// {
+// 	// 	console_log("Try");
+// 	// 	console_log("Loading image: %s\n", i->name);
+// 	// 	console_log("Loading NEXT image: %p\n", i->next);
+// 	// 	mlx_image_to_window(g_mlx, i->mlx_image, 1, 1);
+// 	// 	if (!i->next)
+// 	// 		break ;
+// 	// 	i = i->next;
+// 	// }
+// }
+
+// void	draw_player(t_game *game)
+// {
+// 	load_image(game->player->walk);
+// }
+
+// static void preload_textures(t_game *game)
+// {
+// 	// draw_map(game);
+// 	draw_player(game);
+// 	// draw_exit(game);
+// 	// draw_collectibles(game);
+// }
 
 /**
  * @brief 
@@ -46,19 +55,20 @@ void	map2console(void)
  */
 int	main(int argc, char **argv)
 {
-	init_globals();
-	load_files(argc, argv);
-	map2console();
-	if (!g_mlx)
-		error("Initializing mlx failed");
-	mlx_image_to_window(g_mlx, g_img->img, 0, 0);
-	mlx_image_to_window(g_mlx, g_img->next->img, 0, 0);
-	g_img->next->img->instances->enabled = false;
-	mlx_loop_hook(g_mlx, &player_hook, g_mlx);
-	mlx_loop_hook(g_mlx, &action_hook, g_mlx);
+	t_game		*game;	
+	t_player	*p;
+
+	game = default_init(argc, argv);
+	console_print_map(game->map);
+	p = game->player;
+	mlx_image_to_window(g_mlx, game->image->mlx_image, 0, 0);
+	mlx_image_to_window(g_mlx, p->walk->mlx_image, p->x, p->y);
+	mlx_image_to_window(g_mlx, p->stand->mlx_image, 80, 0);
+	mlx_loop_hook(g_mlx, &hook_player, game->player);
+	mlx_loop_hook(g_mlx, &hook_action, game->player);
 	mlx_loop(g_mlx);
 	mlx_terminate(g_mlx);
-	console("Thanks for playing! Check https:/jensbouma.com if you like \
+	console_log("Thanks for playing! Check https:/jensbouma.com if you like \
 	for my other projects! :)\n");
 	return (EXIT_SUCCESS);
 }
