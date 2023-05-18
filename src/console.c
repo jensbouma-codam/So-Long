@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 17:51:59 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/18 04:29:57 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/18 14:25:10 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,13 @@ void	console_debug(const char *s, ...)
 
 void	console_print_map(t_map *map)
 {
-	t_element	*e;
+	t_tile	*e;
 
 	while (map)
 	{
 		console_log("Map name = %s\n", map->name);
 		console_log("\nMap size = %i x %i\n", map->width, map->height);
-		e = map->element;
+		e = map->tile;
 		while (e)
 		{
 			console_log("%c", e->type);

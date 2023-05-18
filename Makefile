@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/18 00:36:53 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/18 14:37:56 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ FILES		= 	console.c	\
 				main.c		\
 				maps.c		\
 				memory.c	\
+				game.c		\
 				player.c
 	
 SOURCES		=	${addprefix $(SRCDIR)/, $(FILES)}
@@ -152,7 +153,7 @@ leaks: all
 	@printf "$(RED)Compiled in debug / leaks mode!!!$(RESET)"
 
 debug: CFLAGS += -g -fsanitize=address -D DEBUG=1
-debug: clean all
+debug: all
 	@printf "$(RED)Compiled in debug / fsanitize=adress mode!!!$(RESET)\n\n"
 	@bin/$(NAME)
 

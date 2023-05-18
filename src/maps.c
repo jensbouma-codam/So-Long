@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 20:16:27 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/18 04:29:37 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/18 14:44:18 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,25 @@
 
 void	map_add(t_map *map, char *line, int y)
 {
-	t_element			*element;
-	int					x;
+	t_tile	*t;
+	int		x;
 
 	x = 0;
 	while (line[x] != '\0' && line[x] != '\n')
 	{
-		element = (t_element *)memmory_alloccate(1, sizeof(*element));
-		element->type = line[x];
-		element->x = x;
-		element->y = y;
-		if (!map->element)
-			map->element = element;
+		t = (t_tile *)memmory_alloccate(1, sizeof(*t));
+		t->type = line[x];
+		t->x = x;
+		t->y = y;
+		if (!map->tile)
+			map->tile = t;
 		else
 		{
-			element->prev = map->element;
-			map->last_element->next = element;
-			map->last_element->next = element;
+			t->prev = map->tile;
+			map->last_tile->next = t;
+			map->last_tile->next = t;
 		}
-		map->last_element = element;
+		map->last_tile = t;
 		x++;
 	}
 	map->width = x;

@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 13:53:38 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/18 04:22:24 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/18 14:42:48 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ t_map	*files_open_map(char **ptr)
 	list = NULL;
 	while (*ptr)
 	{
-		node = (t_map *)memmory_alloccate(1, sizeof(*node));
 		console_debug("Loading map: %s\n", *ptr);
 		fd = open(*ptr, O_RDONLY);
 		if (fd != -1)
@@ -77,16 +76,16 @@ t_image	*files_texture_read(char **ptr)
 		if (!mlx_texture)
 			console_error(ft_strjoin("Failed to load texture: ", *ptr));
 		node->mlx_image = mlx_texture_to_image(g_mlx, mlx_texture);
-		free(mlx_texture);
+		mlx_delete_texture(mlx_texture);
 		if (!node->mlx_image)
 			console_error(ft_strjoin("Failed to load texture: ", *ptr));
 		node->name = files_get_filename(*ptr);
+		node->next = NULL;
 		if (list)
 			node->next = list;
 		list = node;
 		ptr++;
 	}
-	console_log("Loaded all textures\n");
 	return (list);
 }
 

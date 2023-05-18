@@ -31,5 +31,12 @@
 		"so_long.h": "c",
 		"glfw3.h": "c",
 		"mlx42.h": "c"
-	}
+	},
+	"makefile.launchConfigurations": [
+		{
+			"cwd": "/Users/jensbouma/Documents/Codam/Github/Codam-so_long/bin",
+			"binaryPath": "/Users/jensbouma/Documents/Codam/Github/Codam-so_long/bin/so_long",
+			"binaryArgs": []
+		}
+	]
 }

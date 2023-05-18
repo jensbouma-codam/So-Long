@@ -6,19 +6,19 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 13:53:08 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/18 04:43:07 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/18 14:33:07 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	hook_keys(mlx_key_data_t keydata, void *param)
+void	hook_interface_keys(mlx_key_data_t keydata, void *param)
 {	
 	if (keydata.key == MLX_KEY_ESCAPE)
-		mlx_close_window(param);
+		hook_exit(param);
 }
 
-void	hook_action(void *param)
+void	hook_player_keys(void *param)
 {
 	t_player	*p;
 	int			move;
@@ -36,7 +36,6 @@ void	hook_action(void *param)
 		{
 			trigger = direction[move / 2];
 			p->dir = trigger;
-			console_log("Player Direction = %d", p->dir);
 			hook_player(param);
 		}
 		move++;
@@ -49,24 +48,30 @@ void	hook_player(void *param)
 	t_player	*p;
 
 	p = (t_player *)param;
-	if (p->jump_state == STAND && p->dir == UP)
-		p->action = JUMP;
+	if (p->state == STAND && p->dir == UP)
+		p->trigger = JUMP;
 	else if (p->jump_height == 0 && p->dir == DOWN)
-		p->action = DUCK;
+		p->trigger = DUCK;
+	else
+		p->trigger = STAND;
 	player_jump(p);
 	player_fall(p);
 	if (p->dir == LEFT)
 	{
-		p->action = WALK;
+		p->trigger = WALK;
 		if (p->x > 0)
-			p->x -= 5;
+			p->x -= 1;
 	}
 	else if (p->dir == RIGHT)
 	{
-		p->action = WALK;
-		if (p->x + p->stand->mlx_image->width + 4 < (unsigned int)g_mlx->width)
-			p->x += 5;
+		p->trigger = WALK;
+		if (p->x + p->i->width + 4 < (unsigned int)g_mlx->width)
+			p->x += 1;
 	}
-	ft_printf("Player Direction = %d\n", p->dir);
 	player_update(param);
+}
+
+void	hook_exit(void *parm)
+{
+	game_exit(SIGINT);
 }

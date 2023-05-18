@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/15 11:10:15 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/18 04:39:32 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/18 14:35:22 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,16 @@ mlx_t	*g_mlx;
 t_image	*default_textures(void)
 {
 	t_image		*i;
-	const char	*files[] = {\
-		"textures/Base pack/Tiles/box.png",
+	const char	*files[] = {
+		"textures/Base pack/Tiles/grassCenter.png",
+		"textures/Base pack/Tiles/castleCenter.png",
+		"textures/Base pack/Tiles/door_closedMid.png",
+		"textures/Base pack/Tiles/door_openMid.png",
+		"textures/Base pack/Items/coinGold.png",
 		NULL};
 
 	i = files_texture_read((char **)files);
+	console_log("NO 3 = %s", i[3].name);
 	return (i);
 }
 
@@ -36,13 +41,14 @@ t_player	*default_player(void)
 	p->health = 100;
 	p->wallet = 0;
 	p->jump_height = 0;
-	p->jump_state = FALL;
-	p->action = 0;
-	p->stand = default_player_stand();
-	p->walk = default_player_walk();
-	p->duck = default_player_duck();
-	p->jump = default_player_jump();
-	p->hurt = default_player_hurt();
+	p->state = FALL;
+	p->trigger = 0;
+	p->t = (t_pt *)memmory_alloccate(1, sizeof(*p->t));
+	p->t->stand = default_player_stand();
+	p->t->walk = default_player_walk();
+	p->t->duck = default_player_duck();
+	p->t->jump = default_player_jump();
+	p->t->hurt = default_player_hurt();
 	return (p);
 }
 
@@ -73,7 +79,12 @@ t_game	*default_init(int argc, char **argv)
 		console_log("No arguments given. Loading default maps...\n");
 		game->map = default_maps();
 	}
-	game->image = default_textures();
+	game->map_texture = default_textures();
 	game->player = default_player();
+	signal(SIGINT, &game_exit);
+	mlx_key_hook(g_mlx, &hook_interface_keys, g_mlx);
+	mlx_close_hook(g_mlx, &hook_exit, g_mlx);
+	mlx_loop_hook(g_mlx, &hook_player_keys, game->player);
+	mlx_loop_hook(g_mlx, &hook_player, game->player);
 	return (game);
 }

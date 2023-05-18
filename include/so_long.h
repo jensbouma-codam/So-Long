@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/18 04:46:35 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/18 14:45:06 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,42 +46,48 @@ typedef struct s_image
 	mlx_image_t		*mlx_image;
 }	t_image;
 
-typedef struct s_element
+typedef struct s_tile
 {
-	struct s_element	*prev;
-	struct s_element	*next;
-	char				type;
-	int					x;
-	int					y;
-}	t_element;
+	struct s_tile	*prev;
+	struct s_tile	*next;
+	char			type;
+	int				x;
+	int				y;
+}	t_tile;
 
 typedef struct s_map
 {
 	struct s_map	*prev;
 	struct s_map	*next;
 	char			*name;
-	struct s_file	*file;
-	t_element		*element;
-	t_element		*last_element;
+	t_tile			*tile;
+	t_tile			*last_tile;
 	int				width;
 	int				height;
 }	t_map;
 
+typedef struct s_pt
+{
+	t_image		*walk;
+	t_image		*walk_anim;
+	t_image		*stand;
+	t_image		*duck;
+	t_image		*jump;
+	t_image		*hurt;
+}	t_pt;
+
 typedef struct s_player
 {
-	int32_t	x;
-	int32_t	y;
-	int		dir;
-	int		health;
-	int		wallet;
-	int		jump_height;
-	int		jump_state;
-	int		action;
-	t_image	*walk;
-	t_image	*stand;
-	t_image	*duck;
-	t_image	*jump;
-	t_image	*hurt;
+	int32_t		x;
+	int32_t		y;
+	int			dir;
+	int			health;
+	int			wallet;
+	int			jump_height;
+	int			state;
+	int			trigger;
+	struct s_pt	*t;
+	mlx_image_t	*i;
 }	t_player;
 
 typedef struct g_game
@@ -89,7 +95,7 @@ typedef struct g_game
 	struct s_map	*map;
 	struct s_map	*map_last;
 	struct s_player	*player;
-	struct s_image	*image;
+	struct s_image	*map_texture;
 }	t_game;
 
 typedef enum e_direction
@@ -103,6 +109,7 @@ typedef enum e_direction
 
 typedef enum e_player_state
 {
+	MWA,
 	STAND,
 	DUCK,
 	JUMP,
@@ -111,6 +118,16 @@ typedef enum e_player_state
 	WALK,
 	JUMP_ACTIVE
 }	t_player_state;
+
+typedef enum e_map_elements
+{
+	EMPTY		= 0,
+	WALL		= 1,
+	EXIT		= 'E',
+	EXIT_OPEN	= 'O',
+	COLLECT		= 'C',
+	PLAYER		= 'P',
+}	t_map_elements;
 
 extern mlx_t	*g_mlx;
 
@@ -136,17 +153,21 @@ t_map		*files_open_map(char **ptr);
 t_image		*files_texture_read(char **ptr);
 char		*files_get_filename(char *ptr);
 
-void		hook_keys(mlx_key_data_t keydata, void *param);
+void		hook_interface_keys(mlx_key_data_t keydata, void *param);
 // void		hook_player(t_player *player);
 
 void		hook_player(void *param);
 // void		hook_action(void **param);
-void		hook_action(void *param);
+void		hook_player_keys(void *param);
+void		hook_exit(void *parm);
 
 void		map_add(t_map *map, char *line, int y);
 
 void		*memmory_alloccate(size_t count, size_t size);
 
+void		game_exit(int sig);
+
+void		player_init(t_player *p);
 void		player_update(t_player *p);
 void		player_jump(t_player *player);
 void		player_fall(t_player *player);
