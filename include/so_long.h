@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/18 23:26:16 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/18 23:31:13 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,13 @@
 #  define DEBUG 0
 # endif
 
-# include <stdio.h>
-
 # include <stdbool.h>
 # include <limits.h>
 # include <stddef.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdarg.h>
+# include <signal.h>
 
 # include "../lib/libft/include/libft.h"
 # include "../lib/libmlx42/include/MLX42/MLX42.h"

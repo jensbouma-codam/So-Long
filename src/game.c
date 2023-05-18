@@ -6,12 +6,11 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 11:45:46 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/18 23:17:29 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/18 23:30:11 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include <signal.h>
 
 void	game_exit(int sig)
 {
