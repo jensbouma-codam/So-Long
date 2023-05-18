@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 13:53:38 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/18 14:42:48 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/18 23:17:59 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <stdio.h>
 
 t_map	*files_read_map(int fd, char *ptr)
 {
@@ -61,7 +62,15 @@ t_map	*files_open_map(char **ptr)
 	return (list);
 }
 
-t_image	*files_texture_read(char **ptr)
+static	mlx_image_t	*resize(mlx_image_t *i, double scale)
+{
+	if (scale == 1)
+		return (i);
+	mlx_resize_image(i, i->width * scale, i->height * scale);
+	return (i);
+}
+
+t_image	*files_texture_read(char **ptr, double scale)
 {
 	mlx_texture_t	*mlx_texture;
 	t_image			*list;
@@ -75,7 +84,8 @@ t_image	*files_texture_read(char **ptr)
 		mlx_texture = mlx_load_png(*ptr);
 		if (!mlx_texture)
 			console_error(ft_strjoin("Failed to load texture: ", *ptr));
-		node->mlx_image = mlx_texture_to_image(g_mlx, mlx_texture);
+		node->mlx_image = resize(
+				mlx_texture_to_image(g_mlx, mlx_texture), scale);
 		mlx_delete_texture(mlx_texture);
 		if (!node->mlx_image)
 			console_error(ft_strjoin("Failed to load texture: ", *ptr));

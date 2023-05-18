@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:47 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/18 14:44:27 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/18 19:47:43 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(int argc, char **argv)
 	t_player	*p;
 
 	game = default_init(argc, argv);
+	map_draw(&game);
 	player_init(game->player);
 	mlx_loop(g_mlx);
 	return (EXIT_FAILURE);

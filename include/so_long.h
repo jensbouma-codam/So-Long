@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/18 14:45:06 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/18 23:26:16 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 #  define DEBUG 0
 # endif
 
-# define WIDTH 512
-# define HEIGHT 512
+# include <stdio.h>
 
 # include <stdbool.h>
 # include <limits.h>
@@ -86,6 +85,7 @@ typedef struct s_player
 	int			jump_height;
 	int			state;
 	int			trigger;
+	double		scale;
 	struct s_pt	*t;
 	mlx_image_t	*i;
 }	t_player;
@@ -93,9 +93,11 @@ typedef struct s_player
 typedef struct g_game
 {
 	struct s_map	*map;
+	int				*map_type;
 	struct s_map	*map_last;
 	struct s_player	*player;
 	struct s_image	*map_texture;
+	bool			move_block;
 }	t_game;
 
 typedef enum e_direction
@@ -121,15 +123,28 @@ typedef enum e_player_state
 
 typedef enum e_map_elements
 {
-	EMPTY		= 0,
-	WALL		= 1,
+	EMPTY		= '0',
+	WALL		= '1',
 	EXIT		= 'E',
 	EXIT_OPEN	= 'O',
 	COLLECT		= 'C',
 	PLAYER		= 'P',
+	START		= 'S'
 }	t_map_elements;
 
-extern mlx_t	*g_mlx;
+typedef struct s_listner
+{
+	struct s_listner	*prev;
+	struct s_listner	*next;
+	char				type;
+	int					x;
+	int					y;
+	int					key;
+	mlx_image_t			*i;
+}	t_listner;
+
+extern mlx_t		*g_mlx;
+extern t_listner	*g_listner;
 
 static void	console_print(const char *s, va_list list);
 void		console_error(char *msg);
@@ -138,19 +153,19 @@ void		console_log(const char *s, ...);
 void		console_print_map(t_map *map);
 
 t_map		*default_maps(void);
-t_image		*default_textures(void);
-t_player	*default_player(void);
+t_image		*default_textures(double scale);
+t_player	*default_player(double scale, t_game *game);
 t_game		*default_init(int argc, char **argv);
 
-t_image		*default_player_walk(void);
-t_image		*default_player_stand(void);
-t_image		*default_player_duck(void);
-t_image		*default_player_jump(void);
-t_image		*default_player_hurt(void);
+t_image		*default_player_walk(double scale);
+t_image		*default_player_stand(double scale);
+t_image		*default_player_duck(double scale);
+t_image		*default_player_jump(double scale);
+t_image		*default_player_hurt(double scale);
 
 t_map		*files_read_map(int fd, char *ptr);
 t_map		*files_open_map(char **ptr);
-t_image		*files_texture_read(char **ptr);
+t_image		*files_texture_read(char **ptr, double scale);
 char		*files_get_filename(char *ptr);
 
 void		hook_interface_keys(mlx_key_data_t keydata, void *param);
@@ -160,11 +175,16 @@ void		hook_player(void *param);
 // void		hook_action(void **param);
 void		hook_player_keys(void *param);
 void		hook_exit(void *parm);
+void		hook_listner(void *param);
 
+void		hit_map_elements(t_player *p, t_listner *l);
+
+void		map_draw(t_game **game);
 void		map_add(t_map *map, char *line, int y);
 
 void		*memmory_alloccate(size_t count, size_t size);
 
+double		game_window(t_map *map);
 void		game_exit(int sig);
 
 void		player_init(t_player *p);

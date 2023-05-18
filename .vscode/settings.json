@@ -30,7 +30,13 @@
 		"__string": "c",
 		"so_long.h": "c",
 		"glfw3.h": "c",
-		"mlx42.h": "c"
+		"mlx42.h": "c",
+		"__split_buffer": "c",
+		"array": "c",
+		"initializer_list": "c",
+		"string_view": "c",
+		"unordered_map": "c",
+		"variant": "c"
 	},
 	"makefile.launchConfigurations": [
 		{

@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 13:53:08 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/18 14:33:07 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/18 23:25:09 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,23 @@ void	hook_interface_keys(mlx_key_data_t keydata, void *param)
 {	
 	if (keydata.key == MLX_KEY_ESCAPE)
 		hook_exit(param);
+}
+
+void	hook_listner(void *param)
+{
+	t_player	*p;
+	t_game		*game;
+	t_listner	*l;
+
+	game = (t_game *)param;
+	p = game->player;
+	l = g_listner;
+	while (l)
+	{
+		hit_map_elements(p, l);
+		l = l->next;
+	}
+	player_update(p);
 }
 
 void	hook_player_keys(void *param)
@@ -68,7 +85,6 @@ void	hook_player(void *param)
 		if (p->x + p->i->width + 4 < (unsigned int)g_mlx->width)
 			p->x += 1;
 	}
-	player_update(param);
 }
 
 void	hook_exit(void *parm)

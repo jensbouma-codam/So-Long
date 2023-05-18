@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/18 14:37:56 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/18 23:25:35 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,9 +44,10 @@ FILES		= 	console.c	\
 				default_player.c	\
 				default.c	\
 				files.c		\
+				hit.c		\
 				hook.c		\
 				main.c		\
-				maps.c		\
+				map.c		\
 				memory.c	\
 				game.c		\
 				player.c

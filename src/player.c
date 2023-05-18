@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 20:45:15 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/18 14:44:47 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/18 18:40:29 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,13 @@ void	player_jump(t_player *p)
 	{
 		p->state = JUMP;
 		p->trigger = JUMP_ACTIVE;
-		p->jump_height = 5;
+		p->jump_height = 5 * p->scale;
 	}
 	if (p->state == JUMP
-		&& p->y - 10 > 0 && p->jump_height < 250)
+		&& p->y - 10 * p->scale > 0 && p->jump_height < 250 * p->scale)
 	{
-		p->y -= 10;
-		p->jump_height += 10;
+		p->y -= 10 * p->scale;
+		p->jump_height += 10 * p->scale;
 	}
 	else if (p->state == JUMP)
 	{
@@ -107,7 +107,7 @@ void	player_fall(t_player *p)
 		&& p->y < g_mlx->height - (int32_t)p->i->height)
 	{
 		if (p->y + (int32_t)p->i->height + 5 < g_mlx->height)
-			p->y += 5;
+			p->y += 5 * p->scale;
 		else
 		{
 			p->y = g_mlx->height - (int32_t)p->i->height;
