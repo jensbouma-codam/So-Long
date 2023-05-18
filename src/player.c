@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 20:45:15 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/18 18:40:29 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/18 23:34:34 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,10 @@ static mlx_image_t	*player_walk_animation(t_player *p)
 		{
 			p->t->walk_anim = p->t->walk_anim->next;
 			if (firstrun)
+			{
 				mlx_image_to_window(g_mlx, p->t->walk_anim->mlx_image, 0, 0);
 				p->t->walk_anim->mlx_image->instances[0].enabled = 0;
+			}
 		}
 		else
 		{

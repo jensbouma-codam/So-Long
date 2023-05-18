@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/18 23:31:13 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/18 23:33:31 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ typedef struct s_player
 	mlx_image_t	*i;
 }	t_player;
 
-typedef struct g_game
+typedef struct s_game
 {
 	struct s_map	*map;
 	int				*map_type;
