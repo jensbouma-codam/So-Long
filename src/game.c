@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 11:45:46 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/19 12:02:25 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/19 12:03:48 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	game_exit(int sig)
 	if (sig == SIGINT)
 	{
 		console_log("Thanks for playing! Check https:/jensbouma.com if you like \
-		for my other projects! :)\n");
+for my other projects! :)\n");
 		mlx_terminate(g_mlx);
 		system("leaks so_long");
 		exit(EXIT_SUCCESS);
