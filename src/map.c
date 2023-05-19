@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 20:16:27 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/18 23:19:12 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/19 10:14:49 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ static void	to_window(char type, mlx_image_t *i, int x, int y)
 	node->y = y;
 	node->key = mlx_image_to_window(g_mlx, i, x, y);
 	node->i = i;
+	node->t = y;
+	node->b = y + i->height;
+	node->r = x + i->width;
+	node->l = x;
 	if (g_listner)
 		node->next = g_listner;
 	g_listner = node;

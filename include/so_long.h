@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/18 23:33:31 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/19 12:01:42 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,10 @@ typedef struct s_listner
 	char				type;
 	int					x;
 	int					y;
+	int					t;
+	int					b;
+	int					l;
+	int					r;
 	int					key;
 	mlx_image_t			*i;
 }	t_listner;

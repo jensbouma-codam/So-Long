@@ -6,26 +6,40 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 23:21:05 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/18 23:25:42 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/19 11:59:05 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-bool	hit_object(t_player *p, t_listner *l)
+bool	in_r(int x, int s, int e)
+{	
+	if (x >= s && x <= e)
+		return (true);
+	return (false);
+}
+
+bool	hit_object(t_player *p, t_listner *e)
 {
-	if ((p->x >= l->x && p->x < l->x + l->i->width
-			|| p->x + p->i->width >= l->x
-			&& p->x + p->i->width <= l->x + l->i->width)
-		&& (p->y >= l->y && p->y <= l->y + l->i->height
-			|| p->y + p->i->height >= l->y
-			&& p->y + p->i->height <= l->y + l->i->height))
+	const int	r = p->x + p->i->width;
+	const int	l = p->x;
+	const int	t = p->y;
+	const int	b = p->y + p->i->height;
+	int			hit;
+
+	hit = 0;
+	e->i->instances[e->key].enabled = 1;
+	if (in_r(r, e->l, e->r) && (in_r(t, e->t, e->b) || in_r(b, e->t, e->b)))
+		hit += 1;
+	if (in_r(l, e->l, e->r) && (in_r(t, e->t, e->b) || in_r(b, e->t, e->b)))
+		hit += 1;
+	if (in_r(t, e->t, e->b) && (in_r(l, e->l, e->r) || in_r(r, e->l, e->r)))
+		hit += 1;
+	if (in_r(b, e->t, e->b) && (in_r(l, e->l, e->r) || in_r(r, e->l, e->r)))
+		hit += 1;
+	if (hit)
 	{
-		console_log("hit object\n");
-		if (p->y > l->y + l->i->height)
-			console_log("hit top\n");
-		if (p->x + p->i->width < l->x)
-			console_log("hit right\n");
+		e->i->instances[e->key].enabled = 0;
 		return (true);
 	}
 	return (false);
@@ -61,9 +75,7 @@ void	hit_map_elements(t_player *p, t_listner *l)
 	}
 	if (l->type == WALL && hit_object(p, l))
 	{
-		p->x = l->x;
-		p->y = l->y - p->i->height - 3;
-		p->jump_height = 0;
+		p->y = p->y + 5;
 		p->state = STAND;
 		p->dir = HOLD;
 	}
