@@ -36,7 +36,9 @@
 		"initializer_list": "c",
 		"string_view": "c",
 		"unordered_map": "c",
-		"variant": "c"
+		"variant": "c",
+		"compare": "c",
+		"cstddef": "c"
 	},
 	"makefile.launchConfigurations": [
 		{
@@ -44,5 +46,6 @@
 			"binaryPath": "/Users/jensbouma/Documents/Codam/Github/Codam-so_long/bin/so_long",
 			"binaryArgs": []
 		}
-	]
+	],
+	"cmake.sourceDirectory": "/Users/jensbouma/Documents/Codam/Github/Codam-so_long/lib/libglfw3/docs"
 }

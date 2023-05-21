@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/21 18:36:58 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/21 22:44:35 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@
 #  define DEBUG 0
 # endif
 
+#include <stdio.h> ///REMOVE!!!
+
 # include <stdbool.h>
 # include <limits.h>
 # include <stddef.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdarg.h>
-# include <signal.h>
 
 # include "../lib/libft/include/libft.h"
 # include "../lib/libmlx42/include/MLX42/MLX42.h"
@@ -81,11 +82,12 @@ typedef struct s_player
 	uint32_t	x;
 	uint32_t	y;
 	int32_t		dir;
-	int32_t		health;
-	int32_t		wallet;
+	uint32_t	health;
+	uint32_t	wallet;
 	int32_t		jump_height;
 	int32_t		state;
 	int32_t		trigger;
+	bool		block;
 	t_playeri	*t;
 	mlx_image_t	*i;
 }	t_player;
@@ -95,12 +97,10 @@ typedef struct s_hooks
 	struct s_hooks	*prev;
 	struct s_hooks	*next;
 	char			type;
-	uint32_t		x;
-	uint32_t		y;
-	uint32_t		t;
-	uint32_t		b;
-	uint32_t		l;
-	uint32_t		r;
+	uint32_t		top;
+	uint32_t		bottom;
+	uint32_t		left;
+	uint32_t		right;
 	int32_t			key;
 	mlx_image_t		*i;
 }	t_hooks;
@@ -113,6 +113,10 @@ typedef struct s_game
 	t_player	*player;
 	t_image		*textures;
 	t_hooks		*hooks;
+	uint32_t	*start_x;
+	uint32_t	*start_y;
+	uint32_t	collect;
+	t_hooks		*exit_tile;
 }	t_game;
 
 typedef enum e_direction
@@ -166,16 +170,16 @@ t_image		*init_player_hurt(t_game *game);
 
 t_image		*animate(t_image *a, t_image *i);
 
-void		hook_exit(t_game *game);
-void		hook_interface(mlx_key_data_t keydata, t_game *game);
-void		hook_controls(t_game *game);
+void		hook_exit(void *game);
+void		hook_interface(mlx_key_data_t keydata, void *game);
+void		hook_controls(void *game);
 
-void		detection_hook(t_game (*game));
+void		detection_hook(void *game);
 
 t_image		*animate(t_image *a, t_image *i);
 
 void		player_update(t_game *game);
-void		player_hook(t_game *game);
+void		player_hook(void *game);
 
 void		*memmory_alloccate(size_t count, size_t size);
 

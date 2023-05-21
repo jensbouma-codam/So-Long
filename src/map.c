@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 20:16:27 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/21 15:40:04 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/21 22:53:03 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,33 @@ void	map_add(t_map *map, char *line, int y)
 	map->height = y + 1;
 }
 
-static void	to_window(t_game *g, t_tiles *t, mlx_image_t *i)
+static t_hooks	*to_window(t_game *g, t_tiles *t, mlx_image_t *i)
 {
 	t_hooks		*node;
-	int			x;
-	int			y;
+	uint32_t	x;
+	uint32_t	y;
 
 	x = t->x * i->width;
 	y = t->y * i->height;
 	node = (t_hooks *)memmory_alloccate(1, sizeof(*g->hooks));
 	node->type = t->type;
-	node->x = x;
-	node->y = y;
 	node->key = mlx_image_to_window(g->mlx, i, x, y);
+	if (t->type == PLAYER)
+	{
+		x += 1;
+		y += 1;
+	}
 	node->i = i;
-	node->t = y;
-	node->b = y + i->height;
-	node->r = x + i->width;
-	node->l = x;
+	node->top = y;
+	node->bottom = y + i->height;
+	node->right = x + i->width;
+	node->left = x;
+	g->start_x = &node->left;
+	g->start_y = &node->top;
 	if (g->hooks)
 		node->next = g->hooks;
 	g->hooks = node;
+	return (node);
 }
 
 static void	map_draw_element(t_game *g, mlx_image_t *i, char type)
@@ -69,16 +75,18 @@ static void	map_draw_element(t_game *g, mlx_image_t *i, char type)
 	t = g->map->tiles;
 	while (t)
 	{
+		if (t->type == type && type == COLLECT)
+			g->collect++;
 		if (t->type == type
 			&& (type == COLLECT || type == PLAYER || type == EXIT))
-		{
-			if (type == COLLECT)
-				to_window(g, t, g->textures->mlx_image);
-			else
-				to_window(g, t, g->textures->mlx_image);
-		}
+			to_window(g, t, g->textures->mlx_image)->type = EMPTY;
 		if ((t->type == type) && type != PLAYER)
 			to_window(g, t, i);
+		if (t->type == EXIT && type == EXIT_OPEN)
+		{
+			g->exit_tile = to_window(g, t, i);
+			g->exit_tile->i->enabled = false;
+		}
 		t = t->next;
 	}
 }
@@ -91,7 +99,8 @@ void	map_draw_tiles(t_game *g)
 
 	i = 0;
 	t = g->textures;
-	console_log("Drawing map");
+	console_log("Drawing map\n");
+	g->collect = 0;
 	while (tile_t[i])
 	{
 		map_draw_element(g, t->mlx_image, tile_t[i++]);

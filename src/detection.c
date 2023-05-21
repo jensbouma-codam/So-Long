@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/21 15:19:31 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/21 18:33:09 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/21 22:44:28 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,27 +28,27 @@ static bool	detect_box(t_player *p, t_hooks *h)
 	int			hit;
 
 	hit = 0;
-	h->i->instances[h->key].enabled = 1;
-	if (range(r, h->l, h->r) && (range(t, h->t, h->b) || range(b, h->t, h->b)))
+	if (range(r, h->left, h->right) && (range(t, h->top, h->bottom)
+			|| range(b, h->top, h->bottom)))
 		hit += 1;
-	if (range(l, h->l, h->r) && (range(t, h->t, h->b) || range(b, h->t, h->b)))
+	if (range(l, h->left, h->right) && (range(t, h->top, h->bottom)
+			|| range(b, h->top, h->bottom)))
 		hit += 1;
-	if (range(t, h->t, h->b) && (range(l, h->l, h->r) || range(r, h->l, h->r)))
+	if (range(t, h->top, h->bottom) && (range(l, h->left, h->right)
+			|| range(r, h->left, h->right)))
 		hit += 1;
-	if (range(b, h->t, h->b) && (range(l, h->l, h->r) || range(r, h->l, h->r)))
+	if (range(b, h->top, h->bottom) && (range(l, h->left, h->right)
+			|| range(r, h->left, h->right)))
 		hit += 1;
 	if (hit)
-	{
-		h->i->instances[h->key].enabled = 0;
 		return (true);
-	}
 	return (false);
 }
 
 static bool	detect_center(t_player *p, t_hooks *h)
 {
-	const uint32_t	x = h->x + h->i->width / 2;
-	const uint32_t	y = h->y + h->i->height / 2;
+	const uint32_t	x = h->left + h->i->width / 2;
+	const uint32_t	y = h->top + h->i->height / 2;
 
 	if (p->y + p->i->height >= y
 		&& p->y <= y
@@ -58,40 +58,57 @@ static bool	detect_center(t_player *p, t_hooks *h)
 	return (false);
 }
 
-static void	detect_contact(t_player *p, t_hooks *h)
+int	detect_contact(t_player *p, t_hooks *h)
 {
 	if (h->type == PLAYER)
-	{
-		p->x = h->x;
-		p->y = h->y;
 		h->type = START;
-	}
 	if (h->type == COLLECT && detect_center(p, h))
 	{
-		console_log("hit collect");
 		p->wallet++;
 		h->i->instances[h->key].enabled = false;
 		h->type = EMPTY;
 	}
+	if (h->type == EXIT && detect_box(p, h))
+		return (2);
 	if (h->type == WALL && detect_box(p, h))
 	{
-		p->y = p->y + 5;
-		p->state = STAND;
+		p->block = true;
+		if (p->state == JUMP_ACTIVE)
+			p->state = JUMP;
+		else if (p->state == JUMP)
+			p->state = FALL;
+		else
+			p->state = STAND;
 		p->dir = HOLD;
+		return (true);
 	}
+	return (false);
 }
 
-void	detection_hook(t_game (*game))
+void	detection_hook(void *ptr)
 {
-	t_player	*p;
-	t_hooks		*h;
+	const t_game	*game = (t_game *)ptr;
+	t_hooks			*h;
+	int				trigger;
 
-	p = game->player;
 	h = game->hooks;
 	while (h)
 	{
-		detect_contact(p, h);
+		trigger = detect_contact(game->player, h);
+		if (trigger == 2 && game->player->wallet >= game->collect)
+			exit(EXIT_SUCCESS);
+		if (trigger == 1)
+			break ;
 		h = h->next;
 	}
-	player_update(game);
+	if (!game->player->block)
+		player_update(ptr);
+	else
+	{
+		game->player->x = game->player->i->instances[0].x;
+		game->player->y = game->player->i->instances[0].y;
+		game->player->block = false;
+	}
+	if (game->player->wallet >= game->collect)
+		game->exit_tile->i->enabled = true;
 }

@@ -6,14 +6,16 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 13:53:08 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/21 18:35:13 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/21 18:53:46 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	hook_exit(t_game *game)
+void	hook_exit(void *ptr)
 {
+	const t_game	*game = ptr;
+
 	console_log("Thanks for playing! Check https:/jensbouma.com if you like \
 for my other projects! :)\n");
 	mlx_terminate(game->mlx);
@@ -21,22 +23,23 @@ for my other projects! :)\n");
 	exit(EXIT_SUCCESS);
 }
 
-void	hook_interface(mlx_key_data_t keydata, t_game *game)
+void	hook_interface(mlx_key_data_t keydata, void *ptr)
 {	
 	if ((keydata.key == MLX_KEY_ESCAPE)
 		|| (keydata.key == MLX_KEY_C
 			&& keydata.modifier == MLX_CONTROL))
-		hook_exit(game);
+		hook_exit(ptr);
 	return ;
 }
 
-void	hook_controls(t_game *game)
+void	hook_controls(void *ptr)
 {
-	int			move;
-	int			trigger;
-	const int	moves[] = {'W', MLX_KEY_UP, 'A', MLX_KEY_LEFT,
+	int				move;
+	int				trigger;
+	const int		moves[] = {'W', MLX_KEY_UP, 'A', MLX_KEY_LEFT,
 		'D', MLX_KEY_RIGHT, 'S', MLX_KEY_DOWN, 0};
-	const int	direction[] = {UP, LEFT, RIGHT, DOWN, HOLD};
+	const int		direction[] = {UP, LEFT, RIGHT, DOWN, HOLD};
+	const t_game	*game = ptr;
 
 	trigger = HOLD;
 	move = 0;
@@ -46,7 +49,7 @@ void	hook_controls(t_game *game)
 		{
 			trigger = direction[move / 2];
 			game->player->dir = trigger;
-			player_hook(game);
+			player_hook(ptr);
 		}
 		move++;
 	}
