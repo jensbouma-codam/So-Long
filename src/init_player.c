@@ -1,18 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   default_player.c                                   :+:    :+:            */
+/*   init_player.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 00:30:26 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/18 18:31:17 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/21 15:30:32 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-t_image	*default_player_walk(double scale)
+t_image	*init_player_stand(t_game *g)
+{
+	t_image		*i;
+	const char	*files[] = {\
+		"textures/Base pack/Player/p1_stand.png",
+		NULL};
+
+	return (file_readimage(g, (char **)files, 0.5));
+}
+
+t_image	*init_player_walk(t_game *g)
 {
 	t_image		*i;
 	const char	*files[] = {\
@@ -29,45 +39,35 @@ t_image	*default_player_walk(double scale)
 		"textures/Base pack/Player/p1_walk/PNG/p1_walk11.png",
 		NULL};
 
-	return (files_texture_read((char **)files, scale * 0.5));
+	return (file_readimage(g, (char **)files, 0.5));
 }
 
-t_image	*default_player_stand(double scale)
-{
-	t_image		*i;
-	const char	*files[] = {\
-		"textures/Base pack/Player/p1_stand.png",
-		NULL};
-
-	return (files_texture_read((char **)files, scale * 0.5));
-}
-
-t_image	*default_player_duck(double scale)
+t_image	*init_player_duck(t_game *g)
 {
 	t_image		*i;
 	const char	*files[] = {\
 		"textures/Base pack/Player/p1_duck.png",
 		NULL};
 
-	return (files_texture_read((char **)files, scale * 0.5));
+	return (file_readimage(g, (char **)files, 0.5));
 }
 
-t_image	*default_player_jump(double scale)
+t_image	*init_player_jump(t_game *g)
 {
 	t_image		*i;
 	const char	*files[] = {\
 		"textures/Base pack/Player/p1_jump.png",
 		NULL};
 
-	return (files_texture_read((char **)files, scale * 0.5));
+	return (file_readimage(g, (char **)files, 0.5));
 }
 
-t_image	*default_player_hurt(double scale)
+t_image	*init_player_hurt(t_game *g)
 {
 	t_image		*i;
 	const char	*files[] = {\
 		"textures/Base pack/Player/p1_hurt.png",
 		NULL};
 
-	return (files_texture_read((char **)files, scale * 0.5));
+	return (file_readimage(g, (char **)files, 0.5));
 }

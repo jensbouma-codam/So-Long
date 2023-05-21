@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 17:51:59 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/18 14:25:10 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/21 15:28:38 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,6 @@ static void	console_print(const char *s, va_list list)
 
 void	console_error(char *msg)
 {
-	if (g_mlx)
-	{
-		ft_printf(mlx_strerror(mlx_errno));
-		mlx_terminate(g_mlx);
-	}
 	write(STDERR_FILENO, "Error\n", 6);
 	if (msg)
 		perror(msg);
@@ -73,13 +68,13 @@ void	console_debug(const char *s, ...)
 
 void	console_print_map(t_map *map)
 {
-	t_tile	*e;
+	t_tiles	*e;
 
 	while (map)
 	{
 		console_log("Map name = %s\n", map->name);
 		console_log("\nMap size = %i x %i\n", map->width, map->height);
-		e = map->tile;
+		e = map->tiles;
 		while (e)
 		{
 			console_log("%c", e->type);

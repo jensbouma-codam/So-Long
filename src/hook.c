@@ -6,88 +6,53 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 13:53:08 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/18 23:25:09 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/21 15:19:25 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	hook_interface_keys(mlx_key_data_t keydata, void *param)
+void	hook_exit(void *game)
+{
+	const t_game	*g = (t_game *)game;
+
+	console_log("Thanks for playing! Check https:/jensbouma.com if you like \
+for my other projects! :)\n");
+	mlx_terminate(g->mlx);
+	system("leaks so_long");
+	exit(EXIT_SUCCESS);
+}
+
+void	hook_interface(mlx_key_data_t keydata, void *game)
 {	
-	if (keydata.key == MLX_KEY_ESCAPE)
-		hook_exit(param);
+	if ((keydata.key == MLX_KEY_ESCAPE)
+		|| (keydata.key == MLX_KEY_C
+			&& keydata.modifier == MLX_CONTROL))
+		hook_exit(game);
+	return ;
 }
 
-void	hook_listner(void *param)
+void	hook_controls(void *game)
 {
-	t_player	*p;
-	t_game		*game;
-	t_listner	*l;
-
-	game = (t_game *)param;
-	p = game->player;
-	l = g_listner;
-	while (l)
-	{
-		hit_map_elements(p, l);
-		l = l->next;
-	}
-	player_update(p);
-}
-
-void	hook_player_keys(void *param)
-{
-	t_player	*p;
+	t_game		*g;
 	int			move;
 	int			trigger;
 	const int	moves[] = {'W', MLX_KEY_UP, 'A', MLX_KEY_LEFT,
 		'D', MLX_KEY_RIGHT, 'S', MLX_KEY_DOWN, 0};
 	const int	direction[] = {UP, LEFT, RIGHT, DOWN, HOLD};
 
-	p = (t_player *)param;
+	g = (t_game *)game;
 	trigger = HOLD;
 	move = 0;
 	while (moves[move])
 	{
-		if (mlx_is_key_down(g_mlx, moves[move]))
+		if (mlx_is_key_down(g->mlx, moves[move]))
 		{
 			trigger = direction[move / 2];
-			p->dir = trigger;
-			hook_player(param);
+			g->player->dir = trigger;
+			player_hook(game);
 		}
 		move++;
 	}
-	p->dir = trigger;
-}
-
-void	hook_player(void *param)
-{
-	t_player	*p;
-
-	p = (t_player *)param;
-	if (p->state == STAND && p->dir == UP)
-		p->trigger = JUMP;
-	else if (p->jump_height == 0 && p->dir == DOWN)
-		p->trigger = DUCK;
-	else
-		p->trigger = STAND;
-	player_jump(p);
-	player_fall(p);
-	if (p->dir == LEFT)
-	{
-		p->trigger = WALK;
-		if (p->x > 0)
-			p->x -= 1;
-	}
-	else if (p->dir == RIGHT)
-	{
-		p->trigger = WALK;
-		if (p->x + p->i->width + 4 < (unsigned int)g_mlx->width)
-			p->x += 1;
-	}
-}
-
-void	hook_exit(void *parm)
-{
-	game_exit(SIGINT);
+	g->player->dir = trigger;
 }

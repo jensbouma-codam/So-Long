@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/18 23:25:35 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/21 15:24:30 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,16 +40,17 @@ INC 		= -I include
 
 # Sources
 SRCDIR		= 	src
-FILES		= 	console.c	\
-				default_player.c	\
-				default.c	\
-				files.c		\
+FILES		= 	animation.c	\
+				console.c	\
+				detection.c	\
+				file.c		\
 				hit.c		\
 				hook.c		\
+				init_player.c	\
+				init.c	\
 				main.c		\
 				map.c		\
 				memory.c	\
-				game.c		\
 				player.c
 	
 SOURCES		=	${addprefix $(SRCDIR)/, $(FILES)}
