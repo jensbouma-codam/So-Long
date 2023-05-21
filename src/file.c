@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 13:53:38 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/21 15:49:52 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/21 23:16:01 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,14 @@ void	*file_open(char **ptr, void *(f)(int fd, char *ptr))
 			console_error_exit(ft_strjoin("Failed to open file: ", *ptr));
 		ptr++;
 		close(fd);
-		if (list)
-			node->next = list;
-		list = node;
+		if (!list)
+			list = node;
+		else
+		{
+			node->prev = list;
+			list->last->next = node;
+		}
+		list->last = node;
 	}
 	return (list);
 }

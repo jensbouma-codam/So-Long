@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:47 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/21 15:55:09 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/21 23:06:04 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,11 @@ int	main(int argc, char **argv)
 	t_game		*game;
 
 	game = init_game(argc, argv);
-	console_error("test %s %d %c %p", "test", 42, 'c', NULL);
 	mlx_loop(game->mlx);
 	return (EXIT_FAILURE);
 }
 
-	// load_textures();
-	// 	load_maps();
 	// 		test_map();
 	// 			count_elements();
 	// 			is_valid_map();
 	// 			is_playable();
-	// initalize_output();
-	// 	initialize_debug();
-	// 	initialize_math();
-	// 	initialize_speaker();
-	// 	initalize_gui();
-	// initalize_input();
-	// 	initialize_camera();
-	// 	initialize_keys();
-	// 	initialize_mouse();
-	// 	initialize_microphone();
-	// initialize_game();
-	// start_game();

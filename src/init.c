@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/15 11:10:15 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/21 22:55:25 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/21 23:08:20 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static t_player	*init_player(t_game *game)
 	p->t->hurt = init_player_hurt(game);
 	p->i = p->t->walk_anim->mlx_image;
 	p->i->instances->enabled = true;
-	printf("Player found at %d, %d\n", *game->start_x, *game->start_y);
 	p->y = *game->start_y;
 	p->x = *game->start_x;
 	p->jump_height = 0;

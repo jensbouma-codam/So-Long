@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/21 22:44:35 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/21 23:09:30 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@
 #  define DEBUG 0
 # endif
 
-#include <stdio.h> ///REMOVE!!!
-
 # include <stdbool.h>
-# include <limits.h>
 # include <stddef.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -30,21 +27,14 @@
 # include "../lib/libmlx42/include/MLX42/MLX42.h"
 # include "../lib/libglfw3/include/GLFW/glfw3.h"
 
-typedef struct s_file
-{
-	char	*filetype;
-	char	*filename;
-}	t_file;
-
 typedef struct s_image
 {
-	struct s_image		*prev;
-	struct s_image		*next;
-	char				*name;
-	t_file				*file;
-	mlx_image_t			*mlx_image;
-	bool				firstrun;
-	int					frame_delay;
+	struct s_image	*prev;
+	struct s_image	*next;
+	char			*name;
+	mlx_image_t		*mlx_image;
+	bool			firstrun;
+	int				frame_delay;
 }	t_image;
 
 typedef struct s_tiles
@@ -60,6 +50,7 @@ typedef struct s_map
 {
 	struct s_map	*prev;
 	struct s_map	*next;
+	struct s_map	*last;
 	char			*name;
 	t_tiles			*tiles;
 	t_tiles			*tiles_last;

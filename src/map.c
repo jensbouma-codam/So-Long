@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 20:16:27 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/21 22:53:03 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/21 23:15:36 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	map_add(t_map *map, char *line, int y)
 		else
 		{
 			t->prev = map->tiles;
-			map->tiles_last->next = t;
 			map->tiles_last->next = t;
 		}
 		map->tiles_last = t;
