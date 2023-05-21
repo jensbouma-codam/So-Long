@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/21 15:19:31 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/21 15:28:28 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/21 18:33:09 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ static bool	detect_box(t_player *p, t_hooks *h)
 
 static bool	detect_center(t_player *p, t_hooks *h)
 {
-	const int	x = h->x + h->i->width / 2;
-	const int	y = h->y + h->i->height / 2;
+	const uint32_t	x = h->x + h->i->width / 2;
+	const uint32_t	y = h->y + h->i->height / 2;
 
 	if (p->y + p->i->height >= y
 		&& p->y <= y
@@ -81,13 +81,11 @@ static void	detect_contact(t_player *p, t_hooks *h)
 	}
 }
 
-void	detection_hook(void *param)
+void	detection_hook(t_game (*game))
 {
 	t_player	*p;
-	t_game		*game;
 	t_hooks		*h;
 
-	game = (t_game *)param;
 	p = game->player;
 	h = game->hooks;
 	while (h)
@@ -95,5 +93,5 @@ void	detection_hook(void *param)
 		detect_contact(p, h);
 		h = h->next;
 	}
-	player_update(param);
+	player_update(game);
 }

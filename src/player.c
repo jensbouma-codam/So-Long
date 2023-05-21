@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 20:45:15 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/21 15:16:02 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/21 18:36:46 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	player_update(t_game *game)
 	p->i->instances[0].y = p->y;
 	if (old_height != p->i->height)
 		p->y += old_height - p->i->height;
-	if (p->i->instances[0].y + p->i->height > game->mlx->height)
-		p->i->instances[0].y = game->mlx->height - p->i->height;
+	if (p->i->instances[0].y + p->i->height > (uint32_t)game->mlx->height)
+		p->i->instances[0].y = (uint32_t)game->mlx->height - p->i->height;
 }
 
 static void	player_jump(t_game *g)
@@ -71,43 +71,42 @@ static void	player_fall(t_game *g)
 
 	p = g->player;
 	if (p->state == FALL
-		&& p->y < g->mlx->height - (int32_t)p->i->height)
+		&& p->y < g->mlx->height - p->i->height)
 	{
-		if (p->y + (int32_t)p->i->height + 2 * g->scale < g->mlx->height)
+		if (p->y + p->i->height + 2 * g->scale < g->mlx->height)
 			p->y += 2 * g->scale;
 		else
 		{
-			p->y = g->mlx->height - (int32_t)p->i->height;
+			p->y = (uint32_t)g->mlx->height - p->i->height;
 			p->state = STAND;
 		}
 	}
 }
 
-void	player_hook(void *param)
+void	player_hook(t_game *game)
 {
-	const t_game	*g = (t_game *)param;
 	t_player		*p;
 
-	p = g->player;
+	p = game->player;
 	if (p->state == STAND && p->dir == UP)
 		p->trigger = JUMP;
 	else if (p->jump_height == 0 && p->dir == DOWN)
 		p->trigger = DUCK;
 	else
 		p->trigger = STAND;
-	player_jump(param);
-	player_fall(param);
+	player_jump(game);
+	player_fall(game);
 	if (p->dir == LEFT)
 	{
 		p->trigger = WALK;
 		if (p->x > 0)
-			p->x -= 1 * g->scale;
+			p->x -= 1 * game->scale;
 	}
 	else if (p->dir == RIGHT)
 	{
 		p->trigger = WALK;
-		if (p->x + p->i->width < g->mlx->width)
-			p->x += 1 * g->scale;
+		if (p->x + p->i->width < (uint32_t)game->mlx->width)
+			p->x += 1 * game->scale;
 	}
-	player_update(param);
+	player_update(game);
 }

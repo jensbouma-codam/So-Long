@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/21 15:24:30 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/21 18:15:48 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,8 @@ GLFW		+= -framework Cocoa -framework OpenGL -framework IOKit
 endif
 
 # CFLAGS		+= -O3
-CFLAGS		+= -Werror
-# CFLAGS		+= -Wall -Wextra
+CFLAGS		+= -Werror 
+CFLAGS		+= -Wall -Wextra
 # CFLAGS		+= -Wunreachable-code 
 
 # Headers
@@ -40,17 +40,16 @@ INC 		= -I include
 
 # Sources
 SRCDIR		= 	src
-FILES		= 	animation.c	\
-				console.c	\
-				detection.c	\
-				file.c		\
-				hit.c		\
-				hook.c		\
+FILES		= 	animation.c		\
+				console.c		\
+				detection.c		\
+				file.c			\
+				hook.c			\
 				init_player.c	\
-				init.c	\
-				main.c		\
-				map.c		\
-				memory.c	\
+				init.c			\
+				main.c			\
+				map.c			\
+				memory.c		\
 				player.c
 	
 SOURCES		=	${addprefix $(SRCDIR)/, $(FILES)}

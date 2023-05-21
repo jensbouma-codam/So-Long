@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 22:51:00 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/17 22:52:48 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/21 15:49:52 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	*memmory_alloccate(size_t count, size_t size)
 			break ;
 		if (tries++ == 9)
 		{
-			console_error("Memmory allocation failed");
+			console_error_exit("Memmory allocation failed");
 		}
 	}
 	ft_bzero(ptr, size * count);

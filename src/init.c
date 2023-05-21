@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/15 11:10:15 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/21 15:20:07 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/21 18:22:33 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static t_player	*init_player(t_game *g)
 
 static t_image	*init_textures(t_game *g)
 {
-	t_image		*i;
 	const char	*files[] = {
 		"textures/Base pack/Items/coinGold.png",
 		"textures/Base pack/Items/coinGold.png",
@@ -109,7 +108,7 @@ t_game	*init_game(int argc, char **argv)
 	g = (t_game *)memmory_alloccate(1, sizeof(*g));
 	g->mlx = mlx_init(1, 1, "SoLong", false);
 	if (!g->mlx)
-		console_error("Initializing mlx failed");
+		console_error_exit("Initializing mlx failed");
 	if (argc > 1)
 		g->map = file_open(argv + 1, file_readmap);
 	else

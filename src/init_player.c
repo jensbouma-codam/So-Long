@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 00:30:26 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/21 15:30:32 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/21 18:21:54 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 t_image	*init_player_stand(t_game *g)
 {
-	t_image		*i;
 	const char	*files[] = {\
 		"textures/Base pack/Player/p1_stand.png",
 		NULL};
@@ -24,7 +23,6 @@ t_image	*init_player_stand(t_game *g)
 
 t_image	*init_player_walk(t_game *g)
 {
-	t_image		*i;
 	const char	*files[] = {\
 		"textures/Base pack/Player/p1_walk/PNG/p1_walk01.png",
 		"textures/Base pack/Player/p1_walk/PNG/p1_walk02.png",
@@ -44,7 +42,6 @@ t_image	*init_player_walk(t_game *g)
 
 t_image	*init_player_duck(t_game *g)
 {
-	t_image		*i;
 	const char	*files[] = {\
 		"textures/Base pack/Player/p1_duck.png",
 		NULL};
@@ -54,7 +51,6 @@ t_image	*init_player_duck(t_game *g)
 
 t_image	*init_player_jump(t_game *g)
 {
-	t_image		*i;
 	const char	*files[] = {\
 		"textures/Base pack/Player/p1_jump.png",
 		NULL};
@@ -64,7 +60,6 @@ t_image	*init_player_jump(t_game *g)
 
 t_image	*init_player_hurt(t_game *g)
 {
-	t_image		*i;
 	const char	*files[] = {\
 		"textures/Base pack/Player/p1_hurt.png",
 		NULL};

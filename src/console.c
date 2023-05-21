@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 17:51:59 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/21 15:28:38 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/21 15:54:42 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,26 @@ static void	console_print(const char *s, va_list list)
 	}
 }
 
-void	console_error(char *msg)
+void	console_error_exit(char *msg)
 {
+	ft_putstr_fd(RED, STDERR_FILENO);
 	write(STDERR_FILENO, "Error\n", 6);
 	if (msg)
 		perror(msg);
+	ft_putstr_fd(NORMAL, STDERR_FILENO);
 	exit (EXIT_FAILURE);
+}
+
+void	console_error(const char *s, ...)
+{
+	va_list	list;
+
+	ft_putstr_fd(RED, STDERR_FILENO);
+	write(STDERR_FILENO, "Error\n", 6);
+	va_start(list, s);
+	console_print(s, list);
+	ft_putstr_fd(NORMAL, STDERR_FILENO);
+	va_end(list);
 }
 
 void	console_log(const char *s, ...)
@@ -59,30 +73,9 @@ void	console_debug(const char *s, ...)
 
 	if (DEBUG == 0)
 		return ;
-	ft_printf("%s", YELLOW);
+	ft_putstr_fd(YELLOW, STDOUT_FILENO);
 	va_start(list, s);
 	console_print(s, list);
-	ft_printf("%s", NORMAL);
+	ft_putstr_fd(NORMAL, STDOUT_FILENO);
 	va_end(list);
-}
-
-void	console_print_map(t_map *map)
-{
-	t_tiles	*e;
-
-	while (map)
-	{
-		console_log("Map name = %s\n", map->name);
-		console_log("\nMap size = %i x %i\n", map->width, map->height);
-		e = map->tiles;
-		while (e)
-		{
-			console_log("%c", e->type);
-			if (e->next && e->next->y > e->y)
-				console_log("\n");
-			e = e->next;
-		}
-		console_log("\n");
-		map = map->next;
-	}
 }

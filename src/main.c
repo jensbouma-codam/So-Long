@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:47 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/21 11:31:13 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/21 15:55:09 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	main(int argc, char **argv)
 	t_game		*game;
 
 	game = init_game(argc, argv);
+	console_error("test %s %d %c %p", "test", 42, 'c', NULL);
 	mlx_loop(game->mlx);
 	return (EXIT_FAILURE);
 }
