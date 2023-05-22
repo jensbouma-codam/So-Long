@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 20:45:15 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/21 22:57:42 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/22 17:35:14 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,46 +45,46 @@ void	player_update(t_game *game)
 		p->i->instances[0].y = (uint32_t)game->mlx->height - p->i->height;
 }
 
-// static void	player_jump(t_game *g)
-// {
-// 	t_player	*p;
+static void	player_jump(t_game *g)
+{
+	t_player	*p;
 
-// 	p = g->player;
-// 	if (p->trigger == JUMP && p->state == STAND)
-// 	{
-// 		p->state = JUMP;
-// 		p->trigger = JUMP_ACTIVE;
-// 	}
-// 	if (p->state == JUMP
-// 		&& p->y - 3 * g->scale > 0 && p->jump_height < 150 * g->scale)
-// 	{
-// 		p->y -= 3 * g->scale;
-// 		p->jump_height += 6 * g->scale;
-// 	}
-// 	else if (p->state == JUMP)
-// 	{
-// 		p->state = FALL;
-// 		p->jump_height = 0;
-// 	}
-// }
+	p = g->player;
+	if (p->trigger == JUMP && p->state == STAND)
+	{
+		p->state = JUMP;
+		p->trigger = JUMP_ACTIVE;
+	}
+	if (p->state == JUMP
+		&& p->y - 3 * g->scale > 0 && p->jump_height < 150 * g->scale)
+	{
+		p->y -= 3 * g->scale;
+		p->jump_height += 6 * g->scale;
+	}
+	else if (p->state == JUMP)
+	{
+		p->state = FALL;
+		p->jump_height = 0;
+	}
+}
 
-// static void	player_fall(t_game *g)
-// {
-// 	t_player	*p;
+static void	player_fall(t_game *g)
+{
+	t_player	*p;
 
-// 	p = g->player;
-// 	if (p->state == FALL
-// 		&& p->y < g->mlx->height - p->i->height)
-// 	{
-// 		if (p->y + p->i->height + 2 * g->scale < g->mlx->height)
-// 			p->y += 2 * g->scale;
-// 		else
-// 		{
-// 			p->y = (uint32_t)g->mlx->height - p->i->height;
-// 			p->state = STAND;
-// 		}
-// 	}
-// }
+	p = g->player;
+	if (p->state == FALL
+		&& p->y < g->mlx->height - p->i->height)
+	{
+		if (p->y + p->i->height + 2 * g->scale < g->mlx->height)
+			p->y += 2 * g->scale;
+		else
+		{
+			p->y = (uint32_t)g->mlx->height - p->i->height;
+			p->state = STAND;
+		}
+	}
+}
 
 void	player_hook(void *ptr)
 {
@@ -92,14 +92,14 @@ void	player_hook(void *ptr)
 	t_player		*p;
 
 	p = game->player;
-	// if (p->state == STAND && p->dir == UP)
-	// 	p->trigger = JUMP;
-	// else if (p->state != FALL && p->dir == DOWN)
-	// 	p->trigger = DUCK;
-	// else
-	// 	p->trigger = STAND;
-	// player_jump(ptr);
-	// player_fall(ptr);
+	if (p->state == STAND && p->dir == UP)
+		p->trigger = JUMP;
+	else if (p->state != FALL && p->dir == DOWN)
+		p->trigger = DUCK;
+	else
+		p->trigger = STAND;
+	player_jump(ptr);
+	player_fall(ptr);
 	if (p->dir == LEFT)
 	{
 		p->trigger = WALK;
@@ -112,19 +112,19 @@ void	player_hook(void *ptr)
 		if (p->x + p->i->width < (uint32_t)game->mlx->width)
 			p->x += 1 * game->scale;
 	}
-	else if (p->dir == UP)
-	{
-		p->trigger = WALK;
-		if (p->y > 0)
-			p->y -= 1 * game->scale;
-	}
-	else if (p->dir == DOWN)
-	{
-		p->trigger = WALK;
-		if (p->y + p->i->height < (uint32_t)game->mlx->height)
-			p->y += 1 * game->scale;
-	}
 	else
 		p->trigger = STAND;
+	// else if (p->dir == DOWN)
+	// {
+	// 	p->trigger = WALK;
+	// 	if (p->y + p->i->height < (uint32_t)game->mlx->height)
+	// 		p->y += 1 * game->scale;
+	// }
+	// else if (p->dir == UP)
+	// {
+	// 	p->trigger = WALK;
+	// 	if (p->y > 0)
+	// 		p->y -= 1 * game->scale;
+	// }
 	detection_hook(ptr);
 }

@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/21 15:19:31 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/22 12:01:10 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/22 17:33:53 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ void	detection_hook(void *ptr)
 		trigger = detect_contact(game->player, h);
 		if (trigger == EXIT_OPEN && game->player->wallet >= game->collect)
 			exit(EXIT_SUCCESS);
+		if (trigger == WALL)
+			break ;
 		h = h->next;
 	}
 	if (!game->player->block)
