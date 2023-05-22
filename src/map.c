@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 20:16:27 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/21 23:15:36 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/22 13:35:59 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ void	map_draw_tiles(t_game *g)
 
 	i = 0;
 	t = g->textures;
-	console_log("Drawing map\n");
 	g->collect = 0;
 	while (tile_t[i])
 	{
