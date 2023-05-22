@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/21 18:15:48 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/22 11:55:00 by jbouma        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ INC 		= -I include
 
 # Sources
 SRCDIR		= 	src
-FILES		= 	animation.c		\
+FILES		= 	animate.c		\
 				console.c		\
 				detection.c		\
 				file.c			\
