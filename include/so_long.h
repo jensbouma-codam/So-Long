@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/21 23:09:30 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/24 23:41:46 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ typedef struct s_image
 	struct s_image	*prev;
 	struct s_image	*next;
 	char			*name;
-	mlx_image_t		*mlx_image;
-	bool			firstrun;
+	mlx_image_t		*mlx_i;
+	bool			first_run;
 	int				frame_delay;
 }	t_image;
 
@@ -46,19 +46,19 @@ typedef struct s_tiles
 	uint32_t		y;
 }	t_tiles;
 
-typedef struct s_map
+typedef struct s_level
 {
-	struct s_map	*prev;
-	struct s_map	*next;
-	struct s_map	*last;
+	struct s_level	*prev;
+	struct s_level	*next;
+	struct s_level	*last;
 	char			*name;
 	t_tiles			*tiles;
 	t_tiles			*tiles_last;
-	int32_t			width;
-	int32_t			height;
-}	t_map;
+	int32_t			w;
+	int32_t			h;
+}	t_level;
 
-typedef struct s_playeri
+typedef struct s_p_image
 {
 	t_image		*walk;
 	t_image		*walk_anim;
@@ -66,20 +66,20 @@ typedef struct s_playeri
 	t_image		*duck;
 	t_image		*jump;
 	t_image		*hurt;
-}	t_playeri;
+}	t_p_image;
 
 typedef struct s_player
 {
 	uint32_t	x;
 	uint32_t	y;
-	int32_t		dir;
+	uint32_t	dir;
 	uint32_t	health;
 	uint32_t	wallet;
-	int32_t		jump_height;
-	int32_t		state;
-	int32_t		trigger;
+	uint32_t	jump_height;
+	uint32_t	state;
+	uint32_t	trigger;
 	bool		block;
-	t_playeri	*t;
+	t_p_image	*t;
 	mlx_image_t	*i;
 }	t_player;
 
@@ -88,26 +88,26 @@ typedef struct s_hooks
 	struct s_hooks	*prev;
 	struct s_hooks	*next;
 	char			type;
-	uint32_t		top;
-	uint32_t		bottom;
-	uint32_t		left;
-	uint32_t		right;
-	int32_t			key;
+	uint32_t		t;
+	uint32_t		b;
+	uint32_t		l;
+	uint32_t		r;
+	uint32_t		key;
 	mlx_image_t		*i;
-}	t_hooks;
+}	t_hook;
 
 typedef struct s_game
 {
 	mlx_t		*mlx;
-	t_map		*map;
+	t_level		*level;
 	double		scale;
 	t_player	*player;
-	t_image		*textures;
-	t_hooks		*hooks;
+	t_image		*level_textures;
+	t_hook		*hooks;
 	uint32_t	*start_x;
 	uint32_t	*start_y;
 	uint32_t	collect;
-	t_hooks		*exit_tile;
+	t_hook		*exit;
 }	t_game;
 
 typedef enum e_direction
@@ -142,42 +142,38 @@ typedef enum e_map_elements
 	START		= 'S'
 }	t_map_elements;
 
-t_game		*init_game(int argc, char **argv);
-t_map		*init_defaultmaps(void);
+void			detect_hook(void *game);
 
-void		*file_open(char **ptr, void *(f)(int fd, char *ptr));
-char		*file_getname(char *ptr);
-void		*file_readmap(int fd, char *ptr);
-t_image		*file_readimage(t_game *g, char **ptr, double scale);
+char			*file_getname(char *ptr);
+void			*file_open(char **ptr, void *(f)(int fd, char *ptr));
 
-void		map_draw_tiles(t_game *game);
-void		map_add(t_map *map, char *line, int y);
+t_game			*game_init(int argc, char **argv);
 
-t_image		*init_player_stand(t_game *game);
-t_image		*init_player_walk(t_game *game);
-t_image		*init_player_duck(t_game *game);
-t_image		*init_player_jump(t_game *game);
-t_image		*init_player_hurt(t_game *game);
+void			hook_loop(void *ptr);
+void			hook_controls(void *game);
 
-t_image		*animate(t_image *a, t_image *i);
+void			level_draw(t_game *game);
 
-void		hook_exit(void *game);
-void		hook_interface(mlx_key_data_t keydata, void *game);
-void		hook_controls(void *game);
+void			*level_read(int fd, char *ptr);
+t_level			*level_default(void);
+t_image			*level_textures(t_game *game);
 
-void		detection_hook(void *game);
+t_image			*player_texture_stand(t_game *game);
+t_image			*player_texture_walk(t_game *game);
+t_image			*player_texture_duck(t_game *game);
+t_image			*player_texture_jump(t_game *game);
+t_image			*player_texture_hurt(t_game *game);
 
-t_image		*animate(t_image *a, t_image *i);
+void			player_update(t_game *game);
+void			player_hook(void *ptr);
+t_player		*player_init(t_game *game);
 
-void		player_update(t_game *game);
-void		player_hook(void *game);
+t_image			*texture_animate(t_image *a, t_image *i);
+t_image			*texture_read_files(t_game *g, char **ptr, double scale);
 
-void		*memmory_alloccate(size_t count, size_t size);
-
-void		console_error_exit(char *msg);
-void		console_error(const char *s, ...);
-void		console_debug(const char *s, ...);
-void		console_log(const char *s, ...);
-void		console_print_map(t_map *map);
+void			error(char *msg);
+void			debug(const char *s, ...);
+void			print(const char *s, ...);
+void			*memmory_alloccate(size_t count, size_t size);
 
 #endif

@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   console.c                                          :+:    :+:            */
+/*   tools.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 17:51:59 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/21 15:54:42 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/24 23:35:50 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 #include "colors.h"
 
-#include <stdio.h>
 #include <string.h>
 #include <errno.h>
 #include <stdarg.h>
+#include <stdio.h>
 
-static void	console_print(const char *s, va_list list)
+static void	print_console(const char *s, va_list list)
 {
 	while (*s)
 	{
@@ -36,7 +36,7 @@ static void	console_print(const char *s, va_list list)
 	}
 }
 
-void	console_error_exit(char *msg)
+void	error(char *msg)
 {
 	ft_putstr_fd(RED, STDERR_FILENO);
 	write(STDERR_FILENO, "Error\n", 6);
@@ -46,28 +46,16 @@ void	console_error_exit(char *msg)
 	exit (EXIT_FAILURE);
 }
 
-void	console_error(const char *s, ...)
-{
-	va_list	list;
-
-	ft_putstr_fd(RED, STDERR_FILENO);
-	write(STDERR_FILENO, "Error\n", 6);
-	va_start(list, s);
-	console_print(s, list);
-	ft_putstr_fd(NORMAL, STDERR_FILENO);
-	va_end(list);
-}
-
-void	console_log(const char *s, ...)
+void	print(const char *s, ...)
 {
 	va_list	list;
 
 	va_start(list, s);
-	console_print(s, list);
+	print_console(s, list);
 	va_end(list);
 }
 
-void	console_debug(const char *s, ...)
+void	debug(const char *s, ...)
 {
 	va_list	list;
 
@@ -75,7 +63,18 @@ void	console_debug(const char *s, ...)
 		return ;
 	ft_putstr_fd(YELLOW, STDOUT_FILENO);
 	va_start(list, s);
-	console_print(s, list);
+	print_console(s, list);
 	ft_putstr_fd(NORMAL, STDOUT_FILENO);
 	va_end(list);
+}
+
+void	*memmory_alloccate(size_t count, size_t size)
+{
+	void	*ptr;
+
+	ptr = malloc(size * count + 1);
+	if (!ptr)
+		error("Insane in the membrane! Insane in the brain!");
+	ft_bzero(ptr, size * count);
+	return (ptr);
 }

@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/22 11:55:00 by jbouma        ########   odam.nl          #
+#    Updated: 2023/05/24 23:26:59 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,17 +40,17 @@ INC 		= -I include
 
 # Sources
 SRCDIR		= 	src
-FILES		= 	animate.c		\
-				console.c		\
-				detection.c		\
-				file.c			\
-				hook.c			\
-				init_player.c	\
-				init.c			\
-				main.c			\
-				map.c			\
-				memory.c		\
-				player.c
+FILES		= 	detect.c			\
+				file.c				\
+				game.c				\
+				hook.c				\
+				level_draw.c		\
+				level.c				\
+				main.c				\
+				player_textures.c	\
+				player.c			\
+				textures.c			\
+				tools.c
 	
 SOURCES		=	${addprefix $(SRCDIR)/, $(FILES)}
 

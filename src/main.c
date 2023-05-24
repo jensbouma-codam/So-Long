@@ -6,13 +6,12 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:47 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/21 23:06:04 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/24 23:33:05 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-#include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -22,7 +21,7 @@ int	main(int argc, char **argv)
 {
 	t_game		*game;
 
-	game = init_game(argc, argv);
+	game = game_init(argc, argv);
 	mlx_loop(game->mlx);
 	return (EXIT_FAILURE);
 }

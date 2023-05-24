@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   detection.c                                        :+:    :+:            */
+/*   detect.c                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/21 15:19:31 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/22 17:33:53 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/24 23:41:46 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static bool	range(int x, int s, int e)
+static bool	detect_range(int x, int s, int e)
 {	
 	if (x >= s && x <= e)
 		return (true);
 	return (false);
 }
 
-static bool	detect_box(t_player *p, t_hooks *h)
+static bool	detect_box(t_player *p, t_hook *h)
 {
 	const int	r = p->x + p->i->width;
 	const int	l = p->x;
@@ -28,27 +28,27 @@ static bool	detect_box(t_player *p, t_hooks *h)
 	int			hit;
 
 	hit = 0;
-	if (range(r, h->left, h->right) && (range(t, h->top, h->bottom)
-			|| range(b, h->top, h->bottom)))
+	if (detect_range(r, h->l, h->r) && (detect_range(t, h->t, h->b)
+			|| detect_range(b, h->t, h->b)))
 		hit += 1;
-	if (range(l, h->left, h->right) && (range(t, h->top, h->bottom)
-			|| range(b, h->top, h->bottom)))
+	if (detect_range(l, h->l, h->r) && (detect_range(t, h->t, h->b)
+			|| detect_range(b, h->t, h->b)))
 		hit += 1;
-	if (range(t, h->top, h->bottom) && (range(l, h->left, h->right)
-			|| range(r, h->left, h->right)))
+	if (detect_range(t, h->t, h->b) && (detect_range(l, h->l, h->r)
+			|| detect_range(r, h->l, h->r)))
 		hit += 1;
-	if (range(b, h->top, h->bottom) && (range(l, h->left, h->right)
-			|| range(r, h->left, h->right)))
+	if (detect_range(b, h->t, h->b) && (detect_range(l, h->l, h->r)
+			|| detect_range(r, h->l, h->r)))
 		hit += 1;
 	if (hit)
 		return (true);
 	return (false);
 }
 
-static bool	detect_center(t_player *p, t_hooks *h)
+static bool	detect_center(t_player *p, t_hook *h)
 {
-	const uint32_t	x = h->left + h->i->width / 2;
-	const uint32_t	y = h->top + h->i->height / 2;
+	const uint32_t	x = h->l + h->i->width / 2;
+	const uint32_t	y = h->t + h->i->height / 2;
 
 	if (p->y + p->i->height >= y
 		&& p->y <= y
@@ -58,7 +58,7 @@ static bool	detect_center(t_player *p, t_hooks *h)
 	return (false);
 }
 
-int	detect_contact(t_player *p, t_hooks *h)
+static int	detect_contact(t_player *p, t_hook *h)
 {
 	if (h->type == PLAYER)
 		h->type = START;
@@ -85,10 +85,10 @@ int	detect_contact(t_player *p, t_hooks *h)
 	return (EMPTY);
 }
 
-void	detection_hook(void *ptr)
+void	detect_hook(void *ptr)
 {
 	const t_game	*game = (t_game *)ptr;
-	t_hooks			*h;
+	t_hook			*h;
 	int				trigger;
 
 	h = game->hooks;
@@ -110,5 +110,5 @@ void	detection_hook(void *ptr)
 		game->player->block = false;
 	}
 	if (game->player->wallet >= game->collect)
-		game->exit_tile->i->enabled = true;
+		game->exit->i->enabled = true;
 }
