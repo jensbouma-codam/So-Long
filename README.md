@@ -29,7 +29,6 @@ character, any collectible and any place you want.
 - [x] The program has to display the image in a window.
 - [x] The management of your window must remain smooth: changing to another window, minimizing, etc.
 - [x] Pressing ESC must close the window and quit the program cleanly.
-- 
 
 ## Map
 - [ ] The program has to take a map with the .ber extension as a first argument.
