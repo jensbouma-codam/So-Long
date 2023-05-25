@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/25 11:48:28 by jbouma        ########   odam.nl          #
+#    Updated: 2023/05/25 14:16:44 by jbouma        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -168,6 +168,9 @@ fclean: clean
 	@rm -rf bin
 
 re: fclean all
+
+test: all
+	@./test/maps.sh
 
 norm: $(SOURCES)
 ifneq ($(UNAME_S),Linux)

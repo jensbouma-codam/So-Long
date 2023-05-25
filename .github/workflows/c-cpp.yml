@@ -24,6 +24,8 @@ jobs:
     - uses: actions/checkout@v3
     - name: make
       run: make
+    - name: 'Test maps'
+      run: make test
   norminette_job:
     runs-on: ubuntu-latest
     name: norminette
