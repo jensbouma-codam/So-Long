@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/25 19:54:26 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/25 20:09:12 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -169,7 +169,7 @@ fclean: clean
 re: fclean all
 
 test: CFLAGS += -D NOMLX=1
-test: all
+test: re
 	@./test/maps.sh
 
 norm: $(SOURCES)
@@ -178,6 +178,5 @@ ifneq ($(UNAME_S),Linux)
 else
 	@echo "Norminette not available on Linux" && exit 0
 endif
-
 
 .PHONY: CFLAGS all clean fclean re
