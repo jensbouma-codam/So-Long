@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/25 20:09:12 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/25 20:24:44 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -170,7 +170,7 @@ re: fclean all
 
 test: CFLAGS += -D NOMLX=1
 test: re
-	@./test/maps.sh
+	@bash ./test/maps.sh
 
 norm: $(SOURCES)
 ifneq ($(UNAME_S),Linux)
