@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 17:51:59 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/25 12:14:49 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/25 20:12:10 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ void	error(char *msg)
 {
 	ft_putstr_fd(RED, STDERR_FILENO);
 	write(STDERR_FILENO, "Error\n", 6);
-	if (msg && errno)
-		perror(msg);
+	if (msg)
+		print_console("Error: %s\n", msg);
+	if (errno)
+		print_console("Error: %s\n", strerror(errno));
 	else if (msg)
 	{
 		ft_putstr_fd(msg, STDERR_FILENO);
