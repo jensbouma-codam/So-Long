@@ -6,18 +6,32 @@ GREEN="\x1B[32m"
 YELLOW="\x1B[33m"
 INVALID=0
 
-printf "${YELLOW}SoLong map tester\n-----------------\n${RESET}"
+printf "${YELLOW}-----------------\nSoLong map tester\n-----------------\n${RESET}"
 
 for f in $FILES
 do
 	if [[ $f == *"invalid"* ]]; then
-	${EXECUTE} $f > /dev/null 2> /dev/null  && (printf "${RED}Error: $f should not be valid\n" && INVALID=1) || printf "${GREEN}OK: $f is invalid\n"
+		${EXECUTE} $f > /dev/null 2> /dev/null
+		if [ $? -eq 0 ] 
+		then 
+			printf "${RED}Error: $f should not be valid\n"
+			INVALID=1
+		else 
+			printf "${GREEN}OK: $f is invalid\n"
+		fi
 	else
-	${EXECUTE} $f > /dev/null 2> /dev/null  && printf "${GREEN}OK: $f is valid\n" || (printf "${RED}Error: $f should be valid\n" && INVALID=1)
+		${EXECUTE} $f > /dev/null 2> /dev/null
+		if [ $? -eq 0 ] 
+		then 
+			printf "${GREEN}OK: $f is valid\n"
+		else 
+			printf "${RED}Error: $f should not be invalid\n"
+			INVALID=1
+		fi
 	fi
 done
 
-if (test ${INVALID})
+if (test $INVALID -eq 1)
 then
 	printf "${RED}Some maps are invalid\n"
 	printf "${RESET}"
