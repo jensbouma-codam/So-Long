@@ -6,13 +6,12 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/25 14:16:44 by jbouma        ########   odam.nl          #
+#    Updated: 2023/05/25 19:54:26 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 # Program Name(s)
 NAME		=	so_long
-
 
 # Set build directories
 BUILDDIR	= build
@@ -169,6 +168,7 @@ fclean: clean
 
 re: fclean all
 
+test: CFLAGS += -D NOMLX=1
 test: all
 	@./test/maps.sh
 

@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/15 11:10:15 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/25 19:44:41 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/25 19:56:47 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,29 +71,24 @@ static double	game_window(t_game *game)
 t_game	*game_init(int argc, char **argv)
 {
 	t_game	*game;
-	int32_t	display_x;
-	int32_t	display_y;
 
 	game = (t_game *)memmory_alloccate(1, sizeof(*game));
-	mlx_get_monitor_size(0, &display_x, &display_y);
 	if (argc > 1)
 		game->level = file_open(argv + 1, level_read);
 	else
 		game->level = level_default();
-	if (!display_x || !display_y)
+	if (!NOMLX)
 	{
-		print("This program requires a display to run");
-		exit(EXIT_SUCCESS);
+		game->mlx = mlx_init(1, 1, "SoLong", false);
+		if (!game->mlx)
+			error("Failed to initialize graphics");
+		game->scale = game_window(game);
+		game->level_textures = level_textures(game);
+		level_draw(game);
+		game->player = player_init(game);
+		mlx_key_hook(game->mlx, &game_interface_hook, game);
+		mlx_close_hook(game->mlx, &game_exit_hook, game);
+		mlx_loop_hook(game->mlx, &hook_loop, game);
 	}
-	game->mlx = mlx_init(1, 1, "SoLong", false);
-	if (!game->mlx)
-		error("Failed to initialize graphics");
-	game->scale = game_window(game);
-	game->level_textures = level_textures(game);
-	level_draw(game);
-	game->player = player_init(game);
-	mlx_key_hook(game->mlx, &game_interface_hook, game);
-	mlx_close_hook(game->mlx, &game_exit_hook, game);
-	mlx_loop_hook(game->mlx, &hook_loop, game);
 	return (game);
 }
