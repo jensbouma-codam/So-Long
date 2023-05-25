@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/25 23:54:16 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/26 00:37:22 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ t_image			*player_texture_walk(t_game *game);
 t_image			*player_texture_duck(t_game *game);
 t_image			*player_texture_jump(t_game *game);
 t_image			*player_texture_hurt(t_game *game);
-t_image 		*player_texture_jetpack(t_game *g);
+t_image			*player_texture_jetpack(t_game *g);
 
 void			player_update(t_game *game);
 void			player_hook(void *ptr);
