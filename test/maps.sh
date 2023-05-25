@@ -1,9 +1,12 @@
+#!/bin/bash
+
+
 EXECUTE=./bin/so_long
 FILES=./maps/*
-RESET="\x1B[0m"
-RED="\x1B[31m"
-GREEN="\x1B[32m"
-YELLOW="\x1B[33m"
+# RESET="\x1B[0m"
+# RED="\x1B[31m"
+# GREEN="\x1B[32m"
+# YELLOW="\x1B[33m"
 INVALID=0
 
 echo "${YELLOW}-----------------\nSoLong map tester\n-----------------\n${RESET}"
