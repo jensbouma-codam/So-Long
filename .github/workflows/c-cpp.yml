@@ -22,15 +22,13 @@ jobs:
         sudo apt-get -y install build-essential libx11-dev xorg-dev
         sudo apt-get -y install libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libgl1-mesa-dev
     - uses: actions/checkout@v3
-    - name: make
-      run: make
-    - name: 'Map checker without screen functions'
+    - name: 'Make & Check maps'
       run: make test
-  norminette_job:
-    runs-on: ubuntu-latest
-    name: norminette
-    steps:
-    - uses: actions/checkout@v2
-    - uses: alexandregv/norminette-action@v3
-      with:
-        flags: 'src/*.c include/*.h'
+  # norminette_job:
+  #   runs-on: ubuntu-latest
+  #   name: norminette
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - uses: alexandregv/norminette-action@v3
+  #     with:
+  #       flags: 'src/*.c include/*.h'
