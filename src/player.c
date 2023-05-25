@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/24 21:49:03 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/26 00:12:01 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/26 00:36:02 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,15 +110,19 @@ void	player_hook(void *ptr)
 	{
 		p->trigger = WALK;
 		if (p->x + p->i->width < (uint32_t)game->mlx->width)
+		{
 			p->x += (1 * game->scale);
 			p->steps += 1;
+		}
 	}
 	else if (p->dir == LEFT)
 	{
 		p->trigger = WALK;
 		if (p->x > 0)
+		{
 			p->x -= (1 * game->scale);
 			p->steps += 1;
+		}
 	}
 	p->t->jetpack->mlx_i->instances->enabled = false;
 	if (p->dir == DOWN && p->jetpack)
