@@ -31,11 +31,11 @@ character, any collectible and any place you want.
 - [x] Pressing ESC must close the window and quit the program cleanly.
 
 ## Map
-- [ ] The program has to take a map with the .ber extension as a first argument.
+- [x] The program has to take a map with the .ber extension as a first argument.
 - [ ] The map has to be constructed with 3 components: empty space, walls, collectibles.
-- [ ] The map can be composed of only these 5 characters: 0 for an empty space, 1 for a wall, C for a collectible, E for the exit and P for the player’s starting position.
-- [ ] The map must contain one exit, one starting position and at least one collectible.
-- [ ] If the map contains a duplicate start and or exit the program must return an error.
+- [x] The map can be composed of only these 5 characters: 0 for an empty space, 1 for a wall, C for a collectible, E for the exit and P for the player’s starting position.
+- [x] The map must contain one exit, one starting position and at least one collectible.
+- [x] If the map contains a duplicate start and or exit the program must return an error.
 - [ ] The map must be rectangular.
 - [ ] The map must be closed/surrounded by walls, if not the program must return an error.
 - [ ] The map should have a valid path.

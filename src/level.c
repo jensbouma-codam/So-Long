@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 20:16:27 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/25 10:20:39 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/25 13:01:53 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,31 +21,33 @@ static void	level_check(t_level *level)
 	level_check_path(level);
 }
 
-static void	level_tile(t_level *level, char *line, int y)
+static void	level_process_line(t_level *level, char *line, int y)
 {
 	t_tiles	*t;
 	int		x;
 
 	x = 0;
+	errno = 0;
+	if (line[0] == '\0' || line[0] == '\n')
+		error("Empty line in level");
 	while (line[x] != '\0' && line[x] != '\n')
 	{
 		t = (t_tiles *)memmory_alloccate(1, sizeof(*t));
 		t->type = line[x];
 		t->x = x;
 		t->y = y;
-		if (!level->tiles)
-			level->tiles = t;
+		if (!level->tile)
+			level->tile = t;
 		else
 		{
-			t->prev = level->tiles;
-			level->tiles_last->next = t;
+			t->prev = level->tile;
+			level->tile_last->next = t;
 		}
-		level->tiles_last = t;
+		level->tile_last = t;
 		x++;
 	}
 	level->w = x;
 	level->h = y + 1;
-	level_check(level);
 }
 
 void	*level_read(int fd, char *ptr)
@@ -56,16 +58,23 @@ void	*level_read(int fd, char *ptr)
 
 	y = 0;
 	node = (t_level *)memmory_alloccate(1, sizeof(*node));
+	node->c_collectible = 0;
+	node->c_empty = 0;
+	node->c_exit = 0;
+	node->c_player = 0;
+	node->c_wall = 0;
 	node->name = file_getname(ptr);
 	line = get_next_line(fd);
 	if (!line)
 		error(ft_strjoin("Failed to read level: ", ptr));
 	while (line)
 	{
-		level_tile(node, line, y++);
+		debug("line: %s\n", line);
+		level_process_line(node, line, y++);
 		free(line);
 		line = get_next_line(fd);
 	}
+	level_check(node);
 	return (node);
 }
 
@@ -73,8 +82,8 @@ t_level	*level_default(void)
 {
 	t_level		*level;
 	const char	*files[] = {\
-		"./maps/valid.ber",
-		"./maps/valid2.ber",
+		"./maps/valid_small.ber",
+		"./maps/valid_subject.ber",
 		NULL};
 
 	print("No arguments given. Loading default maps...\n");

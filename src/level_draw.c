@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/24 22:09:02 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/24 23:42:07 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/25 12:37:40 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	level_draw_types(t_game *g, mlx_image_t *i, char type)
 {
 	t_tiles			*t;
 
-	t = g->level->tiles;
+	t = g->level->tile;
 	while (t)
 	{
 		if (t->type == type && type == COLLECT)

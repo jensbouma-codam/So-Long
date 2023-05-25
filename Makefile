@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/25 10:16:30 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/25 11:48:28 by jbouma        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -157,7 +157,6 @@ leaks: all
 debug: CFLAGS += -g -fsanitize=address -D DEBUG=1
 debug: all
 	@printf "$(RED)Compiled in debug / fsanitize=adress mode!!!$(RESET)\n\n"
-	@bin/$(NAME)
 
 clean:
 	@rm -rf $(BUILDDIR)

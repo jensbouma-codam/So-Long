@@ -6,17 +6,12 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 17:51:59 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/24 23:35:50 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/25 12:14:49 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 #include "colors.h"
-
-#include <string.h>
-#include <errno.h>
-#include <stdarg.h>
-#include <stdio.h>
 
 static void	print_console(const char *s, va_list list)
 {
@@ -40,8 +35,19 @@ void	error(char *msg)
 {
 	ft_putstr_fd(RED, STDERR_FILENO);
 	write(STDERR_FILENO, "Error\n", 6);
-	if (msg)
+	if (msg && errno)
 		perror(msg);
+	else if (msg)
+	{
+		ft_putstr_fd(msg, STDERR_FILENO);
+		ft_putchar_fd('\n', STDERR_FILENO);
+	}
+	if (mlx_errno)
+	{
+		ft_putstr_fd("MLX error: ", STDERR_FILENO);
+		ft_putstr_fd((char *)mlx_strerror(mlx_errno), STDERR_FILENO);
+		ft_putchar_fd('\n', STDERR_FILENO);
+	}
 	ft_putstr_fd(NORMAL, STDERR_FILENO);
 	exit (EXIT_FAILURE);
 }

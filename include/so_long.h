@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/25 10:15:36 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/25 12:47:38 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdarg.h>
+
+# include <string.h>
+# include <errno.h>
+# include <stdio.h>
 
 # include "../lib/libft/include/libft.h"
 # include "../lib/libmlx42/include/MLX42/MLX42.h"
@@ -52,8 +56,13 @@ typedef struct s_level
 	struct s_level	*next;
 	struct s_level	*last;
 	char			*name;
-	t_tiles			*tiles;
-	t_tiles			*tiles_last;
+	t_tiles			*tile;
+	t_tiles			*tile_last;
+	uint32_t		c_player;
+	uint32_t		c_exit;
+	uint32_t		c_collectible;
+	uint32_t		c_wall;
+	uint32_t		c_empty;
 	int32_t			w;
 	int32_t			h;
 }	t_level;
