@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 20:16:27 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/25 14:20:42 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/25 21:11:05 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ static void	level_count_elements(t_level *level)
 	while (tile)
 	{
 		if (tile->type == 'P')
+		{
 			level->c_player++;
+			tile->reachable = true;
+		}
 		else if (tile->type == 'E')
 			level->c_exit++;
 		else if (tile->type == '1')

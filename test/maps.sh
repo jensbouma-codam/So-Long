@@ -13,7 +13,7 @@ echo "${YELLOW}-----------------\nSoLong map tester\n-----------------\n${RESET}
 for f in $FILES
 do
 	if [[ "$f" == *"invalid"* ]]; then
-		${EXECUTE} $f > /dev/null 2> /dev/null
+		${EXECUTE} $f 
 		if [ $? -eq 0 ] 
 		then 
 			echo "${RED}Error: $f should not be valid\n"

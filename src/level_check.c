@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/25 10:13:00 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/25 14:42:35 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/25 22:44:22 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,11 @@ void	level_check_elements(t_level *level)
 	if (level->c_player != 1)
 		error("There should be exactly one player");
 	if (level->c_exit != 1)
-		error("There should be at least one exit");
+		error("There should be exactly one exit");
 	if (level->c_wall < 12)
 		error("There should be at least 12 walls");
 	if (level->c_collectible < 1)
 		error("There should be at least one collectible");
-
 }
 
 // check if the level is surrounded by walls
@@ -43,19 +42,18 @@ void	level_check_surrounded(t_level *level)
 	t_tiles	*tile;
 
 	tile = level->tile;
-
 	while (tile)
 	{
 		if (tile->type != WALL)
 		{
 			if (tile->x == 0)
-				error("Error in the left wall");
+				error("Missing element in left wall");
 			if (tile->y == 0)
-				error("Error in the top wall");
+				error("Missing element in top wall");
 			if (tile->x == level->w - 1)
-				error("Error in the right wall");
+				error("Missing element in right wall");
 			if (tile->y == level->h - 1)
-				error("Error in the bottom wall");
+				error("Missing element in bottom wall");
 		}
 		tile = tile->next;
 	}
@@ -64,22 +62,28 @@ void	level_check_surrounded(t_level *level)
 // check if the level is rectangular
 void	level_check_rectangular(t_level *level)
 {
-	(void)level;
-}
+	t_tiles		*tile;
+	uint32_t	w;
 
-
-
-// check if there is a path from the player to the exit
-void	level_check_path(t_level *level)
-{
-	(void)level;
+	tile = level->tile;
+	w = level->w;
+	while (tile)
+	{
+		if (tile->next && tile->next->y > tile->y)
+		{
+			if (tile->x != level->w - 1 || tile->x != w - 1)
+				error("The level is not rectangular");
+			w = tile->x + 1;
+		}
+		tile = tile->next;
+	}
 }
 
 void	level_check(t_level *level)
 {
 	level_check_filename(level);
 	level_check_elements(level);
-	level_check_surrounded(level);
 	level_check_rectangular(level);
+	level_check_surrounded(level);
 	level_check_path(level);
 }

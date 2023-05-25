@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/25 20:24:44 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/25 22:43:07 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ FILES		= 	detect.c			\
 				file.c				\
 				game.c				\
 				hook.c				\
+				level_check_path.c	\
 				level_check.c		\
 				level_draw.c		\
 				level.c				\
@@ -170,7 +171,7 @@ re: fclean all
 
 test: CFLAGS += -D NOMLX=1
 test: re
-	@bash ./test/maps.sh
+	@./test/maps.sh
 
 norm: $(SOURCES)
 ifneq ($(UNAME_S),Linux)

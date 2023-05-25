@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 17:51:59 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/25 20:18:49 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/25 22:35:33 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,21 @@ static void	print_console(const char *s, va_list list)
 void	error(char *msg)
 {
 	ft_putstr_fd(RED, STDERR_FILENO);
-	write(STDERR_FILENO, "Error\n", 6);
+	write(STDERR_FILENO, "Error\t", 6);
 	if (msg)
 	{
-		ft_putstr_fd("Message:\t", STDERR_FILENO);
 		ft_putstr_fd(msg, STDERR_FILENO);
 		ft_putchar_fd('\n', STDERR_FILENO);
 	}
 	if (errno)
 	{
-		ft_putstr_fd("StrError:\t\t", STDERR_FILENO);
+		ft_putstr_fd("Error:\t", STDERR_FILENO);
 		ft_putstr_fd(strerror(errno), STDERR_FILENO);
 		ft_putchar_fd('\n', STDERR_FILENO);
 	}
 	if (mlx_errno)
 	{
-		ft_putstr_fd("MLX error:\t", STDERR_FILENO);
+		ft_putstr_fd("Error\t", STDERR_FILENO);
 		ft_putstr_fd((char *)mlx_strerror(mlx_errno), STDERR_FILENO);
 		ft_putchar_fd('\n', STDERR_FILENO);
 	}

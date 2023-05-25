@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/21 15:19:31 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/24 23:41:46 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/25 23:33:05 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ static int	detect_contact(t_player *p, t_hook *h)
 	{
 		p->block = true;
 		if (p->state == JUMP_ACTIVE)
-			p->state = JUMP;
-		else if (p->state == JUMP)
 			p->state = FALL;
 		else
 			p->state = STAND;

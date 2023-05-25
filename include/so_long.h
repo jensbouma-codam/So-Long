@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/25 19:54:52 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/25 23:54:16 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_tiles
 	struct s_tiles	*prev;
 	struct s_tiles	*next;
 	char			type;
+	bool			reachable;
 	uint32_t		x;
 	uint32_t		y;
 }	t_tiles;
@@ -79,6 +80,7 @@ typedef struct s_p_image
 	t_image		*duck;
 	t_image		*jump;
 	t_image		*hurt;
+	t_image		*jetpack;
 }	t_p_image;
 
 typedef struct s_player
@@ -87,6 +89,9 @@ typedef struct s_player
 	uint32_t	y;
 	uint32_t	dir;
 	uint32_t	health;
+	uint32_t	steps;
+	uint32_t	jumps;
+	bool		jetpack;
 	uint32_t	wallet;
 	uint32_t	jump_height;
 	uint32_t	state;
@@ -184,6 +189,7 @@ t_image			*player_texture_walk(t_game *game);
 t_image			*player_texture_duck(t_game *game);
 t_image			*player_texture_jump(t_game *game);
 t_image			*player_texture_hurt(t_game *game);
+t_image 		*player_texture_jetpack(t_game *g);
 
 void			player_update(t_game *game);
 void			player_hook(void *ptr);

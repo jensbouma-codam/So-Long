@@ -32,15 +32,15 @@ character, any collectible and any place you want.
 
 ## Map
 - [x] The program has to take a map with the .ber extension as a first argument.
-- [ ] The map has to be constructed with 3 components: empty space, walls, collectibles.
+- [x] The map has to be constructed with 3 components: empty space, walls, collectibles.
 - [x] The map can be composed of only these 5 characters: 0 for an empty space, 1 for a wall, C for a collectible, E for the exit and P for the player’s starting position.
 - [x] The map must contain one exit, one starting position and at least one collectible.
 - [x] If the map contains a duplicate start and or exit the program must return an error.
-- [ ] The map must be rectangular.
-- [ ] The map must be closed/surrounded by walls, if not the program must return an error.
-- [ ] The map should have a valid path.
-- [ ] The program should be able to parse any kind of map, as long as it respects the maps rules.
-- [ ] If any misconfiguration of any kind is encountered in the file, the program must return return "Error\n" followed by an explicit error message of your choice.
+- [x] The map must be rectangular.
+- [x] The map must be closed/surrounded by walls, if not the program must return an error.
+- [x] The map should have a valid path.
+- [x] The program should be able to parse any kind of map, as long as it respects the maps rules.
+- [x] If any misconfiguration of any kind is encountered in the file, the program must return "Error\n" followed by an explicit error message of your choice.
 
 
 ## Usage
@@ -72,7 +72,7 @@ make
 - Submit your work to your assigned git repository. Only the work in the git repository will be graded. If Deepthought is assigned to grade your work, it will be done after your peer-evaluations. If an error happens in any section of your work during Deepthought’s grading, the evaluation will stop.
 
 ## Bonus
-- [ ] Animations
+- [x] Animations
 - [ ] Make the player lose when he touches an enemy
 - [ ] Display the movements count directly on the screen instead of in the shell
 

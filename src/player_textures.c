@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 00:30:26 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/24 22:21:40 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/25 23:53:54 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,15 @@ t_image	*player_texture_hurt(t_game *g)
 {
 	const char	*files[] = {\
 		"textures/Base pack/Player/p1_hurt.png",
+		NULL};
+
+	return (texture_read_files(g, (char **)files, 0.5));
+}
+
+t_image *player_texture_jetpack(t_game *g)
+{
+	const char	*files[] = {\
+		"textures/Request pack/Tiles/laserBlueBurst.png",\
 		NULL};
 
 	return (texture_read_files(g, (char **)files, 0.5));

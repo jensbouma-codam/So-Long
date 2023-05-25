@@ -18,3 +18,19 @@ void	console_print_map(t_map *map)
 		map = map->next;
 	}
 }
+
+
+// print("Map name = %s\n", level->name);
+	// print("\nMap size = %i x %i\n", level->w, level->h);
+	// e = level->tile;
+	// while (e)
+	// {
+	// 	if (e->reachable)
+	// 		print("*");
+	// 	else
+	// 		print("%c", e->type);
+	// 	if (e->next && e->next->y > e->y)
+	// 		print("\n");
+	// 	e = e->next;
+	// }
+	// print("\n");
