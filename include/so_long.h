@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/24 23:41:46 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/25 10:15:36 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,12 @@ t_game			*game_init(int argc, char **argv);
 
 void			hook_loop(void *ptr);
 void			hook_controls(void *game);
+
+void			level_check_filename(t_level *level);
+void			level_check_elements(t_level *level);
+void			level_check_rectangular(t_level *level);
+void			level_check_surrounded(t_level *level);
+void			level_check_path(t_level *level);
 
 void			level_draw(t_game *game);
 

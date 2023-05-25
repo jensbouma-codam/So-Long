@@ -6,11 +6,20 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 20:16:27 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/24 23:35:50 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/25 10:20:39 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+static void	level_check(t_level *level)
+{
+	level_check_filename(level);
+	level_check_elements(level);
+	level_check_rectangular(level);
+	level_check_surrounded(level);
+	level_check_path(level);
+}
 
 static void	level_tile(t_level *level, char *line, int y)
 {
@@ -36,6 +45,7 @@ static void	level_tile(t_level *level, char *line, int y)
 	}
 	level->w = x;
 	level->h = y + 1;
+	level_check(level);
 }
 
 void	*level_read(int fd, char *ptr)
@@ -85,14 +95,3 @@ t_image	*level_textures(t_game *game)
 
 	return (texture_read_files(game, (char **)files, 1));
 }
-
-// Check if level is rectangular
-// Check if level has all elements
-// Check if level has valid elements
-// Check if level has valid amount of elements
-// Check if level has valid amount of collectibles
-// Check if level has valid amount of exits
-// Check if level has valid amount of players
-// Check if level has valid amount of walls
-// Check if level has valid amount of empty spaces
-// Check if level has valid amount of enemies

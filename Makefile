@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/24 23:26:59 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/25 10:16:30 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ FILES		= 	detect.c			\
 				file.c				\
 				game.c				\
 				hook.c				\
+				level_check.c		\
 				level_draw.c		\
 				level.c				\
 				main.c				\
