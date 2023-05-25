@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/25 12:47:38 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/25 14:26:28 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ typedef struct s_level
 	uint32_t		c_collectible;
 	uint32_t		c_wall;
 	uint32_t		c_empty;
-	int32_t			w;
-	int32_t			h;
+	uint32_t		w;
+	uint32_t		h;
 }	t_level;
 
 typedef struct s_p_image
@@ -166,6 +166,8 @@ void			level_check_elements(t_level *level);
 void			level_check_rectangular(t_level *level);
 void			level_check_surrounded(t_level *level);
 void			level_check_path(t_level *level);
+
+void			level_check(t_level *level);
 
 void			level_draw(t_game *game);
 

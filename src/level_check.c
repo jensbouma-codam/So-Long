@@ -6,34 +6,11 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/25 10:13:00 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/25 12:51:49 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/25 14:42:35 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-static void	level_count_elements(t_level *level)
-{
-	t_tiles	*tile;
-
-	tile = level->tile;
-	while (tile)
-	{
-		if (tile->type == 'P')
-			level->c_player++;
-		else if (tile->type == 'E')
-			level->c_exit++;
-		else if (tile->type == '1')
-			level->c_wall++;
-		else if (tile->type == '0')
-			level->c_empty++;
-		else if (tile->type == 'C')
-			level->c_collectible++;
-		else
-			error("Invalid element in level");
-		tile = tile->next;
-	}
-}
 
 // check if the filename is valid
 void	level_check_filename(t_level *level)
@@ -49,7 +26,6 @@ void	level_check_filename(t_level *level)
 
 void	level_check_elements(t_level *level)
 {	
-	level_count_elements(level);
 	if (level->c_player != 1)
 		error("There should be exactly one player");
 	if (level->c_exit != 1)
@@ -61,20 +37,49 @@ void	level_check_elements(t_level *level)
 
 }
 
+// check if the level is surrounded by walls
+void	level_check_surrounded(t_level *level)
+{
+	t_tiles	*tile;
+
+	tile = level->tile;
+
+	while (tile)
+	{
+		if (tile->type != WALL)
+		{
+			if (tile->x == 0)
+				error("Error in the left wall");
+			if (tile->y == 0)
+				error("Error in the top wall");
+			if (tile->x == level->w - 1)
+				error("Error in the right wall");
+			if (tile->y == level->h - 1)
+				error("Error in the bottom wall");
+		}
+		tile = tile->next;
+	}
+}
+
 // check if the level is rectangular
 void	level_check_rectangular(t_level *level)
 {
 	(void)level;
 }
 
-// check if the level is surrounded by walls
-void	level_check_surrounded(t_level *level)
-{
-	(void)level;
-}
+
 
 // check if there is a path from the player to the exit
 void	level_check_path(t_level *level)
 {
 	(void)level;
+}
+
+void	level_check(t_level *level)
+{
+	level_check_filename(level);
+	level_check_elements(level);
+	level_check_surrounded(level);
+	level_check_rectangular(level);
+	level_check_path(level);
 }

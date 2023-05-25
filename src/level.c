@@ -6,19 +6,33 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 20:16:27 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/25 13:01:53 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/25 14:20:42 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static void	level_check(t_level *level)
+static void	level_count_elements(t_level *level)
 {
-	level_check_filename(level);
-	level_check_elements(level);
-	level_check_rectangular(level);
-	level_check_surrounded(level);
-	level_check_path(level);
+	t_tiles	*tile;
+
+	tile = level->tile;
+	while (tile)
+	{
+		if (tile->type == 'P')
+			level->c_player++;
+		else if (tile->type == 'E')
+			level->c_exit++;
+		else if (tile->type == '1')
+			level->c_wall++;
+		else if (tile->type == '0')
+			level->c_empty++;
+		else if (tile->type == 'C')
+			level->c_collectible++;
+		else
+			error("Invalid element in level");
+		tile = tile->next;
+	}
 }
 
 static void	level_process_line(t_level *level, char *line, int y)
@@ -74,6 +88,7 @@ void	*level_read(int fd, char *ptr)
 		free(line);
 		line = get_next_line(fd);
 	}
+	level_count_elements(node);
 	level_check(node);
 	return (node);
 }
