@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/24 21:49:03 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/26 00:36:02 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/26 00:51:43 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,19 +156,12 @@ t_player	*player_init(t_game *game)
 	p->t->jump = player_texture_jump(game);
 	p->t->hurt = player_texture_hurt(game);
 	p->t->jetpack = player_texture_jetpack(game);
-	p->i = p->t->walk_anim->mlx_i;
+	p->i = p->t->hurt->mlx_i;
 	p->i->instances->enabled = true;
 	p->y = *game->start_y;
 	p->x = *game->start_x;
-	p->jump_height = 0;
 	p->health = 100;
-	p->wallet = 0;
-	p->jetpack = false;
-	p->steps = 0;
-	p->jumps = 0;
-	p->dir = HOLD;
 	p->state = FALL;
-	p->trigger = 0;
 	mlx_loop_hook(game->mlx, &hook_controls, game);
 	mlx_loop_hook(game->mlx, &player_hook, game);
 	return (p);
