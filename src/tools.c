@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 17:51:59 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/25 20:12:10 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/25 20:14:08 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,12 @@ void	error(char *msg)
 	ft_putstr_fd(RED, STDERR_FILENO);
 	write(STDERR_FILENO, "Error\n", 6);
 	if (msg)
-		print_console("Error: %s\n", msg);
+		print_console("Custom Error:\t%s\n", msg);
 	if (errno)
-		print_console("Error: %s\n", strerror(errno));
-	else if (msg)
-	{
-		ft_putstr_fd(msg, STDERR_FILENO);
-		ft_putchar_fd('\n', STDERR_FILENO);
-	}
+		print_console("Standard Error:\t%s\n", strerror(errno));
 	if (mlx_errno)
 	{
-		ft_putstr_fd("MLX error: ", STDERR_FILENO);
+		ft_putstr_fd("MLX error:\t", STDERR_FILENO);
 		ft_putstr_fd((char *)mlx_strerror(mlx_errno), STDERR_FILENO);
 		ft_putchar_fd('\n', STDERR_FILENO);
 	}
