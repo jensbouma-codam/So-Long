@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 EXECUTE=./bin/so_long
 FILES=./maps/*
 # RESET="\x1B[0m"
