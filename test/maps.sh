@@ -1,19 +1,18 @@
 EXECUTE=./bin/so_long
 FILES=./maps/*
-RESET="\x1B[0m"
-RED="\x1B[31m"
-GREEN="\x1B[32m"
-YELLOW="\x1B[33m"
+# RESET="\x1B[0m"
+# RED="\x1B[31m"
+# GREEN="\x1B[32m"
+# YELLOW="\x1B[33m"
 INVALID=0
 
 echo "${YELLOW}-----------------\nSoLong map tester\n-----------------\n${RESET}"
 
 for f in $FILES
 do
-	echo "${YELLOW}Testing $f\n${RESET}"
-	if [[ "${f}" == *"invalid"* ]]; then
+	if [[ "$f" == *"invalid"* ]]; then
 		${EXECUTE} $f > /dev/null 2> /dev/null
-		if [[ ($? -eq 0) ]]
+		if [ $? -eq 0 ] 
 		then 
 			echo "${RED}Error: $f should not be valid\n"
 			INVALID=1
@@ -22,7 +21,7 @@ do
 		fi
 	else
 		${EXECUTE} $f > /dev/null 2> /dev/null
-		if [[ ($? -eq 0) ]]
+		if [ $? -eq 0 ] 
 		then 
 			echo "${GREEN}OK: $f is valid\n"
 		else 
