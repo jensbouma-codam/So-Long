@@ -22,7 +22,7 @@ do
 			echo "${GREEN}OK: $f is invalid\n"
 		fi
 	else
-		${EXECUTE} $f
+		${EXECUTE} $f > /dev/null 2> /dev/null
 		if [ $? -eq 0 ] 
 		then 
 			echo "${GREEN}OK: $f is valid\n"
