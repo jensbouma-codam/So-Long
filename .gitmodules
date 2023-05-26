@@ -6,4 +6,4 @@
 	url = https://github.com/glfw/glfw.git
 [submodule "libft"]
 	path = lib/libft
-	url = https://github.com/jensbouma/Codam-LibFT.git
+	url = https://github.com/jensbouma-codam/LibFT.git
