@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 13:53:38 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/25 12:07:51 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/26 23:53:22 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ void	*file_open(char **ptr, void *(f)(int fd, char *ptr))
 	int		fd;
 
 	list = NULL;
+	node = NULL;
 	while (*ptr)
 	{
 		debug("Load map file: %s\n", *ptr);
 		fd = open(*ptr, O_RDONLY);
-		if (fd != -1)
-			node = f(fd, *ptr);
-		else
+		if (fd == -1)
 			error(ft_strjoin("Failed to open file: ", *ptr));
+		node = f(fd, *ptr);
 		ptr++;
 		close(fd);
 		if (!list)
