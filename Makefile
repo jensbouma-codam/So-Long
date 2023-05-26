@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/05/26 00:46:52 by jensbouma     ########   odam.nl          #
+#    Updated: 2023/05/26 23:21:25 by jensbouma     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,10 +29,10 @@ ifeq ($(UNAME_S),Darwin)
 GLFW		+= -framework Cocoa -framework OpenGL -framework IOKit
 endif
 
-# CFLAGS		+= -O3
+CFLAGS		+= -O3
 CFLAGS		+= -Werror 
 CFLAGS		+= -Wall -Wextra
-# CFLAGS		+= -Wunreachable-code 
+CFLAGS		+= -Wunreachable-code 
 
 # Headers
 INC 		= -I include 
