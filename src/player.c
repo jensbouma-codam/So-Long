@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/24 21:49:03 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/26 00:51:43 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/26 14:54:04 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	player_jump(t_game *g)
 	t_player	*p;
 
 	p = g->player;
-	if (p->trigger == JUMP && p->state == STAND)
+	if (p->trigger == JUMP)
 	{
 		p->state = JUMP;
 		p->trigger = JUMP_ACTIVE;
@@ -36,28 +36,28 @@ static void	player_jump(t_game *g)
 	}
 }
 
-static void	player_fall(t_game *g)
-{
-	t_player	*p;
+// static void	player_fall(t_game *g)
+// {
+// 	t_player	*p;
 
-	p = g->player;
-	if (p->jetpack)
-	{
-		p->state = STAND;
-		return ;
-	}
-	if (p->state == FALL
-		&& p->y < g->mlx->height - p->i->height)
-	{
-		if (p->y + p->i->height + 2 * g->scale < g->mlx->height)
-			p->y += 2 * g->scale;
-		else
-		{
-			p->y = (uint32_t)g->mlx->height - p->i->height;
-			p->state = STAND;
-		}
-	}
-}
+// 	p = g->player;
+// 	if (p->jetpack)
+// 	{
+// 		p->state = STAND;
+// 		return ;
+// 	}
+// 	if (p->state == FALL
+// 		&& p->y < g->mlx->height - p->i->height)
+// 	{
+// 		if (p->y + p->i->height + 2 * g->scale < g->mlx->height)
+// 			p->y += 2 * g->scale;
+// 		else
+// 		{
+// 			p->y = (uint32_t)g->mlx->height - p->i->height;
+// 			p->state = STAND;
+// 		}
+// 	}
+// }
 
 void	player_update(t_game *game)
 {
@@ -89,58 +89,102 @@ void	player_update(t_game *game)
 		p->y += old_height - p->i->height;
 	if (p->i->instances[0].y + p->i->height > (uint32_t)game->mlx->height)
 		p->i->instances[0].y = (uint32_t)game->mlx->height - p->i->height;
-	printf("FPS: %d steps: %d | jumps:%d\r", (uint32_t)(1 / game->mlx->delta_time), p->steps, p->jumps);
+	ft_printf("FPS: %d steps: %d | jumps:%d\r", (uint32_t)(1 / game->mlx->delta_time), p->steps, p->jumps);
 }
 
-void	player_hook(void *ptr)
+void	player_hook(void *ptr, int move)
 {
-	const t_game	*game = ptr;
+	const t_game	*g = ptr;
 	t_player		*p;
 
-	p = game->player;
-	if (p->state == STAND && p->dir == UP && !p->jetpack)
-		p->trigger = JUMP;
-	else if (p->state != FALL && p->dir == DOWN && !p->jetpack)
-		p->trigger = DUCK;
-	else
+	p = g->player;
+
+	if (move == HOLD)
 		p->trigger = STAND;
 	player_jump(ptr);
-	player_fall(ptr);
-	if (p->dir == RIGHT)
+	if (p->state != JUMP)
+	{
+		if (move == DOWN)
+			p->trigger = DUCK;
+		if (move == UP && p->jetpack == false)
+				p->trigger = JUMP;
+	}
+	if (move == LEFT || move == RIGHT)
 	{
 		p->trigger = WALK;
-		if (p->x + p->i->width < (uint32_t)game->mlx->width)
+		if (move == LEFT)
+			p->x -= (1 * g->scale);
+		if (move == RIGHT)
+			p->x += (1 * g->scale);
+	}
+	if (p->state == FALL && p->y < g->mlx->height - p->i->height)
+	{
+		if (p->y + p->i->height + 2 * g->scale < g->mlx->height)
+			p->y += 2 * g->scale;
+		else
 		{
-			p->x += (1 * game->scale);
-			p->steps += 1;
+			p->y = (uint32_t)g->mlx->height - p->i->height;
+			p->state = STAND;
 		}
 	}
-	else if (p->dir == LEFT)
-	{
-		p->trigger = WALK;
-		if (p->x > 0)
-		{
-			p->x -= (1 * game->scale);
-			p->steps += 1;
-		}
-	}
-	p->t->jetpack->mlx_i->instances->enabled = false;
-	if (p->dir == DOWN && p->jetpack)
-	{
-		p->trigger = WALK;
-		if (p->y + p->i->height < (uint32_t)game->mlx->height)
-			p->y += 1 * game->scale;
-	}
-	else if (p->jetpack)
+	if (p->jetpack)
 	{
 		p->t->jetpack->mlx_i->instances->x = p->x;
-		p->t->jetpack->mlx_i->instances->y = p->y + 25;
+		p->t->jetpack->mlx_i->instances->y = p->y + 25 * g->scale;
 		p->t->jetpack->mlx_i->instances->enabled = true;
-		p->trigger = WALK;
-		p->y -= 0.5 * game->scale;
-		if (p->y > 0 && p->dir == UP)
-			p->y -= 1 * game->scale;
+		p->trigger = JUMP_ACTIVE;
+		p->y -= 0.5 * g->scale;
+		if (p->y > 0 && move == UP)
+			p->y -= 1 * g->scale;
+		if (move == DOWN && p->y + p->i->height < (uint32_t)g->mlx->height)
+			p->y += 1 * g->scale;
 	}
+	else
+		p->t->jetpack->mlx_i->instances->enabled = false;
+
+	// if (p->state == STAND && p->dir == UP && !p->jetpack)
+	// 	p->trigger = JUMP;
+	// else if (p->state != FALL && p->dir == DOWN && !p->jetpack)
+	// 	p->trigger = DUCK;
+	// else
+	// 	p->trigger = STAND;
+	// player_jump(ptr);
+	// player_fall(ptr);
+	// if (p->dir == RIGHT)
+	// {
+	// 	p->trigger = WALK;
+	// 	if (p->x + p->i->width < (uint32_t)game->mlx->width)
+	// 	{
+	// 		p->x += (1 * game->scale);
+	// 		p->steps += 1;
+	// 	}
+	// }
+	// else if (p->dir == LEFT)
+	// {
+	// 	p->trigger = WALK;
+	// 	if (p->x > 0)
+	// 	{
+	// 		p->x -= (1 * game->scale);
+	// 		p->steps += 1;
+	// 	}
+	// }
+	// p->t->jetpack->mlx_i->instances->enabled = false;
+	// if (p->dir == DOWN && p->jetpack)
+	// {
+	// 	p->trigger = WALK;
+	// 	if (p->y + p->i->height < (uint32_t)game->mlx->height)
+	// 		p->y += 1 * game->scale;
+	// }
+	// else if (p->jetpack)
+	// {
+	// 	p->t->jetpack->mlx_i->instances->x = p->x;
+	// 	p->t->jetpack->mlx_i->instances->y = p->y + 25;
+	// 	p->t->jetpack->mlx_i->instances->enabled = true;
+	// 	p->trigger = WALK;
+	// 	p->y -= 0.5 * game->scale;
+	// 	if (p->y > 0 && p->dir == UP)
+	// 		p->y -= 1 * game->scale;
+	// }
 }
 
 t_player	*player_init(t_game *game)
@@ -163,6 +207,6 @@ t_player	*player_init(t_game *game)
 	p->health = 100;
 	p->state = FALL;
 	mlx_loop_hook(game->mlx, &hook_controls, game);
-	mlx_loop_hook(game->mlx, &player_hook, game);
+	// mlx_loop_hook(game->mlx, &player_hook, game);
 	return (p);
 }

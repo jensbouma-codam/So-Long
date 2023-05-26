@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/15 11:10:15 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/25 19:56:47 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/26 14:20:11 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_game	*game_init(int argc, char **argv)
 		game->player = player_init(game);
 		mlx_key_hook(game->mlx, &game_interface_hook, game);
 		mlx_close_hook(game->mlx, &game_exit_hook, game);
-		mlx_loop_hook(game->mlx, &hook_loop, game);
+		mlx_loop_hook(game->mlx, &detect_hook, game);
 	}
 	return (game);
 }

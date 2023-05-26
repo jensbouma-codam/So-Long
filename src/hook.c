@@ -6,16 +6,11 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 13:53:08 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/26 00:45:40 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/26 14:36:25 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-void	hook_loop(void *ptr)
-{
-	detect_hook(ptr);
-}
 
 void	hook_controls(void *ptr)
 {
@@ -27,19 +22,21 @@ void	hook_controls(void *ptr)
 	t_player		*p;
 
 	p = g->player;
-	p->dir = HOLD;
-	move = 0;
+	p->is_moving = false;
 	if (mlx_is_key_down(g->mlx, MLX_KEY_LEFT_SHIFT))
 		p->jetpack = true;
-	else if (p->jetpack == true)
-	{
+	else
 		p->jetpack = false;
-		p->state = FALL;
-	}
+	move = 0;
 	while (moves[move])
 	{
 		if (mlx_is_key_down(g->mlx, moves[move]))
-			p->dir = direction[move / 2];
+		{
+			player_hook(ptr, direction[move / 2]);
+			p->is_moving = true;
+		}
 		move++;
 	}
+	if (p->is_moving == false)
+		player_hook(ptr, HOLD);
 }

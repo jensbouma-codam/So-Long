@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/25 10:13:00 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/25 22:44:22 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/26 14:21:37 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	level_check_filename(t_level *level)
 	ext = ft_substr(level->name, ft_strlen(level->name) - 4, 4);
 	if (ft_strstr(ext, ".ber") == NULL)
 		error(ft_strjoin("Invalid extention in filename: ", level->name));
-	(void)level;
+	free(ext);
 }
 
 void	level_check_elements(t_level *level)

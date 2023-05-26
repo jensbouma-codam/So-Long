@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/26 00:37:22 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/26 14:33:33 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef struct s_player
 	uint32_t	state;
 	uint32_t	trigger;
 	bool		block;
+	bool		is_moving;
 	t_p_image	*t;
 	mlx_image_t	*i;
 }	t_player;
@@ -192,7 +193,8 @@ t_image			*player_texture_hurt(t_game *game);
 t_image			*player_texture_jetpack(t_game *g);
 
 void			player_update(t_game *game);
-void			player_hook(void *ptr);
+// void			player_hook(void *ptr);
+void			player_hook(void *ptr, int move);
 t_player		*player_init(t_game *game);
 
 t_image			*texture_animate(t_image *a, t_image *i);

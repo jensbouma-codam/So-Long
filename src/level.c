@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 20:16:27 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/25 21:11:05 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/26 14:01:14 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ t_level	*level_default(void)
 {
 	t_level		*level;
 	const char	*files[] = {\
-		"./maps/valid_small.ber",
 		"./maps/valid_subject.ber",
+		"./maps/valid_small.ber",
 		NULL};
 
 	print("No arguments given. Loading default maps...\n");
