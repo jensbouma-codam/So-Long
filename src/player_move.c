@@ -6,7 +6,7 @@
 /*   By: jbouma <jbouma@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/30 13:06:41 by jbouma        #+#    #+#                 */
-/*   Updated: 2023/05/30 14:03:21 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/30 17:25:11 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	player_move_walk(t_game *game, int move)
 
 	p = game->player;
 	p->state = WALK;
-	p->i = p->t->walk_anim->mlx_i;
 	if (move == LEFT)
 		p->x -= (1 * game->scale);
 	if (move == RIGHT)
