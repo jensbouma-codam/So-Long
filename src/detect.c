@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/21 15:19:31 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/25 23:33:05 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/30 13:40:51 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,10 @@ static int	detect_contact(t_player *p, t_hook *h)
 	if (h->type == WALL && detect_box(p, h))
 	{
 		p->block = true;
-		if (p->state == JUMP_ACTIVE)
+		if (p->state == JUMP)
 			p->state = FALL;
 		else
 			p->state = STAND;
-		p->dir = HOLD;
 		return (WALL);
 	}
 	return (EMPTY);

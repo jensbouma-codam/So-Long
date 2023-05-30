@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/26 14:33:33 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/30 13:53:55 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef struct s_level
 	uint32_t		h;
 }	t_level;
 
-typedef struct s_p_image
+typedef struct s_textures
 {
 	t_image		*walk;
 	t_image		*walk_anim;
@@ -81,24 +81,20 @@ typedef struct s_p_image
 	t_image		*jump;
 	t_image		*hurt;
 	t_image		*jetpack;
-}	t_p_image;
+}	t_textures;
 
 typedef struct s_player
 {
 	uint32_t	x;
 	uint32_t	y;
-	uint32_t	dir;
 	uint32_t	health;
 	uint32_t	steps;
 	uint32_t	jumps;
-	bool		jetpack;
 	uint32_t	wallet;
-	uint32_t	jump_height;
 	uint32_t	state;
-	uint32_t	trigger;
+	bool		jetpack;
 	bool		block;
-	bool		is_moving;
-	t_p_image	*t;
+	t_textures	*t;
 	mlx_image_t	*i;
 }	t_player;
 
@@ -135,7 +131,9 @@ typedef enum e_direction
 	UP,
 	RIGHT,
 	DOWN,
-	HOLD
+	HOLD,
+	J_UP,
+	J_DOWN
 }	t_direction;
 
 typedef enum e_player_state
@@ -146,8 +144,7 @@ typedef enum e_player_state
 	JUMP,
 	FALL,
 	HURT,
-	WALK,
-	JUMP_ACTIVE
+	WALK
 }	t_player_state;
 
 typedef enum e_map_elements
@@ -185,24 +182,30 @@ void			*level_read(int fd, char *ptr);
 t_level			*level_default(void);
 t_image			*level_textures(t_game *game);
 
+void			player_move_jetpack(t_game *game, int move);
+void			player_move_walk(t_game *game, int move);
+void			player_move_jump(t_game *game, int move);
+void			player_move_fall(t_game *game);
+void			player_move_duck(t_game *game);
+void			player_move_stand(t_game *game);
+
 t_image			*player_texture_stand(t_game *game);
 t_image			*player_texture_walk(t_game *game);
 t_image			*player_texture_duck(t_game *game);
 t_image			*player_texture_jump(t_game *game);
 t_image			*player_texture_hurt(t_game *game);
-t_image			*player_texture_jetpack(t_game *g);
+t_image			*player_texture_jetpack(t_game *game);
 
 void			player_update(t_game *game);
-// void			player_hook(void *ptr);
 void			player_hook(void *ptr, int move);
 t_player		*player_init(t_game *game);
 
 t_image			*texture_animate(t_image *a, t_image *i);
-t_image			*texture_read_files(t_game *g, char **ptr, double scale);
+t_image			*texture_read_files(t_game *game, char **ptr, double scale);
 
 void			error(char *msg);
-void			debug(const char *s, ...);
-void			print(const char *s, ...);
+void			debug(const char *msg, ...);
+void			print(const char *msg, ...);
 void			*memmory_alloccate(size_t count, size_t size);
 
 #endif

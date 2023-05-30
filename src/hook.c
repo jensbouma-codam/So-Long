@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 13:53:08 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/26 14:36:25 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/30 13:14:56 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,25 @@
 
 void	hook_controls(void *ptr)
 {
-	int				move;
 	const int		moves[] = {'W', MLX_KEY_UP, 'A', MLX_KEY_LEFT,
 		'D', MLX_KEY_RIGHT, 'S', MLX_KEY_DOWN, 0};
 	const int		direction[] = {UP, LEFT, RIGHT, DOWN, HOLD};
-	const t_game	*g = ptr;
 	t_player		*p;
+	int				move;
+	bool			is_moving;
 
-	p = g->player;
-	p->is_moving = false;
-	if (mlx_is_key_down(g->mlx, MLX_KEY_LEFT_SHIFT))
-		p->jetpack = true;
-	else
-		p->jetpack = false;
+	p = ((t_game *) ptr)->player;
+	is_moving = false;
 	move = 0;
 	while (moves[move])
 	{
-		if (mlx_is_key_down(g->mlx, moves[move]))
+		if (mlx_is_key_down(((t_game *) ptr)->mlx, moves[move]))
 		{
 			player_hook(ptr, direction[move / 2]);
-			p->is_moving = true;
+			is_moving = true;
 		}
 		move++;
 	}
-	if (p->is_moving == false)
+	if (is_moving == false)
 		player_hook(ptr, HOLD);
 }
