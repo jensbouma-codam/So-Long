@@ -6,7 +6,7 @@
 /*   By: jbouma <jbouma@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/30 13:06:41 by jbouma        #+#    #+#                 */
-/*   Updated: 2023/05/31 10:39:21 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/31 18:18:47 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,17 @@ void	player_move_jumpfall(t_game *g, int move)
 	p = g->player;
 	if (p->state != JUMP && p->state != FALL)
 		p->state = JUMP;
-	if (p->state == JUMP && p->y - 3 * g->scale > 0 && height < 150 * g->scale)
+	if (p->state == JUMP && p->y - 3 * g->scale > 0 && height < 75 * g->scale)
 	{
 		p->i = p->t->jump->mlx_i;
 		p->y -= 3 * g->scale;
-		height += 6 * g->scale;
+		height += 3 * g->scale;
 	}
 	else if (p->state == JUMP || p->state == FALL)
 	{
 		p->state = FALL;
 		p->i = p->t->hurt->mlx_i;
-		p->y += 2 * g->scale;
+		p->y += 1 * g->scale;
 		height = 0;
 	}
 	if (move == LEFT)
@@ -65,7 +65,6 @@ void	player_move_jetpack(t_game *game, int move)
 	if (move == DOWN)
 		p->y += (1 * game->scale);
 }
-
 
 void	player_move_duck(t_game *game)
 {

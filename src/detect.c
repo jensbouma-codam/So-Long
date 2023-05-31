@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/21 15:19:31 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/31 10:43:09 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/31 18:09:36 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,8 @@ static int	detect_contact(t_player *p, t_hook *h)
 	return (EMPTY);
 }
 
-// void	detect_hook(void *ptr)
 bool	detect_hook(t_game *game)
 {
-	// const t_game	*game = (t_game *)ptr;
 	t_hook			*h;
 	int				trigger;
 
@@ -93,6 +91,8 @@ bool	detect_hook(t_game *game)
 	while (h)
 	{
 		trigger = detect_contact(game->player, h);
+		if (trigger == WALL)
+			game->player->block = true;
 		if (trigger == EXIT_OPEN && game->player->wallet >= game->collect)
 			exit(EXIT_SUCCESS);
 		h = h->next;
@@ -100,6 +100,6 @@ bool	detect_hook(t_game *game)
 	if (game->player->wallet >= game->collect)
 		game->exit->i->enabled = true;
 	if (game->player->block)
-		return (false);
-	return (true);
+		return (true);
+	return (false);
 }

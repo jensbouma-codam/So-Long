@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/24 21:49:03 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/31 10:39:02 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/31 18:24:28 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,35 @@
 
 void	player_update(t_game *game)
 {
-	t_player	*p;
+	t_player		*p;
+	uint32_t		x;
+	uint32_t		y;
 
 	p = game->player;
-	if (detect_hook(game)){
+	x = p->i->instances[0].x;
+	y = p->i->instances[0].y;
+	if (!detect_hook(game))
+	{
 		if (p->state == WALK)
 		{
-			p->t->walk_anim = texture_animate(p->t->walk_anim, p->t->walk);
 			p->i = p->t->walk_anim->mlx_i;
+			p->t->walk_anim = texture_animate(p->t->walk_anim, p->t->walk);
 		}
-		if (p->last_height != p->i->height)
+		if (p->last_height > p->i->height)
 			p->y += p->last_height - p->i->height;
-		p->i->instances[0].y = p->y;
-		p->i->instances[0].x = p->x;
-		p->i->instances[0].enabled = true;
-		ft_printf("FPS: %d steps: %d | jumps:%d\r", (uint32_t)(1 / game->mlx->delta_time), p->steps, p->jumps);
-	};
+		if (p->last_height < p->i->height)
+			p->y -= p->i->height - p->last_height;
+	}
+	else
+	{
+		print("Player hit something\n");
+		p->y = y;
+		p->x = x;
+	}
+	p->i->instances[0].y = p->y;
+	p->i->instances[0].x = p->x;
+	p->i->instances[0].enabled = true;
+	p->block = false;
 }
 
 void	player_hook(void *ptr, int move)
@@ -51,7 +64,6 @@ void	player_hook(void *ptr, int move)
 	else
 		player_move_stand(ptr);
 	player_update(ptr);
-	p->block = false;
 }
 
 t_player	*player_init(t_game *game)

@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/24 22:09:02 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/25 12:37:40 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/31 17:41:27 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	level_draw(t_game *g)
 	while (tile_t[i])
 	{
 		level_draw_types(g, t->mlx_i, tile_t[i++]);
-		t = t->next;
+		if (tile_t[i] != 'P')
+			t = t->next;
 	}
 }

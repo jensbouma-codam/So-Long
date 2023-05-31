@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 20:16:27 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/26 14:01:14 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/31 18:27:45 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,8 @@ t_level	*level_default(void)
 t_image	*level_textures(t_game *game)
 {
 	const char	*files[] = {
-		"textures/Base pack/Items/coinGold.png",
-		"textures/Base pack/Items/coinGold.png",
+		// "textures/Base pack/Items/coinGold.png",
+		"textures/Base pack/Items/keyYellow.png",
 		"textures/Base pack/Tiles/door_openMid.png",
 		"textures/Base pack/Tiles/door_closedMid.png",
 		"textures/Base pack/Tiles/castleCenter.png",
