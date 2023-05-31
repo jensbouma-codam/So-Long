@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/21 15:19:31 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/30 13:40:51 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/31 10:43:09 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,40 +72,34 @@ static int	detect_contact(t_player *p, t_hook *h)
 		return (EXIT_OPEN);
 	if (h->type == WALL && detect_box(p, h))
 	{
-		p->block = true;
 		if (p->state == JUMP)
 			p->state = FALL;
-		else
+		else if (p->state == FALL)
 			p->state = STAND;
 		return (WALL);
 	}
 	return (EMPTY);
 }
 
-void	detect_hook(void *ptr)
+// void	detect_hook(void *ptr)
+bool	detect_hook(t_game *game)
 {
-	const t_game	*game = (t_game *)ptr;
+	// const t_game	*game = (t_game *)ptr;
 	t_hook			*h;
 	int				trigger;
 
 	h = game->hooks;
+	game->player->block = false;
 	while (h)
 	{
 		trigger = detect_contact(game->player, h);
 		if (trigger == EXIT_OPEN && game->player->wallet >= game->collect)
 			exit(EXIT_SUCCESS);
-		if (trigger == WALL)
-			break ;
 		h = h->next;
-	}
-	if (!game->player->block)
-		player_update(ptr);
-	else
-	{
-		game->player->x = game->player->i->instances[0].x;
-		game->player->y = game->player->i->instances[0].y;
-		game->player->block = false;
 	}
 	if (game->player->wallet >= game->collect)
 		game->exit->i->enabled = true;
+	if (game->player->block)
+		return (false);
+	return (true);
 }

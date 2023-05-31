@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/30 13:53:55 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/05/31 10:33:37 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_player
 	uint32_t	state;
 	bool		jetpack;
 	bool		block;
+	uint32_t	last_height;
 	t_textures	*t;
 	mlx_image_t	*i;
 }	t_player;
@@ -158,7 +159,8 @@ typedef enum e_map_elements
 	START		= 'S'
 }	t_map_elements;
 
-void			detect_hook(void *game);
+// void			detect_hook(void *game);
+bool			detect_hook(t_game *game);
 
 char			*file_getname(char *ptr);
 void			*file_open(char **ptr, void *(f)(int fd, char *ptr));
@@ -184,7 +186,7 @@ t_image			*level_textures(t_game *game);
 
 void			player_move_jetpack(t_game *game, int move);
 void			player_move_walk(t_game *game, int move);
-void			player_move_jump(t_game *game, int move);
+void			player_move_jumpfall(t_game *game, int move);
 void			player_move_fall(t_game *game);
 void			player_move_duck(t_game *game);
 void			player_move_stand(t_game *game);

@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 17:51:59 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/27 00:06:27 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/05/27 00:07:23 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ static void	print_console(const char *s, va_list list)
 void	error(char *msg)
 {
 	ft_putstr_fd(RED, STDERR_FILENO);
-	ft_putstr_fd("Error\t", STDERR_FILENO);
 	if (msg)
 	{
+		ft_putstr_fd("Error\t", STDERR_FILENO);
 		ft_putstr_fd(msg, STDERR_FILENO);
 		ft_putchar_fd('\n', STDERR_FILENO);
 	}
