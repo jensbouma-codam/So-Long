@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 13:53:08 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/06/01 12:20:34 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/06/01 12:33:03 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ void	hook_controls(void *ptr)
 	if (is_moving == false)
 		player_hook(ptr, HOLD);
 	if (mlx_is_key_down(((t_game *) ptr)->mlx, MLX_KEY_LEFT_SHIFT))
-	{
-		((t_game *) ptr)->player->jetpack = false;
-	}
-	else
 		((t_game *) ptr)->player->jetpack = true;
+	else
+		((t_game *) ptr)->player->jetpack = false;
 }

@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/24 21:49:03 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/06/01 12:18:40 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/06/01 12:28:08 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,7 @@ void	player_hook(void *ptr, int move)
 		player_move_stand(ptr);
 	if (!detect_ground(ptr) && p->state == WALK)
 		p->state = FALL;
-	if (p->jetpack)
-		p->t->jetpack->mlx_i->instances->enabled = true;
-	else
+	if (!p->jetpack)
 		p->t->jetpack->mlx_i->instances->enabled = false;
 	player_update(ptr);
 }

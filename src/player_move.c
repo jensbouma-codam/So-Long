@@ -6,7 +6,7 @@
 /*   By: jbouma <jbouma@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/30 13:06:41 by jbouma        #+#    #+#                 */
-/*   Updated: 2023/06/01 12:21:31 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/06/01 12:29:55 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	player_move_jetpack(t_game *game, int move)
 	t_player	*p;
 
 	p = game->player;
+	p->i = p->t->stand->mlx_i;
+	p->state = FALL;
 	if (move == LEFT)
 		p->x -= (1 * game->scale);
 	if (move == RIGHT)
@@ -64,6 +66,9 @@ void	player_move_jetpack(t_game *game, int move)
 		p->y -= (1 * game->scale);
 	if (move == DOWN)
 		p->y += (1 / game->scale);
+	p->t->jetpack->mlx_i->instances->enabled = true;
+	p->t->jetpack->mlx_i->instances->x = p->x;
+	p->t->jetpack->mlx_i->instances->y = p->y + 10 / game->scale;
 }
 
 void	player_move_duck(t_game *game)
