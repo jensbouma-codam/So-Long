@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/15 11:10:15 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/06/01 16:14:58 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/06/01 16:29:00 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,6 @@ for my other projects! :)\n");
 
 static void	game_key_hook(mlx_key_data_t keydata, void *ptr)
 {	
-	const t_game	*game = ptr;
-	t_player		*p;
-
-	p = game->player;
 	if ((keydata.key == MLX_KEY_ESCAPE)
 		|| (keydata.key == MLX_KEY_C
 			&& keydata.modifier == MLX_CONTROL))
@@ -101,7 +97,7 @@ t_game	*game_init(int argc, char **argv)
 		game->level_textures = level_textures(game);
 		level_draw(game);
 		game->player = player_init(game);
-		if (!(1 / game->scale) || !(1 * game->scale))
+		if ((1 / game->scale) == 0 || (1 * game->scale) == 0)
 			game->scale = 1;
 		mlx_key_hook(game->mlx, &game_key_hook, game);
 		mlx_loop_hook(game->mlx, &game_loop_hook, game);
