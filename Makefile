@@ -6,7 +6,7 @@
 #    By: jbouma <jbouma@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/10 14:09:40 by jbouma        #+#    #+#                  #
-#    Updated: 2023/06/01 16:34:20 by jbouma        ########   odam.nl          #
+#    Updated: 2023/06/01 16:41:13 by jbouma        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,6 @@ GLFW		+= -framework Cocoa -framework OpenGL -framework IOKit
 endif
 
 CFLAGS		+= -Werror -Wall -Wextra
-CFLAGS		+= -Wunreachable-code
 CFLAGS		+= -O3
 
 # Headers
@@ -38,7 +37,7 @@ INC 		= -I include
 
 # Sources
 SRCDIR		= 	src
-FILES		= 	detect.c		\
+FILES		= 	detect.c			\
 				detect2.c			\
 				file.c				\
 				game.c				\
