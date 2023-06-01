@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:47 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/06/01 12:06:22 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/06/01 16:39:11 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,7 @@ int	main(int argc, char **argv)
 	if (NOMLX)
 		return (EXIT_SUCCESS);
 	mlx_loop(game->mlx);
-	if (DEBUG)
-		system("leaks so_long");
+	if (DEBUG && system("leaks so_long"))
+		exit(EXIT_FAILURE);
 	exit (EXIT_FAILURE);
 }
-
-	// 		test_map();
-	// 			count_elements();
-	// 			is_valid_map();
-	// 			is_playable();

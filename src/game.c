@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/15 11:10:15 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/06/01 16:29:00 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/06/01 16:39:35 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static void	game_exit_hook(void *ptr)
 	print("Thanks for playing! Check https:/jensbouma.com \
 for my other projects! :)\n");
 	mlx_terminate(game->mlx);
-	if (DEBUG)
-		system("leaks so_long");
+	if (DEBUG && system("leaks so_long"))
+		exit(EXIT_FAILURE);
 	exit(EXIT_SUCCESS);
 }
 
