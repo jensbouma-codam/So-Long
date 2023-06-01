@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 00:30:26 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/31 17:14:16 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/06/01 10:40:24 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_image	*player_texture_stand(t_game *g)
 		"textures/Base pack/Player/p1_stand.png",
 		NULL};
 
-	return (texture_read_files(g, (char **)files, 0.3));
+	return (texture_read_files(g, (char **)files, 0.5));
 }
 
 t_image	*player_texture_walk(t_game *g)
@@ -37,7 +37,7 @@ t_image	*player_texture_walk(t_game *g)
 		"textures/Base pack/Player/p1_walk/PNG/p1_walk11.png",
 		NULL};
 
-	return (texture_read_files(g, (char **)files, 0.3));
+	return (texture_read_files(g, (char **)files, 0.5));
 }
 
 t_image	*player_texture_duck(t_game *g)
@@ -46,7 +46,7 @@ t_image	*player_texture_duck(t_game *g)
 		"textures/Base pack/Player/p1_duck.png",
 		NULL};
 
-	return (texture_read_files(g, (char **)files, 0.3));
+	return (texture_read_files(g, (char **)files, 0.5));
 }
 
 t_image	*player_texture_jump(t_game *g)
@@ -55,7 +55,7 @@ t_image	*player_texture_jump(t_game *g)
 		"textures/Base pack/Player/p1_jump.png",
 		NULL};
 
-	return (texture_read_files(g, (char **)files, 0.3));
+	return (texture_read_files(g, (char **)files, 0.5));
 }
 
 t_image	*player_texture_hurt(t_game *g)
@@ -64,5 +64,5 @@ t_image	*player_texture_hurt(t_game *g)
 		"textures/Base pack/Player/p1_hurt.png",
 		NULL};
 
-	return (texture_read_files(g, (char **)files, 0.3));
+	return (texture_read_files(g, (char **)files, 0.5));
 }

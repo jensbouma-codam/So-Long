@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/31 17:41:17 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/06/01 11:16:37 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,8 @@ typedef enum e_map_elements
 }	t_map_elements;
 
 // void			detect_hook(void *game);
+bool			detect_ground(t_game *game);
+
 bool			detect_hook(t_game *game);
 
 char			*file_getname(char *ptr);

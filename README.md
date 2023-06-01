@@ -10,20 +10,20 @@ character, any collectible and any place you want.
 
 ## Mandatory part
 - [x] Program name must be so_long
-- [ ] Turn in files: *.c, *.h, Makefile, maps, textures
+- [x] Turn in files: *.c, *.h, Makefile, maps, textures
 - [x] Makefile must compile the project and must contain the usual rules (all, clean, fclean, re)
 - [x] Makefile doesn't relink
-- [ ] The following libc functions are allowed: malloc, free, write, open, read, close, perror, strerror, exit
+- [x] The following libc functions are allowed: malloc, free, write, open, read, close, perror, strerror, exit
 - [ ] All functions of the math libary are allowed
-- [ ] All the functions from the MinilibX and MLX42 libraries are allowed
+- [x] All the functions from the MinilibX and MLX42 libraries are allowed
 - [x] LibFT and ft_printf are allowed
 - [x] Program take a map as first argument.
 
 ## Game
-- [ ] The player's goal is to collect every collectible and then exit the map chosing the shortest possible route.
+- [x] The player's goal is to collect every collectible and then exit the map chosing the shortest possible route.
 - [x] The player can move using the W, A, S, D keys.
 - [x] The player should be able to move in 4 directions (left, right, up, down).
-- [ ] The player can't move through walls.
+- [x] The player can't move through walls.
 - [ ] At every move the program must display the number of movements.
 - [x] Use a 2D view.
 - [x] The program has to display the image in a window.

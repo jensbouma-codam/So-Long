@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   detect_ground.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/11 23:54:47 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/06/01 12:06:22 by jensbouma     ########   odam.nl         */
+/*   Created: 2023/06/01 11:12:47 by jensbouma     #+#    #+#                 */
+/*   Updated: 2023/06/01 11:54:12 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-
-int	main(int argc, char **argv)
+bool	detect_ground(t_game *game)
 {
-	t_game		*game;
+	t_player	*p;
 
-	errno = 0;
-	game = game_init(argc, argv);
-	if (NOMLX)
-		return (EXIT_SUCCESS);
-	mlx_loop(game->mlx);
-	if (DEBUG)
-		system("leaks so_long");
-	exit (EXIT_FAILURE);
+	p = game->player;
+	p->y += 3;
+	if (detect_hook(game))
+	{
+		p->y -= 3;
+		return (true);
+	}
+	p->y -= 3;
+	return (false);
 }
-
-	// 		test_map();
-	// 			count_elements();
-	// 			is_valid_map();
-	// 			is_playable();

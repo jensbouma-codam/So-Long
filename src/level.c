@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/12 20:16:27 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/05/31 18:27:45 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/06/01 11:49:47 by jensbouma     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_level	*level_default(void)
 {
 	t_level		*level;
 	const char	*files[] = {\
-		"./maps/valid_subject.ber",
+		"./maps/valid_platform.ber",
 		"./maps/valid_small.ber",
 		NULL};
 
@@ -117,7 +117,8 @@ t_image	*level_textures(t_game *game)
 		"textures/Base pack/Tiles/door_openMid.png",
 		"textures/Base pack/Tiles/door_closedMid.png",
 		"textures/Base pack/Tiles/castleCenter.png",
-		"textures/Base pack/Tiles/grassCenter.png",
+		"textures/Base pack/Tiles/liquidWater.png",
+		// "textures/Base pack/Tiles/grassCenter.png",
 		NULL};
 
 	return (texture_read_files(game, (char **)files, 1));
