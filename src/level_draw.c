@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/24 22:09:02 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/06/01 11:45:12 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/06/01 14:18:51 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ static t_hook	*level_draw_elements(t_game *g, t_tiles *t, mlx_image_t *i)
 	{
 		x += 1;
 		y += 1;
+		g->start_x = x;
+		g->start_y = y;
 	}
 	node->i = i;
 	node->t = y;
 	node->b = y + i->height;
 	node->r = x + i->width;
 	node->l = x;
-	g->start_x = &node->l;
-	g->start_y = &node->t;
 	if (g->hooks)
 		node->next = g->hooks;
 	g->hooks = node;

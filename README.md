@@ -24,7 +24,7 @@ character, any collectible and any place you want.
 - [x] The player can move using the W, A, S, D keys.
 - [x] The player should be able to move in 4 directions (left, right, up, down).
 - [x] The player can't move through walls.
-- [ ] At every move the program must display the number of movements.
+- [x] At every move the program must display the number of movements.
 - [x] Use a 2D view.
 - [x] The program has to display the image in a window.
 - [x] The management of your window must remain smooth: changing to another window, minimizing, etc.

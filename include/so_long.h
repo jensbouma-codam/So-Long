@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/11 23:54:51 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/06/01 11:16:37 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/06/01 16:07:09 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ typedef struct s_player
 	bool		jetpack;
 	bool		block;
 	uint32_t	last_height;
+	uint32_t	last_x;
+	uint32_t	last_y;
 	t_textures	*t;
 	mlx_image_t	*i;
 }	t_player;
@@ -120,8 +122,8 @@ typedef struct s_game
 	t_player	*player;
 	t_image		*level_textures;
 	t_hook		*hooks;
-	uint32_t	*start_x;
-	uint32_t	*start_y;
+	uint32_t	start_x;
+	uint32_t	start_y;
 	uint32_t	collect;
 	t_hook		*exit;
 }	t_game;
@@ -145,7 +147,8 @@ typedef enum e_player_state
 	JUMP,
 	FALL,
 	HURT,
-	WALK
+	WALK,
+	JETPACK
 }	t_player_state;
 
 typedef enum e_map_elements

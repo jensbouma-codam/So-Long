@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/21 15:19:31 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/06/01 11:55:09 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/06/01 15:33:32 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,31 +72,24 @@ static int	detect_contact(t_player *p, t_hook *h)
 	if (h->type == EXIT && detect_box(p, h))
 		return (EXIT_OPEN);
 	if (h->type == WALL && detect_box(p, h))
-	{
-		if (p->state == JUMP)
-			p->state = FALL;
-		else if (p->state == FALL)
-			p->state = STAND;
 		return (WALL);
-	}
 	return (EMPTY);
 }
 
 bool	detect_hook(t_game *game)
 {
-	t_hook			*h;
-	int				trigger;
+	t_hook	*h;
+	int		trigger;
 
 	h = game->hooks;
 	trigger = false;
-	game->player->block = false;
 	while (h)
 	{
 		if (DEBUG)
 			h->i->instances[h->key].enabled = false;
 		trigger = detect_contact(game->player, h);
 		if (trigger == WALL)
-			game->player->block = true;
+			return (true);
 		if (trigger == EXIT_OPEN && game->player->wallet >= game->collect)
 			exit(EXIT_SUCCESS);
 		if (DEBUG && trigger != WALL)
@@ -105,7 +98,5 @@ bool	detect_hook(t_game *game)
 	}
 	if (game->player->wallet >= game->collect)
 		game->exit->i->enabled = true;
-	if (game->player->block)
-		return (true);
 	return (false);
 }

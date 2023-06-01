@@ -6,11 +6,21 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/15 11:10:15 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/06/01 12:06:50 by jensbouma     ########   odam.nl         */
+/*   Updated: 2023/06/01 16:13:50 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+static void	game_loop_hook(void *ptr)
+{
+	t_game		*game;
+	t_player	*p;
+
+	game = ptr;
+	p = game->player;
+	ft_printf("Moves: %d\r", p->steps);
+}
 
 static void	game_exit_hook(void *ptr)
 {
@@ -24,7 +34,7 @@ for my other projects! :)\n");
 	exit(EXIT_SUCCESS);
 }
 
-static void	game_hook(mlx_key_data_t keydata, void *ptr)
+static void	game_key_hook(mlx_key_data_t keydata, void *ptr)
 {	
 	const t_game	*game = ptr;
 	t_player		*p;
@@ -34,8 +44,6 @@ static void	game_hook(mlx_key_data_t keydata, void *ptr)
 		|| (keydata.key == MLX_KEY_C
 			&& keydata.modifier == MLX_CONTROL))
 		game_exit_hook(ptr);
-	ft_printf("FPS: %d steps: %d | jumps:%d\r",
-		(uint32_t)(1 / game->mlx->delta_time), p->steps, p->jumps);
 	return ;
 }
 
@@ -93,7 +101,10 @@ t_game	*game_init(int argc, char **argv)
 		game->level_textures = level_textures(game);
 		level_draw(game);
 		game->player = player_init(game);
-		mlx_key_hook(game->mlx, &game_hook, game);
+		if (!(1 / game->scale) || !(1 * game->scale))
+			game->scale = 1;
+		mlx_key_hook(game->mlx, &game_key_hook, game);
+		mlx_loop_hook(game->mlx, &game_loop_hook, game);
 		mlx_close_hook(game->mlx, &game_exit_hook, game);
 	}
 	return (game);
