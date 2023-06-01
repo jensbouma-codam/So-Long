@@ -6,7 +6,7 @@
 /*   By: jensbouma <jensbouma@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/15 11:10:15 by jensbouma     #+#    #+#                 */
-/*   Updated: 2023/06/01 16:13:50 by jbouma        ########   odam.nl         */
+/*   Updated: 2023/06/01 16:14:58 by jbouma        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	game_loop_hook(void *ptr)
 
 	game = ptr;
 	p = game->player;
-	ft_printf("Moves: %d\r", p->steps);
+	print("Moves: %d\r", p->steps);
 }
 
 static void	game_exit_hook(void *ptr)
