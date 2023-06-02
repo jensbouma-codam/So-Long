@@ -1,6 +1,6 @@
 # Codam-so_long
 
-[![C/C++ CI](https://github.com/jensbouma/Codam-so_long/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/jensbouma/Codam-so_long/actions/workflows/c-cpp.yml)[![wakatime](https://wakatime.com/badge/user/0f1898b7-c5ef-43c1-9507-6c1758b3c9ea/project/de8dc235-9301-4122-8eaf-0f7397ca248d.svg)](https://wakatime.com/badge/user/0f1898b7-c5ef-43c1-9507-6c1758b3c9ea/project/de8dc235-9301-4122-8eaf-0f7397ca248d)
+[![C/C++ CI](https://github.com/jensbouma/Codam-so_long/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/jensbouma/Codam-so_long/actions/workflows/c-cpp.yml)[![wakatime](https://wakatime.com/badge/github/jensbouma-codam/So-Long.svg)](https://wakatime.com/badge/github/jensbouma-codam/So-Long)
 
 ## Description
 Create a basic 2D game in which a dolphin
